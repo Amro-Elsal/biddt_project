@@ -1,0 +1,14 @@
+{
+  "name": "biddt-notion-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for Biddt project Notion integration",
+  "type": "module",
+  "scripts": {
+    "start": "node notion-mcp-server.js",
+    "dev": "node --watch notion-mcp-server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "@notionhq/client": "^2.2.0"
+  }
+}

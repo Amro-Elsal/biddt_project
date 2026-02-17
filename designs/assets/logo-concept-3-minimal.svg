@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Biddt Logo Concept 3: Minimal Diamond -->
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="diamondGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00D9FF"/>
+      <stop offset="100%" style="stop-color:#7B61FF"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <circle cx="100" cy="100" r="90" fill="#0A0E1A"/>
+  
+  <!-- Simplified Diamond -->
+  <g transform="translate(100, 100)">
+    <!-- Outer diamond -->
+    <path d="M0 -50 L50 0 L0 50 L-50 0 Z" fill="none" stroke="url(#diamondGrad3)" stroke-width="4"/>
+    
+    <!-- Inner diamond -->
+    <path d="M0 -30 L30 0 L0 30 L-30 0 Z" fill="url(#diamondGrad3)" fill-opacity="0.3" stroke="url(#diamondGrad3)" stroke-width="2"/>
+    
+    <!-- Center point -->
+    <circle cx="0" cy="0" r="8" fill="#FA5400"/>
+    <circle cx="0" cy="0" r="4" fill="#FFD700"/>
+    
+    <!-- Corner accents -->
+    <circle cx="0" cy="-50" r="4" fill="#00D9FF"/>
+    <circle cx="50" cy="0" r="4" fill="#7B61FF"/>
+    <circle cx="0" cy="50" r="4" fill="#00D9FF"/>
+    <circle cx="-50" cy="0" r="4" fill="#7B61FF"/>
+  </g>
+</svg>
