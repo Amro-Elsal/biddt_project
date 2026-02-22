@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Biddt Seller Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {
+            --charcoal-base: #1E1E1E;
+            --charcoal-surface: #2C2C2C;
+            --charcoal-light: #3A3A3A;
+            --slate-blue: #64748B;
+            --slate-blue-light: #94A3B8;
+            --antique-gold: #C5A059;
+            --antique-gold-soft: #D4B473;
+            --text-white: #FFFFFF;
+            --text-soft: #E0E0E0;
+            --text-muted: #9CA3AF;
+            --accent-danger: #EF4444;
+            --accent-success: #10B981;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--charcoal-base);
+            color: var(--text-white);
+        }
+        .antique-gold-gradient {
+            background: linear-gradient(135deg, var(--antique-gold) 0%, var(--antique-gold-soft) 100%);
+        }
+        .slate-gradient-text {
+            background: linear-gradient(135deg, var(--slate-blue-light) 0%, var(--slate-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glass-card {
+            background: rgba(44, 44, 44, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased min-h-screen pb-24">
+<header class="flex items-center justify-between px-6 pt-12 pb-4 bg-[var(--charcoal-base)] sticky top-0 z-50 border-b border-[var(--charcoal-light)]/30">
+<div class="flex flex-col">
+<h1 class="text-2xl font-bold text-[var(--text-white)]">Seller Dashboard</h1>
+<span class="text-sm text-[var(--text-muted)]">Welcome back, Alex</span>
+</div>
+<button class="relative p-2 rounded-full bg-[var(--charcoal-surface)] transition hover:bg-[var(--charcoal-light)]">
+<span class="material-symbols-outlined text-[var(--text-white)]">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-[var(--accent-danger)] border border-[var(--charcoal-base)]"></span>
+</button>
+</header>
+<main class="px-6 space-y-6 mt-6">
+<section class="relative overflow-hidden rounded-2xl antique-gold-gradient p-6 shadow-[0_8px_32px_rgba(197,160,89,0.15)]">
+<div class="absolute top-0 right-0 p-4 opacity-20">
+<span class="material-symbols-outlined text-6xl text-white">account_balance_wallet</span>
+</div>
+<div class="flex justify-between items-start mb-2">
+<div>
+<p class="text-[var(--charcoal-base)] font-semibold text-sm opacity-80 uppercase tracking-wider">Total Earnings</p>
+<h2 class="text-[var(--charcoal-base)] font-extrabold text-4xl mt-1">$4,285.50</h2>
+</div>
+<div class="bg-[var(--charcoal-base)] bg-opacity-10 rounded-lg px-2 py-1 flex items-center gap-1 backdrop-blur-sm">
+<span class="material-symbols-outlined text-[var(--charcoal-base)] text-sm">trending_up</span>
+<span class="text-[var(--charcoal-base)] font-bold text-xs">+12.5%</span>
+</div>
+</div>
+<div class="mt-6 flex gap-4">
+<div class="bg-white bg-opacity-20 rounded-lg p-3 flex-1 backdrop-blur-sm border border-white/10">
+<p class="text-[var(--charcoal-base)] text-xs font-semibold opacity-70">This Month</p>
+<p class="text-[var(--charcoal-base)] font-bold text-lg">$1,240</p>
+</div>
+<div class="bg-white bg-opacity-20 rounded-lg p-3 flex-1 backdrop-blur-sm border border-white/10">
+<p class="text-[var(--charcoal-base)] text-xs font-semibold opacity-70">Pending</p>
+<p class="text-[var(--charcoal-base)] font-bold text-lg">$350</p>
+</div>
+</div>
+</section>
+<section class="glass-card rounded-2xl p-5 border-l-4 border-l-[var(--slate-blue)]">
+<div class="flex justify-between items-center mb-3">
+<h3 class="font-bold text-[var(--text-white)] text-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-[var(--slate-blue-light)]">lock_clock</span>
+                    Buying Power
+                </h3>
+<button class="text-xs text-[var(--antique-gold)] font-semibold border border-[var(--antique-gold)] px-2 py-1 rounded hover:bg-[var(--antique-gold)] hover:text-[var(--charcoal-base)] transition-colors">Manage Deposits</button>
+</div>
+<div class="flex items-center justify-between bg-[var(--charcoal-base)] rounded-xl p-3 mb-2">
+<div>
+<p class="text-xs text-[var(--text-muted)] uppercase tracking-wide">Locked Deposits</p>
+<p class="text-xl font-bold text-[var(--text-white)]">$1,500.00</p>
+</div>
+<div class="h-8 w-px bg-[var(--charcoal-light)]"></div>
+<div class="text-right">
+<p class="text-xs text-[var(--text-muted)] uppercase tracking-wide">Active Bids</p>
+<p class="text-xl font-bold text-[var(--slate-blue-light)]">3 Items</p>
+</div>
+</div>
+<p class="text-xs text-[var(--text-muted)] leading-relaxed">
+                Funds are temporarily held for active auctions. $450 will be released if you are outbid on 'Vintage Camera'.
+            </p>
+</section>
+<section class="glass-card rounded-2xl p-4">
+<div class="flex justify-between items-center mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[var(--antique-gold)] fill-1">verified</span>
+<span class="font-bold text-[var(--text-white)]">Gold Seller</span>
+</div>
+<span class="text-xs text-[var(--text-muted)]">450 / 500 pts</span>
+</div>
+<div class="w-full bg-[var(--charcoal-light)] rounded-full h-2">
+<div class="bg-[var(--antique-gold)] h-2 rounded-full" style="width: 90%"></div>
+</div>
+<p class="text-xs text-[var(--text-muted)] mt-2">50 points to Platinum Status &amp; lower fees.</p>
+</section>
+<section>
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-lg font-bold text-[var(--text-white)]">Performance</h3>
+<div class="flex bg-[var(--charcoal-surface)] rounded-lg p-0.5">
+<button class="px-3 py-1 text-xs font-medium bg-[var(--charcoal-light)] text-[var(--text-white)] rounded shadow-sm border border-[var(--charcoal-base)]">Week</button>
+<button class="px-3 py-1 text-xs font-medium text-[var(--text-muted)] hover:text-[var(--text-white)]">Month</button>
+</div>
+</div>
+<div class="bg-[var(--charcoal-surface)] rounded-2xl p-4 h-52 relative border border-[var(--charcoal-light)] shadow-sm">
+<div class="absolute inset-0 p-4 flex items-end justify-between gap-2">
+<div class="flex flex-col items-center gap-2 w-full h-full justify-end relative">
+<div class="absolute w-full h-px bg-[var(--charcoal-light)] top-0 opacity-30"></div>
+<div class="absolute w-full h-px bg-[var(--charcoal-light)] top-1/4 opacity-30"></div>
+<div class="absolute w-full h-px bg-[var(--charcoal-light)] top-2/4 opacity-30"></div>
+<div class="absolute w-full h-px bg-[var(--charcoal-light)] top-3/4 opacity-30"></div>
+<svg class="absolute inset-0 w-full h-full overflow-visible" preserveAspectRatio="none">
+<defs>
+<linearGradient id="gradientLine" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="var(--slate-blue)" stop-opacity="0.3"></stop>
+<stop offset="100%" stop-color="var(--slate-blue)" stop-opacity="0"></stop>
+</linearGradient>
+</defs>
+<path d="M0,100 C20,90 40,60 60,70 C80,80 100,40 120,50 C140,60 160,20 180,30 C200,40 220,10 240,20 C260,30 280,5 340,15 L340,150 L0,150 Z" fill="url(#gradientLine)" stroke="none" transform="translate(0, 10) scale(1, 0.8)"></path>
+<path d="M0,100 C20,90 40,60 60,70 C80,80 100,40 120,50 C140,60 160,20 180,30 C200,40 220,10 240,20 C260,30 280,5 340,15" fill="none" stroke="var(--slate-blue-light)" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" transform="translate(0, 10) scale(1, 0.8)"></path>
+<path d="M0,120 C20,110 40,100 60,105 C80,110 100,90 120,95 C140,100 160,80 180,85 C200,90 220,70 240,75 C260,80 280,60 340,70" fill="none" stroke="var(--text-muted)" stroke-dasharray="4 4" stroke-opacity="0.3" stroke-width="1.5" transform="translate(0, 10) scale(1, 0.8)"></path>
+</svg>
+<div class="flex justify-between w-full mt-auto pt-3 z-10 text-[10px] text-[var(--text-muted)] font-medium">
+<span>Mon</span>
+<span>Tue</span>
+<span>Wed</span>
+<span>Thu</span>
+<span>Fri</span>
+<span>Sat</span>
+<span>Sun</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="grid grid-cols-3 gap-3">
+<div class="glass-card rounded-xl p-3 flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-[var(--slate-blue-light)] mb-1">visibility</span>
+<span class="text-2xl font-bold text-[var(--text-white)]">1.2k</span>
+<span class="text-[10px] text-[var(--text-muted)] uppercase tracking-wide">Views</span>
+</div>
+<div class="glass-card rounded-xl p-3 flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-[var(--slate-blue)] mb-1">gavel</span>
+<span class="text-2xl font-bold text-[var(--text-white)]">86</span>
+<span class="text-[10px] text-[var(--text-muted)] uppercase tracking-wide">Bids</span>
+</div>
+<div class="glass-card rounded-xl p-3 flex flex-col items-center text-center">
+<span class="material-symbols-outlined text-[var(--antique-gold)] mb-1">shopping_bag</span>
+<span class="text-2xl font-bold text-[var(--text-white)]">12</span>
+<span class="text-[10px] text-[var(--text-muted)] uppercase tracking-wide">Sales</span>
+</div>
+</section>
+<section>
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-lg font-bold text-[var(--text-white)]">Active Listings</h3>
+<a class="text-sm text-[var(--slate-blue-light)] hover:text-[var(--text-white)] transition-colors" href="#">View All</a>
+</div>
+<div class="flex overflow-x-auto space-x-4 pb-4 no-scrollbar -mx-6 px-6">
+<div class="min-w-[160px] bg-[var(--charcoal-surface)] rounded-2xl overflow-hidden shadow-lg border border-[var(--charcoal-light)]">
+<div class="relative h-32 bg-gray-700">
+<img alt="Sneakers" class="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAdKalhNW_KOFvWFmjOm-lXkpoYcup9fHCfRE3e-K0W7qTckBxUsc6ARJKsVTjZIdNHCzfmYrL3e4SjEWs7tkprfgap4Chd50zGidTe8udgeO3HLM3oj_2S9RzIdtru7c_mDF22fHib59w9lvxRQhtusXL8Hi5lVGM7tdWO-kaDbMODd8h1-ux2xeirmihCcK5v1R6l8jeHm5kz0ydjhp9Bgbu24kLRE4BB2ynFoxEduv2QlQ7QKbt-kgoNqExC-eQxn6XAxBPUlQ"/>
+<div class="absolute top-2 left-2 bg-[var(--charcoal-base)] bg-opacity-90 rounded px-2 py-0.5 backdrop-blur-sm border border-white/10">
+<span class="text-[10px] font-bold text-[var(--antique-gold)] flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-[var(--antique-gold)] animate-pulse"></span>
+                                2h left
+                            </span>
+</div>
+</div>
+<div class="p-3">
+<h4 class="text-sm font-semibold truncate text-[var(--text-white)]">Nike Air Max 90</h4>
+<div class="flex justify-between items-end mt-2">
+<div>
+<p class="text-[10px] text-[var(--text-muted)]">Highest Bid</p>
+<p class="text-lg font-bold text-[var(--slate-blue-light)]">$145</p>
+</div>
+<div class="flex items-center gap-1 text-[var(--text-muted)]">
+<span class="material-symbols-outlined text-[14px]">gavel</span>
+<span class="text-xs">12</span>
+</div>
+</div>
+</div>
+</div>
+<div class="min-w-[160px] bg-[var(--charcoal-surface)] rounded-2xl overflow-hidden shadow-lg border border-[var(--charcoal-light)]">
+<div class="relative h-32 bg-gray-700">
+<img alt="Sneakers" class="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYXHh7wdRMa1CADKH12CbVACfnrH71yd9p4WqgbWdDmwXdAdZvRgCeZ3tp3jfc54vMeEz132njk8wUhBY0I_RnUieaCGuCS8QvAFvXkb0MvvSYCXJhyhTwl4Fh75USgLj8w1lt1LNMd4eRzB7Pux-ev-LMdh6lZVAsRtt_xJ8W6O8DiXGYwGN2tDikT8DP_iYxGvZu0DXt2q61GnWYwkxhwygj56aupCSADhZXpXQM4LiWjR2zcXmW6jD3XSKJbxC_G0NbhRZQqA"/>
+<div class="absolute top-2 left-2 bg-[var(--charcoal-base)] bg-opacity-90 rounded px-2 py-0.5 backdrop-blur-sm border border-white/10">
+<span class="text-[10px] font-bold text-[var(--accent-danger)] flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-danger)] animate-pulse"></span>
+                                15m left
+                            </span>
+</div>
+</div>
+<div class="p-3">
+<h4 class="text-sm font-semibold truncate text-[var(--text-white)]">Vintage Nike Dunk</h4>
+<div class="flex justify-between items-end mt-2">
+<div>
+<p class="text-[10px] text-[var(--text-muted)]">Highest Bid</p>
+<p class="text-lg font-bold text-[var(--slate-blue-light)]">$280</p>
+</div>
+<div class="flex items-center gap-1 text-[var(--text-muted)]">
+<span class="material-symbols-outlined text-[14px]">gavel</span>
+<span class="text-xs">24</span>
+</div>
+</div>
+</div>
+</div>
+<div class="min-w-[160px] bg-[var(--charcoal-surface)] rounded-2xl overflow-hidden shadow-lg border border-[var(--charcoal-light)]">
+<div class="relative h-32 bg-gray-700">
+<img alt="Sneakers" class="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhPbKDiBlpyEp3eVfg7JdVHFuhwOF-ga4mdr58ha_Mh60mvM1riN4ag4TVl4YCT7mEa6DpccTM7Ol3vCLSnvI1lqykegRWlRYxCQjgG1bRuMPGlJufimlDNA85SZmBtt1V8QGlu-cvDbIC0GchxiMCehF6VSh44LlASHQ9OdEJCmXi2WhRgvHLt2y5xd5XJPvQ6m1LKGuPo6yrIOng7JWOSrGHxYBl9D-EnSEo9ZrHRQNVRTB_I1lwP0JihD3hmeTE3TkNSTWb9Q"/>
+<div class="absolute top-2 left-2 bg-[var(--charcoal-base)] bg-opacity-90 rounded px-2 py-0.5 backdrop-blur-sm border border-white/10">
+<span class="text-[10px] font-bold text-[var(--text-white)] flex items-center gap-1">
+                                2d left
+                            </span>
+</div>
+</div>
+<div class="p-3">
+<h4 class="text-sm font-semibold truncate text-[var(--text-white)]">Yeezy Boost 350</h4>
+<div class="flex justify-between items-end mt-2">
+<div>
+<p class="text-[10px] text-[var(--text-muted)]">Highest Bid</p>
+<p class="text-lg font-bold text-[var(--slate-blue-light)]">$210</p>
+</div>
+<div class="flex items-center gap-1 text-[var(--text-muted)]">
+<span class="material-symbols-outlined text-[14px]">gavel</span>
+<span class="text-xs">8</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="pb-6">
+<h3 class="text-lg font-bold text-[var(--text-white)] mb-4">Insights</h3>
+<div class="space-y-3">
+<div class="bg-[var(--charcoal-surface)] rounded-xl p-4 flex items-center gap-4 border border-[var(--charcoal-light)] hover:border-[var(--slate-blue-light)] transition-colors cursor-pointer">
+<div class="bg-[var(--slate-blue)] bg-opacity-10 p-3 rounded-full">
+<span class="material-symbols-outlined text-[var(--slate-blue-light)]">trending_up</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-medium text-[var(--text-white)]">Listing Optimization</p>
+<p class="text-xs text-[var(--text-muted)]">Items with 5+ photos get 40% more bids.</p>
+</div>
+<span class="material-symbols-outlined text-[var(--text-muted)] text-sm">arrow_forward_ios</span>
+</div>
+<div class="bg-[var(--charcoal-surface)] rounded-xl p-4 flex items-center gap-4 border border-[var(--charcoal-light)] hover:border-[var(--slate-blue-light)] transition-colors cursor-pointer">
+<div class="bg-[var(--antique-gold)] bg-opacity-10 p-3 rounded-full">
+<span class="material-symbols-outlined text-[var(--antique-gold)]">schedule</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-medium text-[var(--text-white)]">Best Time to Post</p>
+<p class="text-xs text-[var(--text-muted)]">Post between 6pm-8pm for max visibility.</p>
+</div>
+<span class="material-symbols-outlined text-[var(--text-muted)] text-sm">arrow_forward_ios</span>
+</div>
+</div>
+</section>
+</main>
+<nav class="fixed bottom-0 left-0 right-0 bg-[var(--charcoal-surface)] border-t border-[var(--charcoal-light)] px-6 py-3 z-50 safe-area-bottom">
+<ul class="flex justify-between items-center">
+<li class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-[var(--text-muted)]">home</span>
+<span class="text-[10px] text-[var(--text-muted)]">Home</span>
+</li>
+<li class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-[var(--text-muted)]">search</span>
+<span class="text-[10px] text-[var(--text-muted)]">Search</span>
+</li>
+<li class="relative -top-6">
+<button class="w-14 h-14 rounded-full antique-gold-gradient shadow-[0_4px_15px_rgba(197,160,89,0.4)] flex items-center justify-center transform transition-transform active:scale-95 text-[var(--charcoal-base)]">
+<span class="material-symbols-outlined text-2xl">add</span>
+</button>
+</li>
+<li class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-[var(--text-muted)]">chat</span>
+<span class="text-[10px] text-[var(--text-muted)]">Chat</span>
+</li>
+<li class="flex flex-col items-center gap-1">
+<span class="material-symbols-outlined text-[var(--slate-blue-light)]">analytics</span>
+<span class="text-[10px] text-[var(--slate-blue-light)] font-medium">Stats</span>
+</li>
+</ul>
+</nav>
+
+</body></html>

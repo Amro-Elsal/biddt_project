@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Biddt Onboarding</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ffd900",
+                        "background-light": "#f8f8f5",
+                        "background-dark": "#23200f",
+                        "neutral-light": "#e7e5da",
+                        "text-dark": "#181710",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar hiding if needed */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display antialiased overflow-hidden">
+<div class="relative flex h-screen w-full flex-col max-w-md mx-auto shadow-2xl overflow-hidden bg-background-light dark:bg-background-dark">
+<!-- Header -->
+<div class="flex px-6 pt-12 pb-2 justify-end z-10">
+<button class="group flex items-center justify-center rounded-full px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-200/50 dark:hover:bg-slate-700/50 transition-colors">
+<span class="mr-1">Skip</span>
+<span class="material-symbols-outlined text-[18px] transition-transform group-hover:translate-x-0.5">arrow_forward</span>
+</button>
+</div>
+<!-- Main Content Area -->
+<div class="flex flex-1 flex-col items-center justify-center px-6 pb-6 pt-2">
+<!-- Illustration Container -->
+<div class="relative w-full aspect-square max-h-[400px] mb-8 flex items-center justify-center">
+<!-- Background decorative blob -->
+<div class="absolute inset-0 m-auto w-[80%] h-[80%] bg-primary/20 rounded-full blur-3xl opacity-60"></div>
+<!-- Main Image -->
+<div class="relative w-full h-full bg-contain bg-center bg-no-repeat z-10 drop-shadow-xl" data-alt="Golden treasure chest with map markers" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCZ8WrIny9vl3cWOrd8pejzLgsaK5JpGaRUSG3k14v7FCiTlokdVCaE2H64e1WoGB4H0fsjg5s69eOlNSTPkoOpsmvE8ZonTuAAIfIFfVfzT0qgdRuQhETK0it2nimMY3hB5afNEqXsj2BpT6I-TNnnQNqCFA5VYmEC3GgAcR03vWNEc2yGbT2cLff8f6ARSmO1RFZ47cwh0uYHKF2TkaSMua-8KeGTr35ITZTrdFPetmkD6NSlFhRIRgQcruxlcamavRuaI8c-Yw'); border-radius: 1rem;">
+</div>
+</div>
+<!-- Text Content -->
+<div class="flex flex-col items-center text-center space-y-4 max-w-[320px]">
+<h1 class="text-slate-900 dark:text-white text-3xl font-extrabold tracking-tight leading-tight">
+                    Discover Local <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-600 to-primary">Treasures</span>
+</h1>
+<p class="text-slate-500 dark:text-slate-400 text-base font-medium leading-relaxed">
+                    Bid safely on premium items in your neighborhood. Verified sellers, secure payments, and hidden gems just around the corner.
+                </p>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="flex flex-col items-center w-full px-6 pb-10 space-y-8">
+<!-- Pagination Dots -->
+<div class="flex flex-row items-center justify-center gap-3">
+<div class="h-2.5 w-8 rounded-full bg-primary transition-all duration-300"></div>
+<div class="h-2.5 w-2.5 rounded-full bg-slate-200 dark:bg-slate-700 hover:bg-primary/50 cursor-pointer transition-colors"></div>
+<div class="h-2.5 w-2.5 rounded-full bg-slate-200 dark:bg-slate-700 hover:bg-primary/50 cursor-pointer transition-colors"></div>
+</div>
+<!-- Primary Action Button -->
+<button class="w-full h-14 bg-primary hover:bg-[#e6c300] active:scale-[0.98] text-slate-900 text-lg font-bold rounded-xl shadow-lg shadow-primary/30 flex items-center justify-center transition-all duration-200">
+                Next
+            </button>
+</div>
+</div>
+</body></html>

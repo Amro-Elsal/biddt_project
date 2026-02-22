@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Biddt - Secure Marketplace Chat</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {--charcoal-black: #121212;
+            --charcoal-surface: #1E1E1E;
+            --charcoal-elevated: #2C2C2C;--slate-blue: #3E4C59;--slate-blue-light: #4A5A6A;
+            --cyan-start: #06b6d4;--cyan-end: #3b82f6;--accent-cyan: #22d3ee;
+            --accent-gold: #fbbf24;
+            --accent-success: #34d399;--pure-white: #FFFFFF;
+            --soft-white: #E5E5E5;
+            --muted: #9CA3AF;
+            --border-color: #333333;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--charcoal-black);
+            color: var(--pure-white);
+            -webkit-font-smoothing: antialiased;
+        }
+        .sent-bubble {
+            background: linear-gradient(135deg, var(--cyan-start) 0%, var(--cyan-end) 100%);
+        }
+        .received-bubble {
+            background-color: var(--slate-blue);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .safe-pb {
+            padding-bottom: max(16px, env(safe-area-inset-bottom));
+        }
+        .action-btn-gradient {
+            background: linear-gradient(180deg, rgba(44, 44, 44, 1) 0%, rgba(30, 30, 30, 1) 100%);
+        }
+    </style>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="h-screen w-full flex flex-col overflow-hidden bg-[var(--charcoal-black)] relative">
+<header class="flex items-center justify-between px-4 pt-12 pb-4 bg-[var(--charcoal-black)] border-b border-[var(--border-color)] shrink-0 z-30">
+<div class="flex items-center gap-3">
+<button class="text-[var(--pure-white)] p-1 rounded-full hover:bg-[var(--charcoal-elevated)] transition-colors">
+<span class="material-symbols-outlined text-2xl">arrow_back_ios_new</span>
+</button>
+<div class="relative group cursor-pointer">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-[var(--charcoal-surface)] ring-2 ring-[var(--charcoal-elevated)]">
+<img alt="Sarah J." class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB24EhpIKfVSasV5NrQZ6zRXk9PV2TDikG4zm1ckVZwueN2q5aEViCp-KShoBf-P8cEgqgQplktCbQMNKCMdMBNDVO3GERk9EPiakJvZd-KBAFlE87i_CRBlh4HRBqWYZau2Zi17V33a8zuqsD7siXUIQVu0wYzikhKIbh7J8V9-x86yzdF5mhW92B1sX7twH4hSTuW4RbDJnVIlwgujKPx-wmUxNbHQeO73HU_YaZgQtly4WiNrpCkdfD1VHgbONEfy5aciyJJAg"/>
+</div>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-[var(--accent-success)] rounded-full border-2 border-[var(--charcoal-black)]"></div>
+</div>
+<div>
+<h1 class="text-[16px] font-bold leading-tight tracking-wide">Sarah J.</h1>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="text-[11px] text-[var(--accent-success)] font-medium">Online</span>
+<span class="w-1 h-1 bg-[var(--muted)] rounded-full opacity-50"></span>
+<span class="text-[11px] text-[var(--accent-gold)] flex items-center gap-0.5 font-medium">
+<span class="material-symbols-outlined text-[12px] fill-1">star</span> 4.9
+                    </span>
+</div>
+</div>
+</div>
+<button class="text-[var(--pure-white)] p-2 rounded-full hover:bg-[var(--charcoal-elevated)] transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</header>
+<div class="bg-[var(--charcoal-surface)]/95 backdrop-blur-md border-b border-[var(--border-color)] sticky top-0 z-20 shrink-0 shadow-lg">
+<div class="px-4 py-3">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-lg bg-[var(--charcoal-elevated)] overflow-hidden shrink-0 border border-[var(--border-color)]">
+<img alt="Vintage Camera" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQfE3r7CKCvkYr5uwnG5UxUlNn5qJfjXmj1UNXA_j1QRk_e-BrWRNh7a9Ap71vvEDP3o-HMSEwK8mycLlB8BZmg77mdiUtfM8jGIBt2xgsjeYsuZbST8ZTnh5qyOYDVUOxQyaO79vjUDWQNW5CNVwyz86TEUPxk_uYzaTm3h0RKBLFW9-xB6Y3KLUUeWSSt1LQ8slHx7Irgdhqdr0IFEq-MuCQtel8gmXCVTZWAK5vXNcFPX6rr6M7s4W4T-fevZF6ooOtAVhUbw"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<h2 class="text-[14px] font-semibold text-[var(--soft-white)] truncate">Leica M3 Film Camera</h2>
+<span class="text-[14px] font-bold text-[var(--pure-white)]">$1,250</span>
+</div>
+<div class="flex items-center justify-between mt-1.5">
+<div class="flex items-center gap-2">
+<span class="flex items-center gap-1 px-1.5 py-0.5 rounded bg-[var(--charcoal-black)] border border-[var(--border-color)]">
+<span class="material-symbols-outlined text-[10px] text-[var(--accent-gold)]">local_fire_department</span>
+<span class="text-[10px] text-[var(--muted)] uppercase tracking-wider font-semibold">Active Bid</span>
+</span>
+<span class="text-[11px] text-[var(--muted)]">Ends 2h 15m</span>
+</div>
+<span class="text-[10px] text-[var(--accent-cyan)] font-medium">Buying Power: $5,000</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-4 space-y-5 no-scrollbar bg-[var(--charcoal-black)]" id="chat-container">
+<div class="flex justify-center my-4">
+<span class="text-[10px] text-[var(--muted)] uppercase font-semibold tracking-widest bg-[var(--charcoal-surface)] px-3 py-1 rounded-full border border-[var(--border-color)]">Today</span>
+</div>
+<div class="flex gap-2 max-w-[85%] group">
+<div class="w-8 h-8 rounded-full overflow-hidden shrink-0 self-end mb-1 ring-1 ring-[var(--border-color)]">
+<img alt="Sarah J." class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeJU05PvfGbmCp427-Ekj_ehwq6SWKsby5go3FwBFOYGkxGABAV75pPVM81wH5Kw3D72Nf-s5F-UQBf0EsTMbi2ax709qEUyWNPG6zMZumAcX-XW3sskj_gFxglXJScv2qvCyjf5qp_lLGspw6oTM_RsYoFxHlzmz4k3ryNo2bkJVRt_8-MZHRPZMTt346eTYa84InsY2LwoJi6C6crdfZPZGiqlUz9KCtJIgSL0Ps0zgoJkA9shUYC20t0A97WcnPCUZjvKx-fA"/>
+</div>
+<div class="flex flex-col gap-1">
+<div class="received-bubble p-3.5 rounded-2xl rounded-bl-sm text-[14px] text-[var(--soft-white)] leading-relaxed shadow-sm ring-1 ring-white/5">
+                    Hey! Thanks for your bid on the Leica. It's in mint condition, I barely used it.
+                </div>
+<span class="text-[10px] text-[var(--muted)] ml-1 opacity-0 group-hover:opacity-100 transition-opacity">10:23 AM</span>
+</div>
+</div>
+<div class="flex gap-2 max-w-[85%] group">
+<div class="w-8 h-8 rounded-full overflow-hidden shrink-0 self-end mb-1 opacity-0"></div>
+<div class="flex flex-col gap-1">
+<div class="received-bubble p-2 rounded-2xl rounded-bl-sm overflow-hidden ring-1 ring-white/5">
+<img alt="Camera lens detail" class="rounded-lg mb-2 border border-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAU35A4KRY5KZlK6MkxQaBATMrCUwWBlABX06hbFFkdnp50tBFT0yCm9Br0nBrBEHt18LPK-RrA8J2Qpm998kkYkJcsONBVc9Mpxa8nrCvq8V1EfQOZWTN0z9EtMjgxCezYQIT1GD8h7qA6hlR-qD-w-wSFlEpBONCcaNtz6kmkzUNfbBlaALhV4tQ9utEyaxHURP6PbO79kbFi5u8JEgmGvFPCYpJ5LcXQWN87ca5T2nUe6TFuLM1QhKihAdmdR39CL_Cej495GA"/>
+<p class="text-[14px] text-[var(--soft-white)] px-1 pb-1">Here's a closer look at the lens.</p>
+</div>
+<span class="text-[10px] text-[var(--muted)] ml-1 opacity-0 group-hover:opacity-100 transition-opacity">10:24 AM</span>
+</div>
+</div>
+<div class="flex gap-2 max-w-[85%] ml-auto justify-end group">
+<div class="flex flex-col gap-1 items-end">
+<div class="sent-bubble p-3.5 rounded-2xl rounded-br-sm text-[14px] text-white leading-relaxed font-medium shadow-md ring-1 ring-white/10">
+                    That looks pristine! Does it come with the original leather case?
+                </div>
+<div class="flex items-center gap-1 mr-1">
+<span class="text-[10px] text-[var(--muted)] opacity-0 group-hover:opacity-100 transition-opacity">10:28 AM</span>
+<span class="material-symbols-outlined text-[14px] text-[var(--accent-cyan)]">done_all</span>
+</div>
+</div>
+</div>
+<div class="flex gap-2 max-w-[85%] group">
+<div class="w-8 h-8 rounded-full overflow-hidden shrink-0 self-end mb-1 ring-1 ring-[var(--border-color)]">
+<img alt="Sarah J." class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuABMaAZd7RBlrSwDeaSjDtrYMiekLTCjeEcI_lQ66-xNTeTxuhPCEUfmkKJh4f4eVEppC351rexuq-o6556kQwfx3qZtU_c2gYu2MyTWF07ydf1nQGNJEKVh-XrLLhdtbbLTJhuewp41cmyh9Fm4yJYMVNO3JyZhgOl4L4-q95z6OQkwdKJKFlLGQBYD8DMOVUshPVx1-6m0NjkC02j1xuPetyN04nnESrI23tuS7vzxTICZSwbP9Hk-b9W3ot36J_z1ZewxNpf0Q"/>
+</div>
+<div class="flex flex-col gap-1">
+<div class="received-bubble p-3.5 rounded-2xl rounded-bl-sm text-[14px] text-[var(--soft-white)] leading-relaxed shadow-sm ring-1 ring-white/5">
+                    Yes, original case and strap included.
+                </div>
+<span class="text-[10px] text-[var(--muted)] ml-1 opacity-0 group-hover:opacity-100 transition-opacity">10:30 AM</span>
+</div>
+</div>
+<div class="flex justify-center my-6 w-full px-4">
+<div class="flex items-center gap-3 bg-[var(--charcoal-surface)] border border-[var(--border-color)] px-4 py-3 rounded-xl shadow-lg w-full max-w-sm">
+<div class="bg-[var(--charcoal-black)] p-2 rounded-full border border-[var(--border-color)]">
+<span class="material-symbols-outlined text-[var(--accent-success)] text-lg">shield</span>
+</div>
+<div class="flex flex-col">
+<span class="text-[12px] font-semibold text-[var(--pure-white)]">Safety First</span>
+<span class="text-[11px] text-[var(--muted)]">Meet in <span class="text-[var(--accent-success)] font-bold">Safe Exchange Zones</span> for security.</span>
+</div>
+</div>
+</div>
+<div class="flex gap-2 max-w-[85%] ml-auto justify-end group">
+<div class="flex flex-col gap-1 items-end">
+<div class="sent-bubble p-3.5 rounded-2xl rounded-br-sm text-[14px] text-white leading-relaxed font-medium shadow-md ring-1 ring-white/10">
+                    Perfect. I'm really interested in closing this today if possible.
+                </div>
+<div class="flex items-center gap-1 mr-1">
+<span class="text-[10px] text-[var(--muted)] opacity-0 group-hover:opacity-100 transition-opacity">10:35 AM</span>
+<span class="material-symbols-outlined text-[14px] text-[var(--muted)]">done</span>
+</div>
+</div>
+</div>
+<div class="h-2"></div>
+</div>
+<div class="bg-[var(--charcoal-surface)] border-t border-[var(--border-color)] shrink-0 safe-pb z-30 shadow-[0_-4px_20px_rgba(0,0,0,0.4)]">
+<div class="px-4 py-3 flex gap-3 overflow-x-auto no-scrollbar">
+<button class="action-btn-gradient flex items-center gap-2 border border-[var(--border-color)] hover:border-[var(--accent-cyan)] px-4 py-2.5 rounded-xl transition-all active:scale-95 shrink-0 shadow-sm group">
+<span class="material-symbols-outlined text-[var(--accent-cyan)] text-[20px] group-hover:scale-110 transition-transform">payments</span>
+<span class="text-[13px] font-semibold text-[var(--pure-white)]">Make Offer</span>
+</button>
+<button class="action-btn-gradient flex items-center gap-2 border border-[var(--border-color)] hover:border-[var(--accent-gold)] px-4 py-2.5 rounded-xl transition-all active:scale-95 shrink-0 shadow-sm group">
+<span class="material-symbols-outlined text-[var(--accent-gold)] text-[20px] group-hover:scale-110 transition-transform">event</span>
+<span class="text-[13px] font-semibold text-[var(--pure-white)]">Meetup</span>
+</button>
+<button class="action-btn-gradient flex items-center gap-2 border border-[var(--border-color)] hover:border-[var(--accent-success)] px-4 py-2.5 rounded-xl transition-all active:scale-95 shrink-0 shadow-sm group">
+<span class="material-symbols-outlined text-[var(--accent-success)] text-[20px] group-hover:scale-110 transition-transform">map</span>
+<span class="text-[13px] font-semibold text-[var(--pure-white)]">Safe Zone</span>
+</button>
+</div>
+<div class="px-4 pb-3 pt-0 flex items-end gap-3">
+<button class="mb-3 text-[var(--muted)] hover:text-[var(--pure-white)] transition-colors p-1">
+<span class="material-symbols-outlined text-[28px]">add_circle</span>
+</button>
+<div class="flex-1 bg-[var(--charcoal-black)] rounded-2xl flex items-center min-h-[50px] border border-[var(--border-color)] focus-within:border-[var(--accent-cyan)] focus-within:ring-1 focus-within:ring-[var(--accent-cyan)] transition-all mb-1 shadow-inner">
+<input class="bg-transparent border-none text-[var(--pure-white)] placeholder-[var(--muted)] text-[15px] w-full px-4 py-3 focus:ring-0 leading-normal" placeholder="Message..." type="text"/>
+<button class="pr-3 text-[var(--muted)] hover:text-[var(--pure-white)] transition-colors">
+<span class="material-symbols-outlined text-[22px]">photo_camera</span>
+</button>
+<button class="pr-4 text-[var(--muted)] hover:text-[var(--pure-white)] transition-colors">
+<span class="material-symbols-outlined text-[22px]">mic</span>
+</button>
+</div>
+<button class="mb-1.5 w-11 h-11 flex items-center justify-center rounded-full bg-[var(--accent-cyan)] text-black hover:bg-[var(--cyan-end)] active:scale-95 transition-all shadow-lg shadow-cyan-900/20">
+<span class="material-symbols-outlined text-[24px]">send</span>
+</button>
+</div>
+</div>
+
+</body></html>

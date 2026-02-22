@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Biddt - Product Detail Wireframe</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f4c025",
+                        "background-light": "#f8f8f5",
+                        "background-dark": "#221e10",
+                        "surface-dark": "#2d281a",
+                        "surface-darker": "#1a160c",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        /* Custom scrollbar hiding for wireframe clean look */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex justify-center">
+<!-- Mobile Container -->
+<div class="w-full max-w-md bg-background-light dark:bg-background-dark flex flex-col h-screen overflow-hidden relative shadow-2xl">
+<!-- Header -->
+<header class="flex items-center justify-between p-4 z-10 bg-transparent absolute top-0 left-0 right-0 w-full">
+<button class="flex items-center justify-center size-10 rounded-full bg-black/20 backdrop-blur-sm text-white hover:bg-black/40 transition-colors">
+<span class="material-symbols-outlined">arrow_back_ios_new</span>
+</button>
+<button class="flex items-center justify-center size-10 rounded-full bg-black/20 backdrop-blur-sm text-white hover:bg-black/40 transition-colors">
+<span class="material-symbols-outlined">ios_share</span>
+</button>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 overflow-y-auto no-scrollbar pb-32">
+<!-- Hero Media Placeholder (360 Video) -->
+<div class="relative w-full aspect-[4/5] bg-surface-dark group">
+<!-- Image Placeholder -->
+<div class="absolute inset-0 bg-cover bg-center opacity-80" data-alt="Modern wooden chair in a dark studio setting" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAHT9MCuhwG0BbhTi982YHoVHEbmEv6HPut5FOOVzxyitB18bDOLrSLYOfYM1abuYViNmqTb4avKkU4VX50FWxwTdJDB62mVAbxfOzgFYNOSO5oZJacYBTGLc0PREN3PAxh4F4ktvtBNDTpGahtkCVGrQib87jpe6hD2hqyKEh4iayLu6-yqr-KcrOW5MC80HGwI52USh1pRzr2C-YFH65b5BDoi-W1wjQ6BsPiagEhmWeUoBWYOIO4uKVl0i6dl-ia7ekndNSQ_Q');">
+</div>
+<!-- Overlay Gradient -->
+<div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-background-dark/90"></div>
+<!-- 360 Indicator / Play Button -->
+<div class="absolute inset-0 flex items-center justify-center">
+<button class="flex items-center justify-center size-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg">
+<span class="material-symbols-outlined text-[32px]">360</span>
+</button>
+</div>
+<!-- Page Indicator Dots -->
+<div class="absolute bottom-6 left-0 right-0 flex justify-center gap-2">
+<div class="h-1.5 w-1.5 rounded-full bg-primary"></div>
+<div class="h-1.5 w-1.5 rounded-full bg-white/30"></div>
+<div class="h-1.5 w-1.5 rounded-full bg-white/30"></div>
+<div class="h-1.5 w-1.5 rounded-full bg-white/30"></div>
+</div>
+</div>
+<!-- Content Blocks -->
+<div class="px-5 -mt-6 relative z-10">
+<!-- Product Title & Basic Info -->
+<div class="mb-6">
+<div class="flex items-start justify-between mb-2">
+<h1 class="text-2xl font-bold leading-tight text-white/90 w-3/4">Vintage Eames Lounge Chair</h1>
+<button class="text-white/40 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+</div>
+<p class="text-white/40 text-sm font-medium">Mid-Century Modern • 1956 Design</p>
+</div>
+<!-- Price Block -->
+<div class="flex items-end gap-3 mb-6">
+<div class="flex flex-col">
+<span class="text-xs font-semibold text-primary uppercase tracking-wider mb-1">Current Bid</span>
+<h2 class="text-4xl font-bold text-white tracking-tight">$4,250</h2>
+</div>
+<div class="pb-1.5">
+<span class="text-white/40 text-sm line-through">$3,800</span>
+</div>
+</div>
+<!-- Timer Strip -->
+<div class="flex items-center gap-2 bg-surface-dark/50 p-3 rounded-lg border border-white/5 mb-8">
+<span class="material-symbols-outlined text-primary text-xl">timer</span>
+<span class="text-sm font-medium text-white/80">Ends in <span class="text-primary font-bold">2h 15m</span></span>
+<div class="h-1 flex-1 bg-white/10 rounded-full ml-2 overflow-hidden">
+<div class="h-full w-[85%] bg-primary rounded-full"></div>
+</div>
+</div>
+<!-- Buying Power Widget (Wireframe Focus) -->
+<div class="bg-surface-darker border border-white/10 rounded-xl p-4 mb-6 relative overflow-hidden">
+<!-- Subtle background pattern for premium feel -->
+<div class="absolute -right-4 -top-4 text-white/5 rotate-12 pointer-events-none">
+<span class="material-symbols-outlined text-[100px]">verified_user</span>
+</div>
+<div class="relative z-10">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-emerald-400 text-lg">check_circle</span>
+<span class="text-sm font-semibold text-white/90">Buying Power</span>
+</div>
+<span class="bg-emerald-400/10 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wide">Safe to Bid</span>
+</div>
+<div class="flex items-baseline gap-1 mb-1">
+<span class="text-2xl font-bold text-white">$10,000</span>
+<span class="text-xs text-white/40">available limit</span>
+</div>
+<p class="text-xs text-white/50 leading-relaxed">
+                            Your verified status allows you to bid up to $10k on this item without an additional deposit.
+                        </p>
+</div>
+</div>
+<!-- Description Placeholder (Wireframe block) -->
+<div class="space-y-3 pb-8">
+<div class="h-4 w-1/3 bg-white/10 rounded animate-pulse"></div>
+<div class="space-y-2">
+<div class="h-3 w-full bg-white/5 rounded"></div>
+<div class="h-3 w-full bg-white/5 rounded"></div>
+<div class="h-3 w-3/4 bg-white/5 rounded"></div>
+</div>
+</div>
+</div>
+</main>
+<!-- Sticky Footer Action Area -->
+<div class="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-background-dark via-background-dark to-transparent pt-12">
+<div class="flex flex-col gap-3">
+<button class="w-full h-14 bg-primary hover:bg-primary/90 active:scale-[0.98] transition-all rounded-lg flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(244,192,37,0.15)] text-background-dark font-bold text-lg">
+<span>Place Bid</span>
+<span class="material-symbols-outlined font-bold">gavel</span>
+</button>
+<div class="text-center">
+<p class="text-[10px] text-white/30">Biddt Guarantee: Verified Authenticity &amp; Safe Payment</p>
+</div>
+</div>
+</div>
+</div>
+</body></html>

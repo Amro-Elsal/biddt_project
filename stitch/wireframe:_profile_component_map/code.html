@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Biddt - User Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f4c025",
+                        "background-light": "#f8f8f5",
+                        "background-dark": "#231e10",
+                        "surface-dark": "#342d18",
+                        "surface-light": "#ffffff",
+                        "text-primary-dark": "#f8f8f5",
+                        "text-secondary-dark": "#cbbc90",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased text-slate-900 dark:text-text-primary-dark min-h-screen flex flex-col">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between p-4 bg-background-light dark:bg-background-dark sticky top-0 z-10">
+<button class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-surface-dark transition-colors">
+<span class="material-symbols-outlined text-slate-900 dark:text-text-primary-dark">arrow_back</span>
+</button>
+<h1 class="text-lg font-bold">Profile</h1>
+<button class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-surface-dark transition-colors">
+<span class="material-symbols-outlined text-slate-900 dark:text-text-primary-dark">settings</span>
+</button>
+</header>
+<!-- Scrollable Content -->
+<main class="flex-1 overflow-y-auto pb-24">
+<!-- Identity Block -->
+<section class="flex flex-col items-center pt-2 pb-6 px-4">
+<div class="relative mb-4 group cursor-pointer">
+<div class="w-28 h-28 rounded-full overflow-hidden border-4 border-surface-light dark:border-surface-dark shadow-lg">
+<img alt="Smiling man portrait" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRME1whWVuzc8aS7xszAUZo4RUunLeyx9kEDRnOZzpXgo_hsoyUT9cbXNDzPadIhnuhbDT5P5fzX1X9Lb4H58EHpLrRqYSqJcqZ06Lx6fqgu7-1Aw61HWyJDZIldbU02j1K20UPP5kPe7DzWxb_c_GIFIaqWR-ptVSiqedyYmoa9ofIZKpyWQr7erzAVrcnLwTqxd2WEbhgO6TWeQyEU7EHQkLf60FMkjjt_eX8OtjmJwRpjhM9NuQ0hdzbBP7aUM5_Q_pb1jLQg"/>
+</div>
+<div class="absolute bottom-1 right-1 bg-background-light dark:bg-background-dark p-1.5 rounded-full border border-slate-200 dark:border-surface-dark shadow-sm">
+<span class="material-symbols-outlined text-primary text-[20px] fill">verified</span>
+</div>
+</div>
+<h2 class="text-2xl font-bold mb-1 flex items-center gap-2">
+                Alex Bidder
+            </h2>
+<p class="text-slate-500 dark:text-text-secondary-dark text-sm mb-4">Member since 2021 • San Francisco, CA</p>
+<!-- Quick Actions -->
+<div class="flex gap-3 w-full max-w-xs">
+<button class="flex-1 bg-slate-900 dark:bg-primary text-white dark:text-background-dark font-semibold py-2.5 px-4 rounded-lg text-sm flex items-center justify-center gap-2 shadow-md hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-lg">edit</span>
+                    Edit Profile
+                </button>
+<button class="flex-1 bg-white dark:bg-surface-dark border border-slate-200 dark:border-[#493f22] text-slate-900 dark:text-white font-medium py-2.5 px-4 rounded-lg text-sm flex items-center justify-center gap-2 shadow-sm hover:bg-slate-50 dark:hover:bg-[#493f22] transition-colors">
+<span class="material-symbols-outlined text-lg">share</span>
+                    Share
+                </button>
+</div>
+</section>
+<!-- Reputation Dashboard -->
+<section class="px-4 mb-6">
+<div class="bg-white dark:bg-surface-dark rounded-xl p-5 shadow-sm border border-slate-100 dark:border-[#493f22]">
+<div class="flex justify-between items-center mb-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary fill">shield</span>
+<span class="font-semibold text-sm uppercase tracking-wide text-slate-500 dark:text-text-secondary-dark">Trust Score</span>
+</div>
+<span class="text-primary font-bold text-lg">98<span class="text-slate-400 dark:text-[#685a31] text-sm font-normal">/100</span></span>
+</div>
+<!-- Progress Bar -->
+<div class="h-2.5 w-full bg-slate-100 dark:bg-[#231e10] rounded-full overflow-hidden mb-6">
+<div class="h-full bg-primary rounded-full" style="width: 98%"></div>
+</div>
+<!-- Stats Grid -->
+<div class="grid grid-cols-3 gap-4 divide-x divide-slate-100 dark:divide-[#493f22]">
+<div class="flex flex-col items-center text-center px-2">
+<span class="text-2xl font-bold block mb-1">42</span>
+<span class="text-xs text-slate-500 dark:text-text-secondary-dark font-medium">Items Sold</span>
+</div>
+<div class="flex flex-col items-center text-center px-2">
+<span class="text-2xl font-bold block mb-1">15</span>
+<span class="text-xs text-slate-500 dark:text-text-secondary-dark font-medium">Items Bought</span>
+</div>
+<div class="flex flex-col items-center text-center px-2">
+<span class="text-2xl font-bold block mb-1 flex items-center gap-1">
+                            4.9 <span class="material-symbols-outlined text-primary text-sm fill">star</span>
+</span>
+<span class="text-xs text-slate-500 dark:text-text-secondary-dark font-medium">Rating</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Listings Section -->
+<section class="flex flex-col">
+<!-- Tabs -->
+<div class="flex border-b border-slate-200 dark:border-[#493f22] px-4 mb-4">
+<button class="px-4 py-3 text-sm font-medium border-b-2 border-slate-900 dark:border-primary text-slate-900 dark:text-white">
+                    Active Listings (4)
+                </button>
+<button class="px-4 py-3 text-sm font-medium border-b-2 border-transparent text-slate-500 dark:text-text-secondary-dark hover:text-slate-700 dark:hover:text-white transition-colors">
+                    Sold History
+                </button>
+<button class="px-4 py-3 text-sm font-medium border-b-2 border-transparent text-slate-500 dark:text-text-secondary-dark hover:text-slate-700 dark:hover:text-white transition-colors">
+                    Reviews
+                </button>
+</div>
+<!-- Grid -->
+<div class="grid grid-cols-2 gap-4 px-4">
+<!-- Card 1 -->
+<div class="group bg-white dark:bg-surface-dark rounded-xl overflow-hidden border border-slate-100 dark:border-[#493f22] shadow-sm hover:shadow-md transition-shadow">
+<div class="aspect-square w-full bg-slate-200 dark:bg-[#231e10] relative overflow-hidden">
+<img alt="Vintage film camera" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-6bkKqDNWE5xpjVxxmICc2Z9fK4YzgQTFsj4ECCLYlz24QkiOjFcsnJjI00lJ8r9zirCskGP72upnf4mT3S_x5CvZyGo5KZiuxMqIQv_Dik_9mYcTICZbHd0nIlHljNWsf6e9uH199JZsXEopnKimLe0v4nzFKU33y1I_IJedi-HHFoAXU_UQT-4mlAuPQlz8Zyiwe6wNT_8bZAK5n8pG2dKQRS-1N46T4DFUlxQHRWhWcR0imSQrOP03TvOU1JgA9E9Trs48RA"/>
+<div class="absolute top-2 right-2 bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">schedule</span> 2h left
+                        </div>
+</div>
+<div class="p-3">
+<h3 class="font-medium text-sm truncate mb-1">Vintage Film Camera</h3>
+<div class="flex justify-between items-end">
+<div>
+<p class="text-[10px] text-slate-500 dark:text-text-secondary-dark uppercase tracking-wide">Current Bid</p>
+<p class="text-primary font-bold text-lg">$150</p>
+</div>
+<button class="w-8 h-8 rounded-full bg-slate-100 dark:bg-[#493f22] flex items-center justify-center text-slate-600 dark:text-text-secondary-dark hover:text-primary dark:hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">gavel</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group bg-white dark:bg-surface-dark rounded-xl overflow-hidden border border-slate-100 dark:border-[#493f22] shadow-sm hover:shadow-md transition-shadow">
+<div class="aspect-square w-full bg-slate-200 dark:bg-[#231e10] relative overflow-hidden">
+<img alt="Modern gaming console controller" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBi48yV2r9bZFAVIoKE9BDVXKqnl56qfi3mq5pmcQyeKwkSPSreaPP87K_ubg2XR9jLqvSx4mogfTSSrgIsObhu5tzItxfakJFsbApY7thCjwQK2EMjkW9PUCoVoi676jSZ_V4vvvZUGQRWmLpKxL1IojKFMlZnqzjem1aCdSR78Ry7FpoYN4hPFkpgzTO_p_JONLSY8WvQ0oGYpLDNz0smW-1GzMWnLYdGnV27u1oO7SNoUxvFQfQGKoJU0IigGT1Rzne4763eQA"/>
+</div>
+<div class="p-3">
+<h3 class="font-medium text-sm truncate mb-1">Gaming Console Pro</h3>
+<div class="flex justify-between items-end">
+<div>
+<p class="text-[10px] text-slate-500 dark:text-text-secondary-dark uppercase tracking-wide">Current Bid</p>
+<p class="text-primary font-bold text-lg">$220</p>
+</div>
+<button class="w-8 h-8 rounded-full bg-slate-100 dark:bg-[#493f22] flex items-center justify-center text-slate-600 dark:text-text-secondary-dark hover:text-primary dark:hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">gavel</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group bg-white dark:bg-surface-dark rounded-xl overflow-hidden border border-slate-100 dark:border-[#493f22] shadow-sm hover:shadow-md transition-shadow">
+<div class="aspect-square w-full bg-slate-200 dark:bg-[#231e10] relative overflow-hidden">
+<img alt="Luxury wrist watch" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4p8F1GEkjgzq_cOfJqtOkzsS5u4iYXxbsqUGV3HW3wXgW2cEf3YKdsnmrB1Rfa0JpnQ74ejZsyUwvpMIy4gq1JmMa31-nE9JT2CQbhQL6pZa36157zKWHPYjjdOvz9uxUTL1ke2gzihOchupTHU-rGcL-i_1_-b9AX9KSmylyWfKTC9qEkeVKfWPyhNJFGiwEtjqFlg72x1Jl8TFzQFXRSyt-bWOjFTfkBm02IYGzXIk68mGL3PUElnBdvJixdvaPXwxtWu77Mg"/>
+<div class="absolute top-2 right-2 bg-primary text-background-dark text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">local_fire_department</span> Hot
+                        </div>
+</div>
+<div class="p-3">
+<h3 class="font-medium text-sm truncate mb-1">Designer Chronograph</h3>
+<div class="flex justify-between items-end">
+<div>
+<p class="text-[10px] text-slate-500 dark:text-text-secondary-dark uppercase tracking-wide">Current Bid</p>
+<p class="text-primary font-bold text-lg">$800</p>
+</div>
+<button class="w-8 h-8 rounded-full bg-slate-100 dark:bg-[#493f22] flex items-center justify-center text-slate-600 dark:text-text-secondary-dark hover:text-primary dark:hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">gavel</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group bg-white dark:bg-surface-dark rounded-xl overflow-hidden border border-slate-100 dark:border-[#493f22] shadow-sm hover:shadow-md transition-shadow">
+<div class="aspect-square w-full bg-slate-200 dark:bg-[#231e10] relative overflow-hidden">
+<img alt="Red running sneakers" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDGwU47HRxcKA3oj_YTGgOAYZGPK_dFmCp_J_U_hIwy_fnS3yCdvAf3FhWwLojHacIsEwoW6JMrUjelgsdbG70HUHC6ZLi3hkY42SnXwaQSLGhbQbPrNITwlAU933OddFDojjoL68OdgNxXZZHkKpaIwDKDi9XI6DiZHQoHBPPaqF6LGcZphF5cDouM_gWTtVX0XCbc5bvnlftWTjm3cOxE9bGNC8QDeYm4hCn7Md7l7uHILDV6LWyUDZsrxT1k_CC_ptpBswFGg"/>
+</div>
+<div class="p-3">
+<h3 class="font-medium text-sm truncate mb-1">Limited Edition Sneakers</h3>
+<div class="flex justify-between items-end">
+<div>
+<p class="text-[10px] text-slate-500 dark:text-text-secondary-dark uppercase tracking-wide">Current Bid</p>
+<p class="text-primary font-bold text-lg">$340</p>
+</div>
+<button class="w-8 h-8 rounded-full bg-slate-100 dark:bg-[#493f22] flex items-center justify-center text-slate-600 dark:text-text-secondary-dark hover:text-primary dark:hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">gavel</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="h-6"></div> <!-- Spacer -->
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<div class="fixed bottom-0 left-0 right-0 z-20">
+<div class="flex gap-2 border-t border-slate-200 dark:border-[#493f22] bg-white dark:bg-[#342d18] px-4 pb-6 pt-2">
+<a class="just flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 dark:text-[#cbbc90] hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">home</span>
+</div>
+<p class="text-xs font-medium leading-normal tracking-[0.015em]">Home</p>
+</a>
+<a class="just flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 dark:text-[#cbbc90] hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">search</span>
+</div>
+<p class="text-xs font-medium leading-normal tracking-[0.015em]">Search</p>
+</a>
+<a class="just flex flex-1 flex-col items-center justify-end gap-1" href="#">
+<div class="flex h-12 w-12 items-center justify-center bg-primary rounded-full shadow-lg text-background-dark -mt-6 border-4 border-background-light dark:border-background-dark">
+<span class="material-symbols-outlined text-[28px]">add</span>
+</div>
+<p class="text-xs font-medium leading-normal tracking-[0.015em] text-slate-400 dark:text-[#cbbc90]">Sell</p>
+</a>
+<a class="just flex flex-1 flex-col items-center justify-end gap-1 text-slate-400 dark:text-[#cbbc90] hover:text-primary dark:hover:text-primary transition-colors" href="#">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">favorite</span>
+</div>
+<p class="text-xs font-medium leading-normal tracking-[0.015em]">Saved</p>
+</a>
+<a class="just flex flex-1 flex-col items-center justify-end gap-1 text-slate-900 dark:text-white" href="#">
+<div class="flex h-8 items-center justify-center">
+<span class="material-symbols-outlined text-[24px] fill">person</span>
+</div>
+<p class="text-xs font-medium leading-normal tracking-[0.015em]">Profile</p>
+</a>
+</div>
+</div>
+</body></html>

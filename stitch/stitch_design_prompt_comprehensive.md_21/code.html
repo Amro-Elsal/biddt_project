@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fund Buying Power</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {
+            --charcoal-bg: #121212;
+            --card-bg: #1E1E1E;
+            --spark-gold: #FFD700;
+            --deep-gold: #B8860B;
+            --soft-white: #F5F5F5;
+            --text-gray: #A0A0A0;
+            --input-bg: #2C2C2C;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--charcoal-bg);
+            color: var(--soft-white);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #FFECB3 0%, #FFD700 50%, #B8860B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gold-gradient-bg {
+            background: linear-gradient(135deg, #FFD700 0%, #E6C200 100%);
+        }
+        .glass-panel {
+            background: rgba(30, 30, 30, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .custom-radio:checked + div {
+            border-color: var(--spark-gold);
+            background-color: rgba(255, 215, 0, 0.1);
+        }
+        .custom-radio:checked + div .radio-indicator {
+            border-color: var(--spark-gold);
+        }
+        .custom-radio:checked + div .radio-indicator::after {
+            transform: scale(1);
+        }
+        .radio-indicator::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--spark-gold);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.2s ease;
+        }
+        .chip-button {
+            transition: all 0.2s ease;
+        }
+        .chip-button:active {
+            transform: scale(0.95);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="flex flex-col h-screen">
+<header class="pt-8 pb-6 px-6 flex items-center justify-between sticky top-0 z-10 bg-[#121212]/90 backdrop-blur-md">
+<button class="text-white p-2 -ml-2 rounded-full hover:bg-white/10 transition-colors">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div class="flex items-center gap-1 opacity-80">
+<span class="material-symbols-outlined text-[var(--spark-gold)] text-sm">shield</span>
+<span class="text-xs font-medium tracking-wide uppercase text-[var(--spark-gold)]">Secure Payment</span>
+</div>
+</header>
+<main class="flex-grow px-6 pb-24 overflow-y-auto">
+<div class="text-center mb-8 mt-2">
+<p class="text-[var(--text-gray)] text-sm font-medium mb-2">Current Buying Power</p>
+<h1 class="text-5xl font-bold tracking-tight text-white mb-1">$0.00</h1>
+</div>
+<div class="glass-panel rounded-2xl p-5 mb-8 relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-[var(--spark-gold)]"></div>
+<div class="flex items-start gap-4">
+<div class="bg-[rgba(255,215,0,0.1)] p-2 rounded-lg shrink-0">
+<span class="material-symbols-outlined text-[var(--spark-gold)]">info</span>
+</div>
+<div>
+<h3 class="font-semibold text-white text-sm mb-1">How Buying Power Works</h3>
+<p class="text-xs text-[var(--text-gray)] leading-relaxed">
+                        To ensure a safe marketplace, we require a <span class="text-white font-medium">10% refundable deposit</span> of your desired bid limit. Add funds to increase your limit instantly.
+                    </p>
+</div>
+</div>
+</div>
+<div class="mb-8">
+<label class="block text-sm font-medium text-[var(--text-gray)] mb-3">Amount to add</label>
+<div class="relative mb-4">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-2xl text-[var(--text-gray)]">$</span>
+<input class="w-full bg-[var(--input-bg)] text-white text-2xl font-semibold pl-10 pr-4 py-4 rounded-xl border-none focus:ring-2 focus:ring-[var(--spark-gold)] placeholder-gray-600 outline-none transition-all" placeholder="0" type="number"/>
+</div>
+<div class="grid grid-cols-3 gap-3">
+<button class="chip-button glass-panel py-3 rounded-xl border border-white/10 hover:border-[var(--spark-gold)] hover:bg-[rgba(255,215,0,0.05)] text-sm font-medium transition-colors">
+                    +$100
+                </button>
+<button class="chip-button glass-panel py-3 rounded-xl border border-white/10 hover:border-[var(--spark-gold)] hover:bg-[rgba(255,215,0,0.05)] text-sm font-medium transition-colors">
+                    +$500
+                </button>
+<button class="chip-button glass-panel py-3 rounded-xl border border-white/10 hover:border-[var(--spark-gold)] hover:bg-[rgba(255,215,0,0.05)] text-sm font-medium transition-colors">
+                    +$1,000
+                </button>
+</div>
+</div>
+<div class="mb-8">
+<label class="block text-sm font-medium text-[var(--text-gray)] mb-3">Payment Method</label>
+<div class="space-y-3">
+<label class="relative block cursor-pointer group">
+<input checked="" class="custom-radio peer sr-only" name="payment" type="radio"/>
+<div class="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-[var(--card-bg)] peer-checked:border-[var(--spark-gold)] transition-all">
+<div class="flex items-center gap-3">
+<div class="w-10 h-6 bg-white rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-black text-lg">touch_app</span> 
+</div>
+<span class="font-medium text-sm">Apple Pay</span>
+</div>
+<div class="radio-indicator w-5 h-5 rounded-full border-2 border-gray-600 relative"></div>
+</div>
+</label>
+<label class="relative block cursor-pointer group">
+<input class="custom-radio peer sr-only" name="payment" type="radio"/>
+<div class="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-[var(--card-bg)] peer-checked:border-[var(--spark-gold)] transition-all">
+<div class="flex items-center gap-3">
+<div class="w-10 h-6 bg-gray-700 rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-sm">credit_card</span>
+</div>
+<div class="flex flex-col">
+<span class="font-medium text-sm">Credit or Debit Card</span>
+<span class="text-[10px] text-gray-400">.... 8842</span>
+</div>
+</div>
+<div class="radio-indicator w-5 h-5 rounded-full border-2 border-gray-600 relative"></div>
+</div>
+</label>
+</div>
+</div>
+</main>
+<div class="fixed bottom-0 left-0 w-full p-6 bg-gradient-to-t from-[#121212] via-[#121212] to-transparent z-20">
+<button class="w-full gold-gradient-bg text-black font-bold py-4 rounded-xl text-lg shadow-[0_4px_20px_rgba(255,215,0,0.25)] hover:shadow-[0_4px_30px_rgba(255,215,0,0.4)] transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">add_circle</span>
+            Add Funds
+        </button>
+<p class="text-center mt-4 text-[10px] text-gray-500 flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[10px]">lock</span>
+            Encrypted and secure transaction
+        </p>
+</div>
+
+</body></html>

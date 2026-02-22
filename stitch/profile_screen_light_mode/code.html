@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Biddt Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ffd900",
+                        "primary-content": "#181710", // Dark text on yellow for contrast
+                        "background-light": "#f8f8f5",
+                        "background-dark": "#23200f",
+                        "surface-light": "#ffffff",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "2xl": "1.5rem", "full": "9999px" },
+                    boxShadow: {
+                        "soft": "0 4px 20px -2px rgba(0, 0, 0, 0.05)",
+                        "inner-soft": "inset 0 2px 4px 0 rgba(0, 0, 0, 0.02)",
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased selection:bg-primary selection:text-primary-content">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden pb-20">
+<!-- Header -->
+<header class="sticky top-0 z-10 flex items-center justify-between bg-surface-light/80 px-4 py-3 backdrop-blur-md">
+<h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">My Profile</h1>
+<button class="flex h-10 w-10 items-center justify-center rounded-full bg-background-light text-slate-600 transition hover:bg-slate-100 dark:bg-slate-800 dark:text-slate-300">
+<span class="material-symbols-outlined text-2xl">settings</span>
+</button>
+</header>
+<main class="flex flex-col gap-6 p-4">
+<!-- Profile Hero -->
+<div class="flex flex-col items-center gap-4">
+<div class="relative">
+<div class="h-28 w-28 overflow-hidden rounded-full border-4 border-surface-light shadow-soft" data-alt="Portrait of a smiling young man" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDCxJL85NAnwUXm6d9BgsivxUQBzSK8TNu-1xBjVj28ztzJdrYUkm_hhwsdUtUvyuY9voAK2xKnmluiVCV-VJL3ZyR1FDp6aJORGFc1QfZ47eiqnkygsxvgfSuklZD2J01rsev1oYzqpF09UUbEo5xhfwjKf7lwiYCNh_fhs4P7M99bq3eda1Uh0-NekJCToHUHMKe5cVIXYbZ9n9HDkRFkN6rGz3wGMKDYrIRf2ofvZv9dpPx6DFFW_A8Tw2WF2blHVZmvvNxTHw'); background-size: cover; background-position: center;"></div>
+<div class="absolute bottom-1 right-1 flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-content ring-4 ring-surface-light dark:ring-background-dark">
+<span class="material-symbols-outlined text-lg font-bold">verified</span>
+</div>
+</div>
+<div class="text-center">
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white">Alex Mitchell</h2>
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">San Francisco, CA • Joined 2021</p>
+</div>
+</div>
+<!-- Trust Score Section -->
+<div class="relative mx-auto flex w-full max-w-sm flex-col items-center justify-center rounded-2xl bg-surface-light p-6 shadow-soft dark:bg-slate-800">
+<div class="relative flex h-40 w-40 items-center justify-center">
+<!-- Circular Progress Background -->
+<svg class="h-full w-full -rotate-90 transform" viewbox="0 0 100 100">
+<circle class="text-background-light dark:text-slate-700" cx="50" cy="50" fill="none" r="45" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-primary" cx="50" cy="50" fill="none" r="45" stroke="currentColor" stroke-dasharray="283" stroke-dashoffset="5.6" stroke-linecap="round" stroke-width="8"></circle>
+</svg>
+<div class="absolute flex flex-col items-center text-center">
+<span class="text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">98</span>
+<span class="text-xs font-bold uppercase tracking-wider text-slate-400">Trust Score</span>
+</div>
+</div>
+<div class="mt-4 flex items-center gap-2 rounded-full bg-green-50 px-3 py-1 text-xs font-bold text-green-700 dark:bg-green-900/30 dark:text-green-400">
+<span class="material-symbols-outlined text-sm">shield</span>
+                    Excellent Standing
+                </div>
+</div>
+<!-- Stats Grid -->
+<div class="grid grid-cols-3 gap-3">
+<div class="flex flex-col items-center justify-center rounded-xl bg-surface-light p-4 text-center shadow-soft dark:bg-slate-800">
+<p class="text-2xl font-bold text-slate-900 dark:text-white">42</p>
+<p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Sold</p>
+</div>
+<div class="flex flex-col items-center justify-center rounded-xl bg-surface-light p-4 text-center shadow-soft dark:bg-slate-800">
+<p class="text-2xl font-bold text-slate-900 dark:text-white">5</p>
+<p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Active Bids</p>
+</div>
+<div class="flex flex-col items-center justify-center rounded-xl bg-surface-light p-4 text-center shadow-soft dark:bg-slate-800">
+<p class="text-lg font-bold text-slate-900 dark:text-white">&lt;1hr</p>
+<p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Reply Time</p>
+</div>
+</div>
+<!-- Menu List -->
+<div class="flex flex-col overflow-hidden rounded-2xl bg-surface-light shadow-soft dark:bg-slate-800">
+<a class="flex items-center justify-between border-b border-slate-50 p-4 transition active:bg-slate-50 dark:border-slate-700 dark:active:bg-slate-700/50" href="#">
+<div class="flex items-center gap-3">
+<div class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400">
+<span class="material-symbols-outlined">credit_card</span>
+</div>
+<span class="font-semibold text-slate-900 dark:text-white">Payment Methods</span>
+</div>
+<span class="material-symbols-outlined text-slate-300">chevron_right</span>
+</a>
+<a class="flex items-center justify-between border-b border-slate-50 p-4 transition active:bg-slate-50 dark:border-slate-700 dark:active:bg-slate-700/50" href="#">
+<div class="flex items-center gap-3">
+<div class="flex h-10 w-10 items-center justify-center rounded-full bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400">
+<span class="material-symbols-outlined">badge</span>
+</div>
+<span class="font-semibold text-slate-900 dark:text-white">Identity Verification</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs font-medium text-green-600 dark:text-green-400">Verified</span>
+<span class="material-symbols-outlined text-slate-300">chevron_right</span>
+</div>
+</a>
+<a class="flex items-center justify-between p-4 transition active:bg-slate-50 dark:active:bg-slate-700/50" href="#">
+<div class="flex items-center gap-3">
+<div class="flex h-10 w-10 items-center justify-center rounded-full bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400">
+<span class="material-symbols-outlined">headset_mic</span>
+</div>
+<span class="font-semibold text-slate-900 dark:text-white">Support</span>
+</div>
+<span class="material-symbols-outlined text-slate-300">chevron_right</span>
+</a>
+</div>
+<!-- Recent Reviews -->
+<div class="flex flex-col gap-4">
+<div class="flex items-center justify-between px-1">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Recent Reviews</h3>
+<a class="text-sm font-semibold text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary" href="#">See All</a>
+</div>
+<!-- Horizontal Scroll Container -->
+<div class="-mx-4 flex gap-4 overflow-x-auto px-4 pb-4 pt-1 scrollbar-hide">
+<!-- Review Card 1 -->
+<div class="flex min-w-[280px] flex-col gap-3 rounded-2xl bg-surface-light p-4 shadow-soft dark:bg-slate-800">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-slate-200" data-alt="Reviewer Sarah avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAGTWWk-Eqj87QXOJ_MN1qdfF-kABb433oM1FnX-wnPiuU8eQ6r_7gv51vDWiqKYvFqGQDBlueWGA7S6yfb4RfqRf3DZURjhejBbPTr6kiz-zc48LfEF5VtvxSqniX_IpnOAoaHLAZWzfyehOI5EEJqcJD3wg2WaTGp49MsBBiCSMwhoe7nXea612J5nS7vitrWt93C5TdlRb19Fyy_N9wxWhQkUCV6GY7wS6fpwHsGtlKugBwRKxKysy4VisTI6zcYHSkJGsxacw'); background-size: cover;"></div>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">Sarah Jenkins</p>
+<div class="flex items-center gap-0.5 text-primary">
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+</div>
+</div>
+<span class="ml-auto text-xs text-slate-400">2d ago</span>
+</div>
+<p class="text-sm leading-relaxed text-slate-600 dark:text-slate-300">"Transaction was smooth and safe. Alex was super responsive and the item was exactly as described. Highly recommend!"</p>
+</div>
+<!-- Review Card 2 -->
+<div class="flex min-w-[280px] flex-col gap-3 rounded-2xl bg-surface-light p-4 shadow-soft dark:bg-slate-800">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-slate-200" data-alt="Reviewer Mike avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD1R2ZdoOwSAdjbPeru1gjh0CSffV7gFFyEb-8xe5G3KDhko_UgS02sH6YtzWtN1PwNa1QPGjWE-yIDat5G99y3sPg-QPeResOGlrlQT3oceHUAFSt02sCaSMmLXSZOgiizhjXrt0F5LSra-mBpX7TEtAKnSerX-lGA8BpBUn7EEoTBwhEw67Y9tdRDstcga69fYpE-oNC-rCzld1sjGR8DYbuhNAg9aye5VNaQJeFZPvTx5j0tftQ2bZ3nlxLg19fea3nMPzWhEA'); background-size: cover;"></div>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">Mike T.</p>
+<div class="flex items-center gap-0.5 text-primary">
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+<span class="material-symbols-outlined text-[16px] fill-current">star</span>
+<span class="material-symbols-outlined text-[16px] fill-current">star_half</span>
+</div>
+</div>
+<span class="ml-auto text-xs text-slate-400">1w ago</span>
+</div>
+<p class="text-sm leading-relaxed text-slate-600 dark:text-slate-300">"Good seller, quick meetup. The item had a small scratch not mentioned but otherwise good value."</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 z-50 flex w-full items-center justify-around border-t border-slate-100 bg-surface-light/95 px-2 pb-safe pt-2 backdrop-blur dark:border-slate-800 dark:bg-slate-900/95">
+<a class="flex flex-1 flex-col items-center gap-1 p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300" href="#">
+<span class="material-symbols-outlined text-2xl">home</span>
+<span class="text-[10px] font-medium">Home</span>
+</a>
+<a class="flex flex-1 flex-col items-center gap-1 p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300" href="#">
+<span class="material-symbols-outlined text-2xl">search</span>
+<span class="text-[10px] font-medium">Search</span>
+</a>
+<div class="relative -top-5 flex flex-1 flex-col items-center">
+<button class="flex h-14 w-14 items-center justify-center rounded-full bg-slate-900 text-white shadow-lg transition hover:scale-105 active:scale-95 dark:bg-primary dark:text-primary-content">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+</div>
+<a class="flex flex-1 flex-col items-center gap-1 p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300" href="#">
+<span class="material-symbols-outlined text-2xl">chat_bubble</span>
+<span class="text-[10px] font-medium">Messages</span>
+</a>
+<a class="flex flex-1 flex-col items-center gap-1 p-2 text-primary" href="#">
+<span class="material-symbols-outlined text-2xl font-variation-fill">person</span>
+<span class="text-[10px] font-medium">Profile</span>
+</a>
+</nav>
+<style>
+            /* Custom utility for filled material icons */
+            .font-variation-fill {
+                font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            }
+            /* Hide scrollbar for clean horizontal scrolling */
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            /* Safe area for iPhone home indicator */
+            .pb-safe {
+                padding-bottom: env(safe-area-inset-bottom, 20px);
+            }
+        </style>
+</div>
+</body></html>

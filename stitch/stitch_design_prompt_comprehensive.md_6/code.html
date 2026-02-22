@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Refined Home Discovery</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {
+            --charcoal-black: #121212;
+            --charcoal-surface: #1E1E1E;
+            --glass-surface: rgba(30, 30, 30, 0.6);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --gold-gradient-start: #D4AF37;
+            --gold-gradient-end: #AA8A2E;
+            --text-primary: #F5F5F5;
+            --text-secondary: #A0A0A0;
+            --diamond-cyan: #00E5FF;
+            --spark-orange: #FF5722;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--charcoal-black);
+            color: var(--text-primary);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .glass-panel {
+            background: var(--glass-surface);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+        }
+        .gold-diamond-btn {
+            background: linear-gradient(135deg, var(--gold-gradient-start) 0%, var(--gold-gradient-end) 100%);
+            transform: rotate(45deg);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+        .gold-diamond-icon {
+            transform: rotate(-45deg);
+        }
+        .live-pulse {
+            animation: pulse 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: .7; transform: scale(1.1); }
+        }
+    </style>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="h-screen w-full flex flex-col overflow-hidden relative selection:bg-[var(--gold-gradient-start)] selection:text-black">
+<div class="h-12 w-full shrink-0"></div>
+<header class="px-6 py-3 shrink-0 flex flex-col gap-5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-[var(--gold-gradient-start)] filled text-3xl" style="font-variation-settings: 'FILL' 1;">diamond</span>
+<span class="text-2xl font-bold tracking-tight text-white">Biddt</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex flex-col items-end mr-1">
+<span class="text-[10px] uppercase tracking-wider text-[var(--text-secondary)] font-semibold">Buying Power</span>
+<span class="text-sm font-bold text-[var(--gold-gradient-start)]">$1,250</span>
+</div>
+<button class="relative p-1 rounded-full hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined text-[var(--text-primary)]">notifications</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-[var(--spark-orange)] rounded-full border border-[var(--charcoal-black)]"></span>
+</button>
+</div>
+</div>
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-secondary)]">search</span>
+<input class="w-full glass-panel text-[var(--text-primary)] placeholder-[var(--text-secondary)] rounded-2xl py-3.5 pl-12 pr-12 focus:ring-1 focus:ring-[var(--gold-gradient-start)] focus:border-[var(--gold-gradient-start)] text-[15px] font-medium transition-all" placeholder="Search for treasure..." type="text"/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-[var(--text-secondary)]">mic</span>
+</div>
+</header>
+<div class="shrink-0 mt-3 mb-2">
+<div class="flex overflow-x-auto no-scrollbar px-6 pb-2 gap-3">
+<button class="bg-[var(--text-primary)] text-[var(--charcoal-black)] font-semibold px-6 py-2.5 rounded-full text-sm whitespace-nowrap shadow-sm">All</button>
+<button class="glass-panel text-[var(--text-secondary)] px-6 py-2.5 rounded-full text-sm font-medium whitespace-nowrap hover:bg-white/10 transition-colors">Electronics</button>
+<button class="glass-panel text-[var(--text-secondary)] px-6 py-2.5 rounded-full text-sm font-medium whitespace-nowrap hover:bg-white/10 transition-colors">Fashion</button>
+<button class="glass-panel text-[var(--text-secondary)] px-6 py-2.5 rounded-full text-sm font-medium whitespace-nowrap hover:bg-white/10 transition-colors">Collectibles</button>
+<button class="glass-panel text-[var(--text-secondary)] px-6 py-2.5 rounded-full text-sm font-medium whitespace-nowrap hover:bg-white/10 transition-colors">Home</button>
+</div>
+</div>
+<main class="flex-1 overflow-y-auto no-scrollbar pb-32">
+<section class="mt-6 pl-6">
+<div class="flex items-center justify-between pr-6 mb-5">
+<h2 class="text-xl font-bold flex items-center gap-2.5 tracking-tight">
+<span class="w-2.5 h-2.5 rounded-full bg-[var(--spark-orange)] live-pulse box-content border-2 border-[var(--charcoal-black)]"></span>
+                    Live Auctions
+                </h2>
+<a class="text-[var(--gold-gradient-start)] text-xs font-semibold tracking-wide uppercase" href="#">View All</a>
+</div>
+<div class="flex overflow-x-auto no-scrollbar gap-5 pr-6 pb-6">
+<div class="relative w-44 shrink-0 glass-panel rounded-2xl overflow-hidden shadow-2xl group transition-transform active:scale-95">
+<div class="relative h-52 w-full">
+<img alt="Vintage Camera" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAsTLVdkpz4stO2DWiRXNF60Izg-q41N_3lbz0xZWvuwmeQFXf5R7BJhPzZKks1A-Y__xm_34NnNkJNGcuilm8Gb4jH0dHZ1XyQdIjsS7NUd4u5vnmznC1VSfNKFJLKpwOELV_K-PDtsnaUedmeXoEpZeLzkZM0VuT7xmQ3eRWaK9cSzOTLR0dk4u86qUo6TZQnsomvVh0kyS1A2jLixdApxFnPtdgV91ndyxlwIF8Mg9UKc-rO_h80tLCHS3JXnqo7xklFwzEHQ"/>
+<div class="absolute top-2.5 left-2.5 bg-black/70 backdrop-blur-md px-2.5 py-1 rounded-full flex items-center gap-1.5 border border-white/10">
+<span class="w-1.5 h-1.5 rounded-full bg-[var(--spark-orange)] live-pulse"></span>
+<span class="text-[10px] font-bold tracking-wider text-white">LIVE</span>
+</div>
+<div class="absolute bottom-0 w-full bg-gradient-to-t from-[var(--charcoal-surface)] via-[var(--charcoal-surface)]/80 to-transparent h-20"></div>
+</div>
+<div class="p-3.5 pt-0 relative z-10 -mt-4">
+<h3 class="text-[15px] font-medium text-[var(--text-primary)] truncate leading-snug">Leica M6 Classic</h3>
+<div class="flex items-baseline justify-between mt-1.5">
+<span class="text-lg font-bold text-white">$2,450</span>
+</div>
+<div class="mt-2.5 flex items-center gap-1.5 text-[var(--spark-orange)] bg-[var(--spark-orange)]/10 py-1 px-2 rounded-lg w-fit">
+<span class="material-symbols-outlined text-[16px]">timer</span>
+<span class="text-xs font-bold font-mono">04:12</span>
+</div>
+</div>
+</div>
+<div class="relative w-44 shrink-0 glass-panel rounded-2xl overflow-hidden shadow-2xl transition-transform active:scale-95">
+<div class="relative h-52 w-full">
+<img alt="Sneakers" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAz02BcCu9yYnwHrMGRWecgOAD0gDk3adA6MTgHYJRAodLmEkObdysb3uA2F6YriLOVyd1-rrsr1guD9f_9HUKj_N7y5LWFUFTWkupzHLHq6wWTdk_L8oQlgnLyRB1GFPLCjzcdXVGAleD5FpxIAUXFg2AJkeCW-Dr_ArnHzfznoJ5pnM1FF48ub9ZK_R-AnTtbApg_rioXZkb8pnBXs8jU58tgfbZkNbPG4rAQTmHZGbJaG-BtQgrxHm-6w5cOU2QExJjcOqOfYQ"/>
+<div class="absolute top-2.5 left-2.5 bg-black/70 backdrop-blur-md px-2.5 py-1 rounded-full flex items-center gap-1.5 border border-white/10">
+<span class="w-1.5 h-1.5 rounded-full bg-[var(--spark-orange)] live-pulse"></span>
+<span class="text-[10px] font-bold tracking-wider text-white">LIVE</span>
+</div>
+<div class="absolute bottom-0 w-full bg-gradient-to-t from-[var(--charcoal-surface)] via-[var(--charcoal-surface)]/80 to-transparent h-20"></div>
+</div>
+<div class="p-3.5 pt-0 relative z-10 -mt-4">
+<h3 class="text-[15px] font-medium text-[var(--text-primary)] truncate leading-snug">Nike Dunk Low</h3>
+<div class="flex items-baseline justify-between mt-1.5">
+<span class="text-lg font-bold text-white">$215</span>
+</div>
+<div class="mt-2.5 flex items-center gap-1.5 text-[var(--spark-orange)] bg-[var(--spark-orange)]/10 py-1 px-2 rounded-lg w-fit">
+<span class="material-symbols-outlined text-[16px]">timer</span>
+<span class="text-xs font-bold font-mono">01:45</span>
+</div>
+</div>
+</div>
+<div class="relative w-44 shrink-0 glass-panel rounded-2xl overflow-hidden shadow-2xl transition-transform active:scale-95">
+<div class="relative h-52 w-full">
+<img alt="Headphones" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCa0i7SOJVhiTXP0T4KX_wcVLbEu-Uc_rSTkiuQ08zBMWJqGmcn2wQoJ4WgbYVTvCAqgjByugfCDCSd81CoftNlvtWylbkjk64nqAfbRXc22SWA77_vq7_Q3NMEBztDk8CmdPqDsCJNikfLDD_Z2KuNE0W7R6pTjKDIDyXRnz3UOrZAqhKQFHsU6GTOr34XkvzfyVGeNboegM46J6-AgVymRYMGagR5dp7B1SKTi8z-ifjHKhMUWRf94Cf7pgfJda7taif_Fp4JIA"/>
+<div class="absolute top-2.5 left-2.5 bg-black/70 backdrop-blur-md px-2.5 py-1 rounded-full flex items-center gap-1.5 border border-white/10">
+<span class="w-1.5 h-1.5 rounded-full bg-[var(--spark-orange)] live-pulse"></span>
+<span class="text-[10px] font-bold tracking-wider text-white">LIVE</span>
+</div>
+<div class="absolute bottom-0 w-full bg-gradient-to-t from-[var(--charcoal-surface)] via-[var(--charcoal-surface)]/80 to-transparent h-20"></div>
+</div>
+<div class="p-3.5 pt-0 relative z-10 -mt-4">
+<h3 class="text-[15px] font-medium text-[var(--text-primary)] truncate leading-snug">Sony WH-1000XM5</h3>
+<div class="flex items-baseline justify-between mt-1.5">
+<span class="text-lg font-bold text-white">$180</span>
+</div>
+<div class="mt-2.5 flex items-center gap-1.5 text-[var(--spark-orange)] bg-[var(--spark-orange)]/10 py-1 px-2 rounded-lg w-fit">
+<span class="material-symbols-outlined text-[16px]">timer</span>
+<span class="text-xs font-bold font-mono">12:30</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="mt-4 px-6 pb-6">
+<h2 class="text-xl font-bold mb-5 tracking-tight text-white">Trending Now</h2>
+<div class="grid grid-cols-2 gap-5">
+<div class="glass-panel rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all">
+<div class="h-44 w-full relative">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHIRl10X7BdaZfgwU_tn2EEXKYuptKUwFco1C2r_ez8j4uHnVC4rZxi8c9O9b03ACxuZE1OO7q1PFe6SQHlHu4Z83NCwjTCjfzpdqFwqgEU9n-74vegDeaoEMLjzwB0xKNxT0bpsNTse180FhTEtsgCRIk6qO_eCSoZp-MllLIZGDpSNyJWY179ZG9lX3jAbHQli28d6U_9ynbRSEt54b6z8cTAOI-UQ9PWyblKGatTLi0PKbTds3FE-3B9c8lSVB67K5virMv8w"/>
+<button class="absolute top-2.5 right-2.5 w-8 h-8 rounded-full bg-black/50 flex items-center justify-center backdrop-blur-md border border-white/10 active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-white text-[16px]">favorite</span>
+</button>
+</div>
+<div class="p-4">
+<div class="text-[11px] uppercase tracking-wide text-[var(--text-secondary)] mb-1.5 font-semibold">Sneakers</div>
+<h3 class="text-sm font-semibold text-white mb-2 line-clamp-1">Air Jordan 1 Retro</h3>
+<div class="flex justify-between items-end">
+<span class="font-bold text-base text-[var(--text-primary)]">$340</span>
+<span class="text-[11px] font-medium text-[var(--text-secondary)] bg-white/5 px-1.5 py-0.5 rounded">22 bids</span>
+</div>
+</div>
+</div>
+<div class="glass-panel rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all">
+<div class="h-44 w-full relative">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3DWaazmO6pl5WBmZmw4Tpblb4Fd0Jt-oMB9pk6lKKqDDONxGEvUVWVZsAKypHrVsd4hQ_u8jXJzFkF7dfZ_EcelA3HdjQ_BRMB_nZEh7oCmzItjzyQ_9c0UVUS1NwIe4WDZ7M0-39B5rHFJLb0hj6Fkc1Z7a8qC_81cyOTumXB6RkcQP9mFuvatMuOiYaoXrKnPdw0htBqDfLWYmjskQ5V7zVwypD66a1yvPnp0TCbuvXqbbdsjtHuhFd7h_hrBQ_2jHIiQqiyA"/>
+<button class="absolute top-2.5 right-2.5 w-8 h-8 rounded-full bg-black/50 flex items-center justify-center backdrop-blur-md border border-white/10 active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-white text-[16px]">favorite</span>
+</button>
+</div>
+<div class="p-4">
+<div class="text-[11px] uppercase tracking-wide text-[var(--text-secondary)] mb-1.5 font-semibold">Watches</div>
+<h3 class="text-sm font-semibold text-white mb-2 line-clamp-1">Seiko Presage</h3>
+<div class="flex justify-between items-end">
+<span class="font-bold text-base text-[var(--text-primary)]">$290</span>
+<span class="text-[11px] font-medium text-[var(--text-secondary)] bg-white/5 px-1.5 py-0.5 rounded">8 bids</span>
+</div>
+</div>
+</div>
+<div class="glass-panel rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all">
+<div class="h-44 w-full relative">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMteXrbLPMLqJa1VWj51SjM4hNTZsP9oWE8s9TG9M9CMJyunTFzKfP6q94tCaHx8a3NL26YPhudSyVWtJeGmN5JbH2pfyGWi17t-ARrtkAxtZLMN-Ne0aRfHs7-PVBdAWpYMxqRWDu1lIJr9Afc-lgNsQO9uxiOwEHO0fv4HVeuD6CU2ASCE5rQ94l7PZKdLiRKb1Gln8SOljGYirNt7LFF_Ub-E_rD5K9atJcucOMC7g324aFneixRYZNyUOe55Zd7RDQh-lViA"/>
+<button class="absolute top-2.5 right-2.5 w-8 h-8 rounded-full bg-black/50 flex items-center justify-center backdrop-blur-md border border-white/10 active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-white text-[16px]">favorite</span>
+</button>
+</div>
+<div class="p-4">
+<div class="text-[11px] uppercase tracking-wide text-[var(--text-secondary)] mb-1.5 font-semibold">Audio</div>
+<h3 class="text-sm font-semibold text-white mb-2 line-clamp-1">Marshall Emberton</h3>
+<div class="flex justify-between items-end">
+<span class="font-bold text-base text-[var(--text-primary)]">$115</span>
+<span class="text-[11px] font-medium text-[var(--text-secondary)] bg-white/5 px-1.5 py-0.5 rounded">14 bids</span>
+</div>
+</div>
+</div>
+<div class="glass-panel rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all">
+<div class="h-44 w-full relative">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_nbq5KLepDxwqGhMkFeZesK-gdcUnWY9bdDEEjCEESr0A4sujVQPomkeGAcR9Sji3kMKjWNKPVVVQeLfhrbv1l4kff0CGdTvZgdrszwSfM6nyegWXVm3hUCGFxPPaSldaUTjXOtpF3fguvUcRDv4utUPs2ak8N6TtbiiOKFOVSzoOqOHsVFXmyqgBT4sBeRP0FN686lk1xYUqkjBfLkwvfsBGRXtrIzRVsavYN7UFLVRLnjeSoHEu46vrSI8XSzMpG3USXtqo5Q"/>
+<button class="absolute top-2.5 right-2.5 w-8 h-8 rounded-full bg-black/50 flex items-center justify-center backdrop-blur-md border border-white/10 active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-white text-[16px]">favorite</span>
+</button>
+</div>
+<div class="p-4">
+<div class="text-[11px] uppercase tracking-wide text-[var(--text-secondary)] mb-1.5 font-semibold">Technology</div>
+<h3 class="text-sm font-semibold text-white mb-2 line-clamp-1">iPhone 13 Mini</h3>
+<div class="flex justify-between items-end">
+<span class="font-bold text-base text-[var(--text-primary)]">$420</span>
+<span class="text-[11px] font-medium text-[var(--text-secondary)] bg-white/5 px-1.5 py-0.5 rounded">31 bids</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<nav class="absolute bottom-0 w-full bg-[rgba(18,18,18,0.95)] backdrop-blur-xl border-t border-white/5 pb-8 pt-3 z-50">
+<div class="flex justify-between items-end px-7 relative">
+<button class="flex flex-col items-center gap-1.5 group w-12">
+<span class="material-symbols-outlined text-white text-2xl">home</span>
+</button>
+<button class="flex flex-col items-center gap-1.5 group w-12">
+<span class="material-symbols-outlined text-[var(--text-secondary)] text-2xl group-hover:text-white transition-colors">search</span>
+</button>
+<div class="relative -top-8">
+<button class="w-16 h-16 gold-diamond-btn flex items-center justify-center transform transition-all active:scale-95 active:rotate-45 shadow-[0_0_20px_rgba(212,175,55,0.4)]">
+<span class="material-symbols-outlined text-black text-3xl font-bold filled gold-diamond-icon" style="font-variation-settings: 'FILL' 0, 'wght' 600;">add</span>
+</button>
+<div class="absolute -bottom-6 w-full text-center pointer-events-none">
+<span class="text-[10px] font-bold text-[var(--gold-gradient-start)] uppercase tracking-wide">Sell</span>
+</div>
+</div>
+<button class="flex flex-col items-center gap-1.5 group w-12 relative">
+<div class="relative">
+<span class="material-symbols-outlined text-[var(--text-secondary)] text-2xl group-hover:text-white transition-colors">chat_bubble</span>
+<span class="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-[var(--spark-orange)] rounded-full border-2 border-[var(--charcoal-black)]"></span>
+</div>
+</button>
+<button class="flex flex-col items-center gap-1.5 group w-12">
+<span class="material-symbols-outlined text-[var(--text-secondary)] text-2xl group-hover:text-white transition-colors">person</span>
+</button>
+</div>
+</nav>
+
+</body></html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Biddt - Product Detail</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+        :root {--charcoal-black: #121212;
+            --charcoal-dark: #1E1E1E;
+            --charcoal-light: #2C2C2C;
+            --charcoal-border: #3D3D3D;
+            --diamond-cyan: #00E5FF;
+            --diamond-purple: #7B61FF;
+            --spark-gold: #FFD700;
+            --pure-white: #FFFFFF;
+            --soft-white: #F0F0F0;
+            --muted: #A1A1AA;
+            --success: #00C853;
+            --alert-bg: #422006;
+            --alert-text: #FDBA74;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--charcoal-black);
+            color: var(--pure-white);
+        }
+        .bg-primary-gradient {
+            background: linear-gradient(135deg, var(--diamond-cyan) 0%, var(--diamond-purple) 100%);
+        }
+        .bg-gold-gradient {
+            background: linear-gradient(135deg, #FFECB3 0%, #FFD700 40%, #FFC107 100%);
+        }
+        .text-gold {
+            color: var(--spark-gold);
+        }
+        .pulsing-dot {
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .glow-button {
+            animation: glow-pulse 3s infinite;
+        }
+        @keyframes glow-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.2); }
+            50% { box-shadow: 0 0 15px 2px rgba(255, 215, 0, 0.4); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.2); }
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased min-h-screen pb-24 relative bg-[var(--charcoal-black)]">
+<header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 bg-[var(--charcoal-black)]/80 backdrop-blur-md border-b border-[var(--charcoal-border)]">
+<button class="p-2 rounded-full bg-[var(--charcoal-dark)] text-white hover:bg-[var(--charcoal-light)] transition-colors border border-[var(--charcoal-border)]">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div class="flex gap-3">
+<button class="p-2 rounded-full bg-[var(--charcoal-dark)] text-white hover:bg-[var(--charcoal-light)] transition-colors border border-[var(--charcoal-border)]">
+<span class="material-symbols-outlined">share</span>
+</button>
+<button class="p-2 rounded-full bg-[var(--charcoal-dark)] text-[var(--spark-gold)] hover:bg-[var(--charcoal-light)] transition-colors border border-[var(--charcoal-border)]">
+<span class="material-symbols-outlined fill-1">favorite</span>
+</button>
+</div>
+</header>
+<main class="pt-16">
+<div class="relative w-full aspect-video bg-[var(--charcoal-dark)] overflow-hidden group">
+<img alt="Vintage Omega Seamaster" class="w-full h-full object-cover opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-065qtcXKkGoUSV1Zpz8FJYEvAk1I7qCIPNrJ2gEuvHaGRiX-PPgJhSdpdjb-__JDQ2PhxI-DxN9l7IiYfLmxDhTlVT8x0rHgLMzLOVUWL8PoM6slIeclfHqb7rqOQ1Vc9JdrriHtVE2jNfkoeElww6v_9OO_qiH1hP7anrxZGv6-JOc3I1msCr8DgYaERIo8x-Wb-UKVaIBwYKlAtTOUI2m4FkHuWkFJcfF9dHWpV4WrKpGVzar2eVJcOlAua_R2nUpqnsS3kg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-[var(--charcoal-black)] to-transparent opacity-40"></div>
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-black/40 backdrop-blur-sm rounded-full flex items-center justify-center border border-[var(--spark-gold)]/50">
+<span class="material-symbols-outlined text-3xl text-[var(--spark-gold)]">360</span>
+</div>
+<div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+<div class="w-2 h-2 rounded-full bg-[var(--spark-gold)]"></div>
+<div class="w-2 h-2 rounded-full bg-[var(--pure-white)]/40"></div>
+<div class="w-2 h-2 rounded-full bg-[var(--pure-white)]/40"></div>
+<div class="w-2 h-2 rounded-full bg-[var(--pure-white)]/40"></div>
+</div>
+</div>
+<div class="bg-primary-gradient w-full py-2 px-4 flex items-center justify-between text-xs font-bold text-white shadow-lg relative z-10">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-white pulsing-dot"></div>
+<span>LIVE</span>
+</div>
+<div class="flex items-center gap-1 opacity-90">
+<span class="material-symbols-outlined text-sm">visibility</span>
+<span>12 watching</span>
+</div>
+<div class="font-mono bg-black/20 px-2 py-0.5 rounded text-[var(--pure-white)] border border-white/10">
+                04:22 remaining
+            </div>
+</div>
+<div class="px-4 mt-5 space-y-6">
+<div>
+<div class="flex items-start justify-between">
+<div>
+<span class="text-[var(--spark-gold)] text-xs font-bold tracking-wider uppercase mb-1 block">Vintage Watches</span>
+<h1 class="text-2xl font-bold text-[var(--pure-white)] leading-tight">1968 Omega Seamaster Cosmic</h1>
+</div>
+</div>
+<div class="flex items-center gap-2 mt-2 text-[var(--muted)] text-sm">
+<span class="material-symbols-outlined text-base">location_on</span>
+<span>Brooklyn, NY</span>
+<span class="text-[var(--charcoal-border)]">•</span>
+<span>Condition: Good</span>
+</div>
+</div>
+<div class="bg-[var(--charcoal-dark)] rounded-xl p-3 flex items-center justify-between border border-[var(--charcoal-border)]">
+<div class="flex items-center gap-3">
+<div class="relative">
+<img alt="Seller" class="w-10 h-10 rounded-full border-2 border-[var(--spark-gold)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChx-IvFXUP9uSn7CI5gpELJyhBIRYcH5VD0HWIs4LskzkuyCX0la6zqUtPia5XgDHtqvRn6y6cywm42qs2rstVlsVa2puuWQCwLwp43mEPsk41SMmumjFv7FW9mt6m0QLniqS_SRx1HBGk7cpV8TYWBKQ9uxriOWZySkrmYefhHk3tXb11X4cLb9kaeMWqK79C3iFQVLdFnG4Eq1VDzPE5etGaI3x20QJ96-Q9DhSX50HhSDK9z7G8lBLLGPRrvgkuQQUppQA1pw"/>
+<div class="absolute -bottom-1 -right-1 bg-[var(--charcoal-black)] rounded-full p-0.5">
+<span class="material-symbols-outlined text-[12px] text-[var(--spark-gold)]">verified</span>
+</div>
+</div>
+<div>
+<div class="text-sm font-semibold text-[var(--pure-white)]">VintageVault_NY</div>
+<div class="flex items-center gap-1">
+<span class="text-[var(--spark-gold)] text-xs">★ 4.9</span>
+<span class="text-[var(--muted)] text-xs">(128 sales)</span>
+</div>
+</div>
+</div>
+<button class="text-[var(--spark-gold)] text-xs font-semibold px-3 py-1.5 rounded-lg border border-[var(--spark-gold)]/30 hover:bg-[var(--spark-gold)]/10">
+                    Profile
+                </button>
+</div>
+<div class="bg-[var(--charcoal-dark)] rounded-2xl p-5 border border-[var(--charcoal-border)] relative overflow-hidden shadow-xl">
+<div class="absolute top-0 right-0 bg-[var(--success)]/20 text-[var(--success)] text-xs font-bold px-3 py-1 rounded-bl-xl border-l border-b border-[var(--success)]/30 backdrop-blur-sm">
+                    Highest Bidder
+                </div>
+<div class="text-center mb-6">
+<p class="text-[var(--muted)] text-sm mb-1 uppercase tracking-wide font-medium">Current Highest Bid</p>
+<div class="text-5xl font-extrabold text-[var(--pure-white)] tracking-tight">
+                        $240<span class="text-2xl text-[var(--muted)] align-top mt-2 inline-block">.00</span>
+</div>
+<p class="text-[var(--muted)] text-xs mt-2">Reserve price met</p>
+</div>
+<div class="bg-[var(--charcoal-black)] border border-[var(--spark-gold)]/30 rounded-lg p-3 mb-5 flex items-start gap-3">
+<div class="mt-0.5 text-[var(--spark-gold)]">
+<span class="material-symbols-outlined text-lg">account_balance_wallet</span>
+</div>
+<div>
+<div class="text-xs font-bold text-[var(--pure-white)] uppercase tracking-wide">Buying Power Required</div>
+<div class="text-[13px] text-[var(--muted)] leading-tight mt-0.5">
+                        A <span class="text-[var(--spark-gold)] font-semibold">10% Deposit ($24.00)</span> is required to place this bid. This amount is refundable if you do not win.
+                    </div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex gap-2">
+<button class="flex-1 bg-[var(--charcoal-light)] hover:bg-[var(--charcoal-black)] border border-[var(--charcoal-border)] hover:border-[var(--spark-gold)] text-[var(--pure-white)] py-3 rounded-xl font-semibold transition-all active:scale-95">
+                            +$5
+                        </button>
+<button class="flex-1 bg-[var(--charcoal-light)] hover:bg-[var(--charcoal-black)] border border-[var(--charcoal-border)] hover:border-[var(--spark-gold)] text-[var(--pure-white)] py-3 rounded-xl font-semibold transition-all active:scale-95">
+                            +$10
+                        </button>
+<button class="flex-1 bg-[var(--charcoal-light)] hover:bg-[var(--charcoal-black)] border border-[var(--charcoal-border)] hover:border-[var(--spark-gold)] text-[var(--pure-white)] py-3 rounded-xl font-semibold transition-all active:scale-95">
+                            +$25
+                        </button>
+</div>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted)] font-semibold">$</span>
+<input class="w-full bg-[var(--charcoal-light)] text-[var(--pure-white)] border border-[var(--charcoal-border)] rounded-xl py-3 pl-8 pr-4 text-lg font-bold focus:ring-2 focus:ring-[var(--spark-gold)] focus:border-transparent outline-none appearance-none placeholder-gray-500" type="number" value="245"/>
+</div>
+<button class="w-full bg-gold-gradient text-black py-4 rounded-xl font-bold text-lg shadow-lg glow-button active:scale-[0.98] transition-transform flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-xl">payments</span>
+<span>Deposit &amp; Place Bid</span>
+</button>
+<p class="text-[10px] text-[var(--muted)] text-center max-w-xs mx-auto leading-tight">
+                        By placing a bid, you agree to the Terms of Service and authorize the temporary hold of funds.
+                    </p>
+</div>
+</div>
+<div class="mt-8">
+<div class="flex border-b border-[var(--charcoal-border)] mb-4">
+<button class="flex-1 pb-3 text-center text-[var(--spark-gold)] border-b-2 border-[var(--spark-gold)] font-semibold">Description</button>
+<button class="flex-1 pb-3 text-center text-[var(--muted)] hover:text-[var(--soft-white)] font-medium">Bid History</button>
+<button class="flex-1 pb-3 text-center text-[var(--muted)] hover:text-[var(--soft-white)] font-medium">Authenticity</button>
+</div>
+<div class="text-[var(--soft-white)] text-sm leading-relaxed space-y-4 pb-8">
+<p>
+                        Stunning example of a 1968 Omega Seamaster Cosmic. The dial has a beautiful uniform patina that collectors love. The case is unpolished with sharp edges.
+                    </p>
+<ul class="space-y-2 mt-2">
+<li class="flex items-start gap-2">
+<span class="text-[var(--spark-gold)]">•</span>
+<span>Movement: Caliber 565 Automatic</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="text-[var(--spark-gold)]">•</span>
+<span>Case Size: 35mm (wears larger due to shape)</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="text-[var(--spark-gold)]">•</span>
+<span>Strap: Brand new leather strap included</span>
+</li>
+</ul>
+<p class="text-[var(--muted)] italic mt-4 text-xs">
+                        *Note: This is a vintage item and may show signs of wear consistent with age.
+                    </p>
+</div>
+</div>
+</div>
+</main>
+</body></html>

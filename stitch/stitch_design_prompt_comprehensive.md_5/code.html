@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Biddt Onboarding - Discover Treasure</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+        :root {
+            --charcoal-bg: #111111;
+            --charcoal-surface: #1C1C1E;
+            --charcoal-border: #2C2C2E;
+            --muted-gold: #C5A059;
+            --muted-gold-light: #E5C585;
+            --slate-blue: #64748B;
+            --slate-blue-dark: #475569;
+            --soft-white: #EAEAEA;
+            --text-muted: #A1A1AA;
+            --button-gold-start: #D4AF37;
+            --button-gold-end: #AA8C2C;
+            --diamond-cyan: #00D9FF;}
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--charcoal-bg);
+            color: #FFFFFF;
+        }
+        .gold-gradient-text {
+            background: linear-gradient(135deg, var(--muted-gold-light) 0%, var(--muted-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .sophisticated-gold-bg {
+            background: linear-gradient(135deg, #D4AF37 0%, #C5A059 50%, #B08D55 100%);
+        }
+        .map-glow {
+            box-shadow: 0 0 40px rgba(100, 116, 139, 0.1);
+        }
+        .diamond-shadow {
+            filter: drop-shadow(0 0 8px rgba(0, 217, 255, 0.4));
+        }
+        .glass-panel {
+            background: rgba(28, 28, 30, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+<style>
+        body {
+            min-height: max(800px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="h-screen w-full flex flex-col overflow-hidden relative selection:bg-[var(--muted-gold)] selection:text-black">
+<div class="absolute top-0 w-full z-20 px-6 pt-14 pb-4 flex justify-end items-center">
+<button class="text-[var(--text-muted)] text-sm font-medium hover:text-white transition-colors duration-200">
+            Skip
+        </button>
+</div>
+<div class="flex-1 flex flex-col items-center justify-center w-full px-6 relative z-10">
+<div class="w-full max-w-[340px] aspect-square relative mb-10 flex items-center justify-center">
+<div class="absolute inset-0 bg-[var(--charcoal-surface)] rounded-3xl transform rotate-3 border border-[var(--charcoal-border)] opacity-60"></div>
+<div class="absolute inset-0 bg-[var(--charcoal-surface)] rounded-3xl transform -rotate-2 border border-[var(--charcoal-border)] z-0 map-glow">
+<div class="absolute inset-0 opacity-10" style="background-image: linear-gradient([var(--slate-blue)] 1px, transparent 1px), linear-gradient(90deg, [var(--slate-blue)] 1px, transparent 1px); background-size: 24px 24px; border-radius: 1.5rem;"></div>
+<svg class="absolute inset-0 w-full h-full p-8 opacity-40" fill="none" viewBox="0 0 100 100">
+<path d="M20,80 C30,70 20,50 40,40 C60,30 50,60 80,20" stroke="var(--slate-blue)" stroke-dasharray="4 4" stroke-width="1.5"></path>
+</svg>
+</div>
+<div class="relative z-10 w-full h-full flex items-center justify-center">
+<div class="w-64 h-48 bg-gradient-to-br from-[#242426] to-[#18181A] rounded-xl border border-[var(--slate-blue-dark)] shadow-2xl relative overflow-hidden transform hover:scale-105 transition-transform duration-500">
+<div class="absolute inset-0 opacity-20">
+<svg class="w-full h-full" fill="none" viewBox="0 0 200 150">
+<path d="M0,100 Q50,50 100,80 T200,60" stroke="var(--muted-gold)" stroke-width="0.5"></path>
+<path d="M0,120 Q60,80 120,100 T200,90" stroke="var(--muted-gold)" stroke-width="0.5"></path>
+<path d="M0,140 Q70,110 140,120 T200,110" stroke="var(--muted-gold)" stroke-width="0.5"></path>
+</svg>
+</div>
+<div class="absolute top-8 right-12 animate-bounce" style="animation-duration: 3s;">
+<div class="relative flex flex-col items-center">
+<div class="w-10 h-10 bg-[var(--diamond-cyan)] transform rotate-45 diamond-shadow flex items-center justify-center rounded-sm">
+<div class="w-5 h-5 border border-white/60"></div>
+</div>
+<div class="absolute top-2 left-2 w-6 h-6 bg-[var(--diamond-cyan)] rounded-full animate-ping opacity-30"></div>
+<div class="w-[2px] h-6 bg-gradient-to-b from-white/40 to-transparent mx-auto -mt-1"></div>
+</div>
+</div>
+<div class="absolute bottom-8 left-10 text-[var(--muted-gold)] text-2xl font-serif font-bold opacity-60 transform -rotate-12">X</div>
+</div>
+<div class="absolute -right-2 top-10 w-10 h-10 rounded-full sophisticated-gold-bg shadow-lg flex items-center justify-center transform rotate-12 border border-[#FFFFFF20]">
+<span class="material-symbols-outlined text-[#3A2800] text-lg">attach_money</span>
+</div>
+<div class="absolute -left-4 bottom-20 w-12 h-12 glass-panel rounded-xl shadow-lg flex items-center justify-center transform -rotate-12">
+<span class="material-symbols-outlined text-[var(--slate-blue)] text-2xl">diamond</span>
+</div>
+</div>
+</div>
+<div class="w-full text-center space-y-5 max-w-xs mx-auto">
+<h1 class="text-3xl font-bold tracking-tight leading-tight text-white">
+                Discover <br/>
+<span class="text-white">Hidden Gems</span>
+</h1>
+<p class="text-[var(--text-muted)] text-[15px] leading-relaxed font-normal">
+                Find unique items from local sellers. Every listing is a potential treasure waiting for you.
+            </p>
+</div>
+</div>
+<div class="w-full px-6 pb-12 pt-4 bg-gradient-to-t from-[var(--charcoal-bg)] via-[var(--charcoal-bg)] to-transparent">
+<div class="flex flex-col items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="w-8 h-1.5 rounded-full bg-[var(--diamond-cyan)] shadow-[0_0_8px_rgba(0,217,255,0.4)]"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-[var(--charcoal-border)]"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-[var(--charcoal-border)]"></div>
+</div>
+<button class="w-full h-14 rounded-xl sophisticated-gold-bg flex items-center justify-center shadow-lg shadow-[#D4AF3720] active:scale-[0.98] transition-all duration-200 group relative overflow-hidden">
+<div class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+<span class="text-[#2A1F00] text-[17px] font-bold mr-2 tracking-wide">Next</span>
+<span class="material-symbols-outlined text-[#2A1F00] transition-transform duration-300 group-hover:translate-x-1 text-sm font-bold">arrow_forward</span>
+</button>
+</div>
+</div>
+
+</body></html>

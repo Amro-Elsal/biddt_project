@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Biddt - Product Detail</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style type="text/tailwindcss">
+        :root {
+            --charcoal-black: #1C1C1E;
+            --slate-blue: #5B7CA6;
+            --deep-slate: #2C3E50;
+            --antique-gold: #C5A059;
+            --antique-gold-light: #E5C585;
+            --pure-white: #FFFFFF;
+            --soft-white: #E8E8E8;
+            --muted-gray: #8E8E93;
+            --success-green: #34C759;
+            --card-bg: #2C2C2E;
+            --input-bg: #3A3A3C;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--charcoal-black);
+            color: var(--pure-white);
+        }
+        .bg-status-gradient {
+            background: linear-gradient(90deg, var(--deep-slate) 0%, var(--slate-blue) 100%);
+        }
+        .bg-gold-gradient {
+            background: linear-gradient(135deg, var(--antique-gold) 0%, var(--antique-gold-light) 100%);
+        }
+        .text-gold {
+            color: var(--antique-gold);
+        }
+        .pulsing-dot {
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .glow-button {
+            animation: glow-pulse 3s infinite;
+        }
+        @keyframes glow-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(197, 160, 89, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0); }
+        }
+        .rotate-icon {
+            animation: slow-spin 8s linear infinite;
+        }
+        @keyframes slow-spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased min-h-screen pb-24 relative">
+<header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 bg-[var(--charcoal-black)]/90 backdrop-blur-md border-b border-[var(--input-bg)]">
+<button class="p-2 rounded-full bg-[var(--card-bg)] text-white hover:bg-[var(--input-bg)] transition-colors">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div class="flex gap-3">
+<button class="p-2 rounded-full bg-[var(--card-bg)] text-white hover:bg-[var(--input-bg)] transition-colors">
+<span class="material-symbols-outlined">share</span>
+</button>
+<button class="p-2 rounded-full bg-[var(--card-bg)] text-[var(--antique-gold)] hover:bg-[var(--input-bg)] transition-colors">
+<span class="material-symbols-outlined fill-1">favorite</span>
+</button>
+</div>
+</header>
+<main class="pt-16">
+<div class="relative w-full aspect-video bg-[var(--card-bg)] overflow-hidden group">
+<img alt="Vintage Omega Seamaster" class="w-full h-full object-cover opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-065qtcXKkGoUSV1Zpz8FJYEvAk1I7qCIPNrJ2gEuvHaGRiX-PPgJhSdpdjb-__JDQ2PhxI-DxN9l7IiYfLmxDhTlVT8x0rHgLMzLOVUWL8PoM6slIeclfHqb7rqOQ1Vc9JdrriHtVE2jNfkoeElww6v_9OO_qiH1hP7anrxZGv6-JOc3I1msCr8DgYaERIo8x-Wb-UKVaIBwYKlAtTOUI2m4FkHuWkFJcfF9dHWpV4WrKpGVzar2eVJcOlAua_R2nUpqnsS3kg"/>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="bg-black/30 backdrop-blur-[2px] p-4 rounded-full border border-white/10">
+<span class="material-symbols-outlined text-[var(--pure-white)] text-4xl opacity-80 rotate-icon">360</span>
+</div>
+</div>
+<div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+<div class="w-2 h-2 rounded-full bg-[var(--antique-gold)]"></div>
+<div class="w-2 h-2 rounded-full bg-[var(--pure-white)]/40"></div>
+<div class="w-2 h-2 rounded-full bg-[var(--pure-white)]/40"></div>
+<div class="w-2 h-2 rounded-full bg-[var(--pure-white)]/40"></div>
+</div>
+</div>
+<div class="bg-status-gradient w-full py-2 px-4 flex items-center justify-between text-xs font-bold text-white shadow-lg border-t border-[var(--slate-blue)]/30">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-[var(--success-green)] pulsing-dot"></div>
+<span class="tracking-wide">LIVE AUCTION</span>
+</div>
+<div class="flex items-center gap-1 opacity-90">
+<span class="material-symbols-outlined text-sm">visibility</span>
+<span>12 watching</span>
+</div>
+<div class="font-mono bg-black/20 px-2 py-0.5 rounded text-[var(--pure-white)] border border-white/10">
+                04:22 remaining
+            </div>
+</div>
+<div class="px-4 mt-5 space-y-6">
+<div>
+<div class="flex items-start justify-between">
+<div>
+<span class="text-[var(--slate-blue)] text-xs font-bold tracking-wider uppercase mb-1 block">Vintage Watches</span>
+<h1 class="text-2xl font-bold text-[var(--pure-white)] leading-tight font-serif tracking-tight">1968 Omega Seamaster Cosmic</h1>
+</div>
+</div>
+<div class="flex items-center gap-2 mt-2 text-[var(--muted-gray)] text-sm">
+<span class="material-symbols-outlined text-base">location_on</span>
+<span>Brooklyn, NY</span>
+<span class="text-[var(--input-bg)]">•</span>
+<span>Condition: Good</span>
+</div>
+</div>
+<div class="bg-[var(--card-bg)] rounded-xl p-3 flex items-center justify-between border border-[var(--input-bg)]">
+<div class="flex items-center gap-3">
+<div class="relative">
+<img alt="Seller" class="w-10 h-10 rounded-full border-2 border-[var(--slate-blue)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChx-IvFXUP9uSn7CI5gpELJyhBIRYcH5VD0HWIs4LskzkuyCX0la6zqUtPia5XgDHtqvRn6y6cywm42qs2rstVlsVa2puuWQCwLwp43mEPsk41SMmumjFv7FW9mt6m0QLniqS_SRx1HBGk7cpV8TYWBKQ9uxriOWZySkrmYefhHk3tXb11X4cLb9kaeMWqK79C3iFQVLdFnG4Eq1VDzPE5etGaI3x20QJ96-Q9DhSX50HhSDK9z7G8lBLLGPRrvgkuQQUppQA1pw"/>
+<div class="absolute -bottom-1 -right-1 bg-[var(--charcoal-black)] rounded-full p-0.5">
+<span class="material-symbols-outlined text-[12px] text-[var(--slate-blue)]">verified</span>
+</div>
+</div>
+<div>
+<div class="text-sm font-semibold text-[var(--pure-white)]">VintageVault_NY</div>
+<div class="flex items-center gap-1">
+<span class="text-[var(--antique-gold)] text-xs">★ 4.9</span>
+<span class="text-[var(--muted-gray)] text-xs">(128 sales)</span>
+</div>
+</div>
+</div>
+<button class="text-[var(--slate-blue)] text-xs font-semibold px-3 py-1.5 rounded-lg border border-[var(--slate-blue)]/30 hover:bg-[var(--slate-blue)]/10 transition-colors">
+                    Profile
+                </button>
+</div>
+<div class="bg-[var(--card-bg)] rounded-2xl p-5 border border-[var(--input-bg)] relative overflow-hidden shadow-xl">
+<div class="absolute top-0 right-0 bg-[var(--success-green)]/10 text-[var(--success-green)] text-xs font-bold px-3 py-1 rounded-bl-xl border-l border-b border-[var(--success-green)]/20">
+                    Highest Bidder
+                </div>
+<div class="text-center mb-4">
+<p class="text-[var(--muted-gray)] text-xs mb-1 uppercase tracking-wide font-medium">Current Highest Bid</p>
+<div class="text-5xl font-extrabold text-[var(--pure-white)] tracking-tight">
+                        $240<span class="text-2xl text-[var(--muted-gray)] align-top mt-2 inline-block font-normal">.00</span>
+</div>
+<p class="text-[var(--slate-blue)] text-xs mt-2 font-medium">Reserve price met</p>
+</div>
+<div class="bg-[var(--input-bg)]/50 border border-[var(--slate-blue)]/30 rounded-lg p-3 mb-6 flex items-start gap-3">
+<span class="material-symbols-outlined text-[var(--antique-gold)] mt-0.5 shrink-0">account_balance_wallet</span>
+<div>
+<h3 class="text-[var(--antique-gold)] text-xs font-bold uppercase mb-1">10% Deposit Rule</h3>
+<p class="text-[var(--soft-white)] text-xs leading-relaxed">
+            To bid on this $240 item, a <span class="text-white font-bold">$24 refundable deposit</span> (10% of value) is required from your Buying Power.
+        </p>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex gap-2">
+<button class="flex-1 bg-[var(--input-bg)] hover:bg-[var(--deep-slate)] border border-[var(--input-bg)] text-[var(--pure-white)] py-3 rounded-xl font-semibold transition-all active:scale-95 text-sm">
+                            +$5
+                        </button>
+<button class="flex-1 bg-[var(--input-bg)] hover:bg-[var(--deep-slate)] border border-[var(--input-bg)] text-[var(--pure-white)] py-3 rounded-xl font-semibold transition-all active:scale-95 text-sm">
+                            +$10
+                        </button>
+<button class="flex-1 bg-[var(--input-bg)] hover:bg-[var(--deep-slate)] border border-[var(--input-bg)] text-[var(--pure-white)] py-3 rounded-xl font-semibold transition-all active:scale-95 text-sm">
+                            +$25
+                        </button>
+</div>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--muted-gray)] font-semibold">$</span>
+<input class="w-full bg-[var(--input-bg)] text-[var(--pure-white)] border border-[var(--input-bg)] rounded-xl py-3 pl-8 pr-4 text-lg font-bold focus:ring-2 focus:ring-[var(--slate-blue)] focus:border-transparent outline-none appearance-none transition-all placeholder-[var(--muted-gray)]/50" type="number" value="245"/>
+</div>
+<button class="w-full bg-gold-gradient text-[#1C1C1E] py-4 rounded-xl font-bold text-lg shadow-lg glow-button active:scale-[0.98] transition-transform flex items-center justify-center gap-2">
+<span>Deposit &amp; Place Bid</span>
+<span class="material-symbols-outlined text-xl">gavel</span>
+</button>
+<p class="text-[10px] text-[var(--muted-gray)] text-center">
+                        Deposit is fully refundable if you don't win.
+                    </p>
+</div>
+</div>
+<div class="mt-8">
+<div class="flex border-b border-[var(--input-bg)] mb-4">
+<button class="flex-1 pb-3 text-center text-[var(--slate-blue)] border-b-2 border-[var(--slate-blue)] font-semibold text-sm tracking-wide">Description</button>
+<button class="flex-1 pb-3 text-center text-[var(--muted-gray)] hover:text-[var(--soft-white)] font-medium text-sm tracking-wide">Bid History</button>
+<button class="flex-1 pb-3 text-center text-[var(--muted-gray)] hover:text-[var(--soft-white)] font-medium text-sm tracking-wide">Authenticity</button>
+</div>
+<div class="text-[var(--soft-white)] text-sm leading-relaxed space-y-4 pb-8">
+<p>
+                        Stunning example of a 1968 Omega Seamaster Cosmic. The dial has a beautiful uniform patina that collectors love. The case is unpolished with sharp edges.
+                    </p>
+<ul class="space-y-2 mt-2">
+<li class="flex items-start gap-2">
+<span class="text-[var(--antique-gold)]">•</span>
+<span>Movement: Caliber 565 Automatic</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="text-[var(--antique-gold)]">•</span>
+<span>Case Size: 35mm (wears larger due to shape)</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="text-[var(--antique-gold)]">•</span>
+<span>Strap: Brand new leather strap included</span>
+</li>
+</ul>
+<p class="text-[var(--muted-gray)] italic mt-4 text-xs">
+                        *Note: This is a vintage item and may show signs of wear consistent with age.
+                    </p>
+</div>
+</div>
+</div>
+</main>
+</body></html>

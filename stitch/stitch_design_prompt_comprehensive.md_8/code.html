@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Biddt Winning Reveal Screen</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {
+            --charcoal-black: #1A1A1A;
+            --obsidian: #121212;
+            --graphite: #2D2D2D;
+            --deep-navy: #0A0E27;--spark-gold: #FFD700;
+            --rich-gold: #D4AF37;
+            --pale-gold: #F4E5A8;
+            --pure-white: #FFFFFF;
+            --soft-white: #F5F5F7;
+            --muted-gray: #A1A1AA;
+            --success-green: #34D399;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--charcoal-black);
+            color: var(--pure-white);
+        }
+        .gold-gradient-text {
+            background: linear-gradient(180deg, #FFD700 20%, #D4AF37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+        }
+        .gold-gradient-bg {
+            background: linear-gradient(135deg, #FFD700 0%, #E6C200 100%);
+        }
+        .trophy-glow {
+             filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.5));
+        }
+        .card-glow {
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .confetti-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .confetti {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: var(--spark-gold);
+            opacity: 0.9;
+        }.c-1 { top: 10%; left: 20%; transform: rotate(15deg); background-color: var(--pure-white); width: 6px; height: 12px; }
+        .c-2 { top: 20%; left: 80%; transform: rotate(-35deg); background-color: var(--spark-gold); width: 10px; height: 10px; border-radius: 50%; }
+        .c-3 { top: 5%; left: 50%; transform: rotate(45deg); background-color: var(--pale-gold); width: 8px; height: 8px; }
+        .c-4 { top: 15%; left: 10%; transform: rotate(-15deg); background-color: var(--rich-gold); width: 12px; height: 4px; }
+        .c-5 { top: 30%; left: 90%; transform: rotate(60deg); background-color: var(--pure-white); width: 6px; height: 6px; }
+        .c-6 { top: 40%; left: 15%; transform: rotate(-20deg); background-color: var(--spark-gold); width: 8px; height: 16px; }
+        .c-7 { top: 50%; left: 85%; transform: rotate(10deg); background-color: var(--pale-gold); width: 9px; height: 9px; }
+        .c-8 { top: 60%; left: 5%; transform: rotate(80deg); background-color: var(--rich-gold); width: 6px; height: 6px; border-radius: 50%;}
+        .c-9 { top: 70%; left: 95%; transform: rotate(-50deg); background-color: var(--pure-white); width: 8px; height: 8px; }
+        .c-10 { top: 25%; left: 40%; transform: rotate(25deg); background-color: var(--spark-gold); width: 12px; height: 6px; }
+        .c-11 { top: 35%; left: 60%; transform: rotate(-40deg); background-color: var(--pale-gold); width: 6px; height: 12px; }
+        .c-12 { top: 80%; left: 25%; transform: rotate(70deg); background-color: var(--rich-gold); width: 8px; height: 8px; }
+        .glass-panel {
+            background: rgba(30, 30, 30, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+    </style>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-[var(--charcoal-black)] h-screen w-full relative overflow-hidden flex flex-col items-center justify-center">
+<div class="absolute inset-0 z-0 bg-gradient-to-b from-[var(--charcoal-black)] via-[var(--obsidian)] to-[var(--charcoal-black)]"></div>
+<div class="absolute inset-0 z-0 opacity-20 pointer-events-none mix-blend-overlay bg-[url('https://images.unsplash.com/photo-1550989460-0adf9ea622e2?q=80&amp;w=600&amp;auto=format&amp;fit=crop')] bg-cover bg-center"></div>
+<div class="confetti-container">
+<div class="confetti c-1"></div>
+<div class="confetti c-2"></div>
+<div class="confetti c-3"></div>
+<div class="confetti c-4"></div>
+<div class="confetti c-5"></div>
+<div class="confetti c-6"></div>
+<div class="confetti c-7"></div>
+<div class="confetti c-8"></div>
+<div class="confetti c-9"></div>
+<div class="confetti c-10"></div>
+<div class="confetti c-11"></div>
+<div class="confetti c-12"></div>
+<div class="absolute top-[12%] left-[32%] w-1.5 h-1.5 bg-[var(--spark-gold)] rounded-full animate-pulse"></div>
+<div class="absolute top-[18%] left-[68%] w-1 h-1 bg-white rounded-full opacity-60"></div>
+<div class="absolute top-[45%] left-[22%] w-2 h-2 bg-[var(--rich-gold)] transform rotate-45 opacity-80"></div>
+<div class="absolute top-[55%] left-[78%] w-1 h-2 bg-[var(--pale-gold)] transform rotate-12 opacity-70"></div>
+</div>
+<main class="relative z-20 w-full max-w-md px-6 flex flex-col items-center justify-center h-full py-8">
+<div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[var(--spark-gold)] opacity-5 blur-[100px] rounded-full pointer-events-none"></div>
+<div class="mb-5 relative flex flex-col items-center">
+<div class="absolute inset-0 bg-[var(--spark-gold)] blur-[45px] opacity-20 rounded-full scale-150"></div>
+<span class="material-symbols-outlined text-[90px] text-[var(--spark-gold)] trophy-glow relative z-10" style="font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 48;">
+                emoji_events
+            </span>
+<span class="material-symbols-outlined absolute -top-4 -right-6 text-[var(--pure-white)] text-3xl animate-pulse opacity-80">spark</span>
+<span class="material-symbols-outlined absolute bottom-0 -left-6 text-[var(--pale-gold)] text-xl animate-pulse delay-100 opacity-80">star</span>
+</div>
+<h1 class="text-[42px] font-[800] text-center tracking-tight leading-[1.1] mb-2 gold-gradient-text uppercase italic">
+            You Won!
+        </h1>
+<p class="text-[var(--muted-gray)] text-center text-[15px] font-medium mb-8 leading-relaxed max-w-[85%]">
+            Congratulations! This treasure is now exclusively yours.
+        </p>
+<div class="w-full glass-panel rounded-3xl p-5 mb-8 card-glow relative overflow-hidden backdrop-blur-xl">
+<div class="absolute top-0 right-0 w-full h-full bg-gradient-to-bl from-[rgba(255,255,255,0.03)] to-transparent pointer-events-none"></div>
+<div class="flex flex-col items-center relative z-10">
+<div class="relative w-40 h-40 mb-5 rounded-2xl p-[1px] bg-gradient-to-br from-[var(--spark-gold)] via-[rgba(255,215,0,0.4)] to-[rgba(255,215,0,0.1)] shadow-xl">
+<div class="w-full h-full rounded-[15px] overflow-hidden bg-[var(--graphite)] relative">
+<img alt="Vintage Nike Sneakers" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6BQhBHdV9fiOgEKI_h1yxF1_ZeO95DlwDXvKJPwbf-rOMxvhlW3TX4YvJ0eB4shGoEK6tqhCkKgmYtHtO7clkFcsZPJdgDb8mGTbD58GHaOXOE2bFobdIgLp3SKrmgVX7_0tsB3Pv0TwvuM5YEO4BaksVZDoyzqEftTHrOPwcGYSfjTTwHvqRLoRqz909abw0raEa8OieRaVD6UtMhuPNyaeDcZNxslQjimyPUUL89Mh0oehpaqiXVxbWteU0a9-eTTjMqk9QJA"/>
+<div class="absolute inset-0 bg-black bg-opacity-10"></div>
+</div>
+<div class="absolute -top-3 -right-3 bg-[var(--spark-gold)] text-[var(--obsidian)] rounded-full p-1.5 shadow-lg ring-4 ring-[rgba(0,0,0,0.3)]">
+<span class="material-symbols-outlined text-[18px] font-bold block">check</span>
+</div>
+</div>
+<h2 class="text-[20px] font-bold text-[var(--soft-white)] mb-1 text-center tracking-tight">Vintage Nike Air Max 90</h2>
+<p class="text-[var(--muted-gray)] text-xs mb-4 uppercase tracking-wide font-medium">Size 10 • Excellent Condition</p>
+<div class="w-full h-px bg-gradient-to-r from-transparent via-[rgba(255,255,255,0.1)] to-transparent mb-4"></div>
+<div class="flex flex-col items-center justify-center">
+<span class="text-[var(--muted-gray)] text-[11px] uppercase tracking-widest font-semibold mb-1">Winning Bid</span>
+<span class="text-[40px] font-[800] text-[var(--spark-gold)] leading-none tracking-tight font-sans drop-shadow-sm">$145.00</span>
+<div class="mt-3 inline-flex items-center gap-1.5 bg-[rgba(52,211,153,0.1)] px-3 py-1.5 rounded-full border border-[rgba(52,211,153,0.15)]">
+<span class="material-symbols-outlined text-[14px] text-[var(--success-green)]">savings</span>
+<span class="text-[11px] font-semibold text-[var(--success-green)] tracking-wide">You saved $35.00</span>
+</div>
+</div>
+</div>
+</div>
+<div class="w-full space-y-3">
+<button class="w-full gold-gradient-bg text-[var(--obsidian)] font-bold text-[17px] py-4 px-6 rounded-2xl shadow-[0_4px_20px_rgba(255,215,0,0.25)] hover:shadow-[0_6px_25px_rgba(255,215,0,0.35)] transition-all transform active:scale-[0.98] flex items-center justify-center gap-2">
+<span>Pay Now</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+<button class="w-full bg-[rgba(255,255,255,0.05)] border border-[rgba(255,255,255,0.1)] text-[var(--pure-white)] font-semibold text-[17px] py-4 px-6 rounded-2xl hover:bg-[rgba(255,255,255,0.1)] transition-all active:scale-[0.98] flex items-center justify-center gap-2 backdrop-blur-sm">
+<span class="material-symbols-outlined text-[20px]">calendar_today</span>
+<span>Schedule Pickup</span>
+</button>
+<button class="w-full pt-3 flex items-center justify-center gap-2 text-[var(--muted-gray)] text-[13px] font-medium hover:text-[var(--pure-white)] transition-colors opacity-80 hover:opacity-100">
+<span class="material-symbols-outlined text-[16px]">ios_share</span>
+<span>Share Victory</span>
+</button>
+</div>
+</main>
+<div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[var(--charcoal-black)] to-transparent pointer-events-none z-10"></div>
+
+</body></html>

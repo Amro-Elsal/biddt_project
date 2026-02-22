@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Premium Gold Splash Experience Light Mode</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {
+            --pearl-white: #F8F9FA;
+            --charcoal-text: #2D2D2D;
+            --light-charcoal: #555555;
+            --spark-gold: #FFD700;
+            --deep-gold: #B8860B;
+            --gold-glow: rgba(255, 215, 0, 0.5);
+            --gold-glow-ring: rgba(184, 134, 11, 0.15);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--pearl-white);
+            color: var(--charcoal-text);
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: radial-gradient(circle at center, #FFFFFF 0%, #F0F2F5 100%);
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 0.6; transform: scale(1.2); }
+        }
+        .sparkle {
+            position: absolute;
+            background: rgba(184, 134, 11, 0.3);border-radius: 50%;
+            opacity: 0;
+            animation: twinkle 4s infinite ease-in-out;
+        }
+        @keyframes float-subtle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        @keyframes metallic-shine {
+            0% { background-position: -200%; }
+            100% { background-position: 200%; }
+        }
+        @keyframes subtle-pulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.25); }
+            50% { box-shadow: 0 0 60px rgba(255, 215, 0, 0.45); }
+        }
+        .diamond-container {
+            animation: float-subtle 5s ease-in-out infinite;
+            position: relative;
+        }
+        .diamond-shape {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #FFECB3 0%, #FFD700 40%, #B8860B 100%);
+            transform: rotate(45deg);
+            position: relative;
+            z-index: 10;
+            box-shadow: 
+                -4px 4px 15px rgba(0,0,0,0.15), 
+                inset 2px -2px 10px rgba(255,255,255,0.4),
+                0 0 40px var(--gold-glow); 
+            border: 1px solid rgba(184, 134, 11, 0.2);
+            overflow: hidden;
+        }
+        .diamond-shape::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right, 
+                rgba(255,255,255,0) 0%, 
+                rgba(255,255,255,0.6) 45%, 
+                rgba(255,255,255,0.9) 50%,
+                rgba(255,255,255,0.6) 55%,
+                rgba(255,255,255,0) 100%
+            );
+            transform: rotate(-45deg);
+            animation: metallic-shine 3s infinite linear;
+        }
+        .diamond-shape::after {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            right: 6px;
+            bottom: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: inset 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+        .glow-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid var(--gold-glow-ring);
+            border-radius: 50%;
+            z-index: 1;
+        }
+        @keyframes ripple {
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.6; }
+            100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
+        }
+        .glow-ring-anim {
+            animation: ripple 3s infinite cubic-bezier(0, 0.2, 0.8, 1);
+        }
+        @keyframes load {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        .loading-bar {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--deep-gold), transparent);
+            width: 100%;
+            position: absolute;
+            left: -100%;
+            animation: slide-load 2s infinite ease-in-out;
+        }
+        @keyframes slide-load {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        .glass-badge {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(184, 134, 11, 0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="flex flex-col items-center justify-between h-screen relative overflow-hidden">
+<div class="absolute inset-0 z-0 pointer-events-none">
+<div class="sparkle w-1 h-1 top-[10%] left-[20%] delay-0 bg-yellow-600/30"></div>
+<div class="sparkle w-1.5 h-1.5 top-[30%] left-[80%] delay-700 bg-yellow-600/30"></div>
+<div class="sparkle w-1 h-1 top-[60%] left-[10%] delay-200 bg-yellow-600/30"></div>
+<div class="sparkle w-0.5 h-0.5 top-[80%] left-[70%] delay-500 bg-yellow-600/30"></div>
+<div class="sparkle w-1 h-1 top-[15%] left-[60%] delay-1000 bg-yellow-600/30"></div>
+<div class="sparkle w-1 h-1 top-[45%] left-[30%] delay-300 bg-yellow-600/30"></div>
+<div class="sparkle w-1.5 h-1.5 top-[75%] left-[40%] delay-1200 bg-yellow-600/30"></div>
+<div class="sparkle w-0.5 h-0.5 top-[90%] left-[90%] delay-150 bg-yellow-600/30"></div>
+</div>
+<div class="relative z-10 flex flex-col items-center justify-center flex-grow w-full">
+<div class="relative w-64 h-64 flex items-center justify-center mb-10">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-[#FFD700] opacity-20 blur-3xl rounded-full mix-blend-multiply"></div>
+<div class="glow-ring w-40 h-40 glow-ring-anim" style="animation-delay: 0s;"></div>
+<div class="glow-ring w-56 h-56 glow-ring-anim" style="animation-delay: 1s;"></div>
+<div class="diamond-container">
+<div class="diamond-shape rounded-sm"></div>
+<div class="absolute top-1/2 left-1/2 w-14 h-14 bg-gradient-to-br from-[#FDFDFD] to-[#E0E0E0] border border-[rgba(184,134,11,0.15)] shadow-inner transform -translate-x-1/2 -translate-y-1/2 rotate-45 z-20 flex items-center justify-center">
+<div class="w-1.5 h-1.5 rounded-full bg-[var(--deep-gold)] shadow-[0_0_10px_var(--spark-gold)]"></div>
+</div>
+</div>
+</div>
+<h1 class="text-5xl font-bold tracking-tight text-[#2D2D2D] mb-3" style="font-family: 'Inter', sans-serif; letter-spacing: -0.02em; text-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+            Biddt
+        </h1>
+<p class="text-[#2D2D2D] text-sm font-medium tracking-[0.2em] uppercase opacity-90">
+            Premium Marketplace
+        </p>
+</div>
+<div class="relative z-10 w-full flex flex-col items-center mb-12 space-y-8">
+<div class="w-32 h-0.5 bg-gray-200 rounded-full overflow-hidden relative">
+<div class="loading-bar"></div>
+</div>
+<div class="glass-badge px-5 py-2 rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-[var(--deep-gold)] text-lg">verified_user</span>
+<span class="text-xs font-semibold text-[#2D2D2D] tracking-wide uppercase">Secured Bidding</span>
+</div>
+<p class="text-[10px] text-[#555555] font-medium tracking-wider uppercase">
+            Discovery • Competition • Victory
+        </p>
+</div>
+</body></html>

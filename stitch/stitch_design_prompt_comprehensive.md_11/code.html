@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Biddt - User Profile</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {
+            --charcoal-bg: #121212;
+            --charcoal-card: #1E1E1E;
+            --charcoal-lighter: #2C2C2C;
+            --diamond-cyan: #00D9FF;
+            --diamond-purple: #7B61FF;
+            --spark-orange: #FA5400;
+            --spark-gold: #FFD700;
+            --success: #00C853;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--charcoal-bg);
+            color: white;
+        }
+        .bg-gradient-brand {
+            background: linear-gradient(135deg, var(--diamond-cyan) 0%, var(--diamond-purple) 100%);
+        }
+        .bg-gradient-gold {
+            background: linear-gradient(45deg, #FFD700, #FF6B35);
+        }
+        .glass-card {
+            background: rgba(44, 44, 44, 0.4);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .trust-score-ring {
+            background: conic-gradient(var(--spark-gold) 0%, var(--diamond-cyan) 98%, rgba(255,255,255,0.1) 98% 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+        }
+        .trust-score-ring::before {
+            content: "";
+            position: absolute;
+            background-color: var(--charcoal-bg);
+            width: 88%;
+            height: 88%;
+            border-radius: 50%;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased min-h-screen pb-20">
+<div class="relative w-full h-56 bg-gray-900">
+<img alt="Cover" class="w-full h-full object-cover opacity-50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8uGqagHJKhRejZsJyJ5UI02tSqrshS85bYSqcfTDqywdFn0yVto2h3u-cWtW9JXxjhXKHGlegYlWACOVuhIVI309jDsbv5KFbqhFPy-wXleDurrtktzwU1vOTLOXP337WAtMrWUCcMTRo6n9Xfnh1ovplTc0TMHl9_vnNTeokNpD0ELu4BTz50CFevZByXtmIOPu2yW7f2Yi0VXzOHkfmsbI2SmWj9obJJVmA7FI_eM3E2nC9Px5yz3wFldsXKGb7qIIaZHw2Ag"/>
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(18,18,18,0.4)] to-[var(--charcoal-bg)]"></div>
+<button class="absolute top-12 right-6 p-2 rounded-full bg-black/40 backdrop-blur-md text-white hover:bg-black/60 transition border border-white/10">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="absolute top-12 left-6 p-2 rounded-full bg-black/40 backdrop-blur-md text-white hover:bg-black/60 transition border border-white/10">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+</div>
+<div class="px-6 relative -mt-20 mb-8">
+<div class="flex justify-between items-end">
+<div class="relative">
+<div class="w-28 h-28 rounded-full p-1 bg-gradient-to-tr from-[var(--spark-gold)] to-[var(--diamond-cyan)]">
+<div class="w-full h-full rounded-full border-4 border-[var(--charcoal-bg)] overflow-hidden bg-[var(--charcoal-lighter)]">
+<img alt="Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCA7_lyu9z7pZLFOFAVvJMUjMW11I_zINZcIZXCIp8_liTq6TkwggMw0Qtt0P4XTk2vgBrgnSofEfOP-g3fBRMuYegMgi43Zb5w_8lTYd1vpTI3PjQyNP1QdJZDmRnHbB8J20CTSOEL6BGT6ORL73wRz6aSC3udH1StbBulBHa7WHLlwdO-dOTXBQRzCDfd5Rd41wY0v_ntus4CpLgU_R9yqri6J23y1H5obDpTMGiteUXJA77KiHWMT3KSmrpJHZO4c5Y5JsRYiA"/>
+</div>
+</div>
+<div class="absolute bottom-1 -right-2 bg-gradient-brand text-white rounded-full p-1.5 border-4 border-[var(--charcoal-bg)] flex items-center justify-center shadow-lg transform scale-110">
+<span class="material-symbols-outlined text-base font-bold" style="font-variation-settings: 'FILL' 1, 'wght' 700">verified</span>
+</div>
+</div>
+<div class="flex flex-col items-center mb-1">
+<div class="w-20 h-20 trust-score-ring">
+<div class="relative z-10 flex flex-col items-center justify-center -space-y-1">
+<span class="text-white font-extrabold text-2xl">98</span>
+<span class="text-[8px] text-gray-400 uppercase tracking-widest">Score</span>
+</div>
+</div>
+<span class="text-[10px] uppercase font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-[var(--spark-gold)] to-[var(--diamond-cyan)] mt-2">High Trust</span>
+</div>
+</div>
+<div class="mt-5">
+<h1 class="text-2xl font-bold text-white flex items-center gap-3">
+                Alex "The Hunter" M.
+                <span class="px-2.5 py-1 rounded-md text-[10px] font-bold bg-[var(--charcoal-lighter)] text-[var(--diamond-cyan)] uppercase tracking-wide border border-[var(--diamond-cyan)]/20 shadow-[0_0_10px_rgba(0,217,255,0.1)]">Level 5</span>
+</h1>
+<p class="text-[var(--diamond-cyan)]/80 text-sm font-medium mt-1">@alexhunter23</p>
+<p class="text-gray-400 text-sm mt-3 leading-relaxed max-w-sm">Collector of vintage electronics and rare sneakers. Fast shipper, fair negotiator. Let's make a deal! ⚡️</p>
+</div>
+</div>
+<div class="px-6 mb-8">
+<div class="grid grid-cols-3 gap-3">
+<div class="glass-card rounded-2xl p-4 text-center">
+<span class="block text-xl font-bold text-white mb-1">52</span>
+<span class="text-[10px] text-gray-400 uppercase tracking-wide font-medium">Transactions</span>
+</div>
+<div class="glass-card rounded-2xl p-4 text-center">
+<span class="block text-xl font-bold text-[var(--success)] mb-1">99%</span>
+<span class="text-[10px] text-gray-400 uppercase tracking-wide font-medium">Response</span>
+</div>
+<div class="glass-card rounded-2xl p-4 text-center">
+<span class="block text-xl font-bold text-white mb-1">2022</span>
+<span class="text-[10px] text-gray-400 uppercase tracking-wide font-medium">Joined</span>
+</div>
+</div>
+</div>
+<div class="mb-8">
+<div class="flex items-center justify-between px-6 mb-4">
+<h2 class="text-lg font-bold text-white">Badges Earned</h2>
+<span class="text-[var(--diamond-cyan)] text-xs font-medium cursor-pointer hover:text-white transition-colors">View All</span>
+</div>
+<div class="glass-card mx-6 p-4 rounded-2xl overflow-x-auto no-scrollbar">
+<div class="flex gap-5 min-w-min pr-2">
+<div class="flex flex-col items-center min-w-[72px]">
+<div class="w-16 h-16 rounded-full bg-gradient-to-br from-[#FFD700] to-[#FF6B35] p-[2px] shadow-lg shadow-orange-500/20 transform hover:scale-105 transition-transform">
+<div class="w-full h-full rounded-full bg-[var(--charcoal-card)] flex items-center justify-center">
+<span class="material-symbols-outlined text-[#FFD700] text-3xl">local_shipping</span>
+</div>
+</div>
+<span class="text-[10px] text-gray-300 mt-2 text-center font-medium">Power Seller</span>
+</div>
+<div class="flex flex-col items-center min-w-[72px]">
+<div class="w-16 h-16 rounded-full bg-gradient-to-br from-[#00D9FF] to-[#7B61FF] p-[2px] shadow-lg shadow-blue-500/20 transform hover:scale-105 transition-transform">
+<div class="w-full h-full rounded-full bg-[var(--charcoal-card)] flex items-center justify-center">
+<span class="material-symbols-outlined text-[var(--diamond-cyan)] text-3xl">verified_user</span>
+</div>
+</div>
+<span class="text-[10px] text-gray-300 mt-2 text-center font-medium">Verified ID</span>
+</div>
+<div class="flex flex-col items-center min-w-[72px]">
+<div class="w-16 h-16 rounded-full bg-gradient-to-br from-[#00C853] to-[#00E676] p-[2px] shadow-lg shadow-green-500/20 transform hover:scale-105 transition-transform">
+<div class="w-full h-full rounded-full bg-[var(--charcoal-card)] flex items-center justify-center">
+<span class="material-symbols-outlined text-[var(--success)] text-3xl">bolt</span>
+</div>
+</div>
+<span class="text-[10px] text-gray-300 mt-2 text-center font-medium">Quick Reply</span>
+</div>
+<div class="flex flex-col items-center min-w-[72px]">
+<div class="w-16 h-16 rounded-full border border-dashed border-gray-600 flex items-center justify-center opacity-40 bg-[var(--charcoal-lighter)]">
+<span class="material-symbols-outlined text-gray-500 text-2xl">lock</span>
+</div>
+<span class="text-[10px] text-gray-500 mt-2 text-center font-medium">Locked</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mb-8 pl-6">
+<h2 class="text-lg font-bold text-white mb-4">Recent Reviews (48)</h2>
+<div class="flex gap-4 overflow-x-auto no-scrollbar pr-6 pb-4">
+<div class="min-w-[280px] glass-card p-5 rounded-2xl">
+<div class="flex items-center justify-between mb-3">
+<div class="flex text-[var(--spark-gold)]">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+</div>
+<span class="text-xs text-gray-500">2 days ago</span>
+</div>
+<p class="text-sm text-gray-300 mb-4 line-clamp-2 italic">"Item was exactly as described. Met at the Safe Zone and everything went smooth. Thanks!"</p>
+<div class="flex items-center gap-3">
+<img alt="User" class="w-8 h-8 rounded-full object-cover border border-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIiAP9PFmYlvnFyKkTshqT03-nE8SPmYf3kI60TfZymnjU93OLnewsCi-AqNJDOnomnyaOLsi1gLfXVPyFVKMKhy9vnBN7G5y2i9RuZD8SxfwaN-4x20Bhpd3Z-NOZHdHOLfHR1mlVoNtgq0Lq7zb9Gq7YpY6luMgZ2L_OaSlEBYNs-oCOHWXRdCNz2xWGpQUvaqDZrLY_g9y5eaQcm6QjsGCDBI65sTLNg_lzmoyOpmTQ1dm89CfC2yatRZrJ37zntEyRa7OdGQ"/>
+<div>
+<span class="text-xs font-bold text-white block">Sarah K.</span>
+<span class="text-[10px] text-gray-500 block">Verified Buyer</span>
+</div>
+</div>
+</div>
+<div class="min-w-[280px] glass-card p-5 rounded-2xl">
+<div class="flex items-center justify-between mb-3">
+<div class="flex text-[var(--spark-gold)]">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1">star_half</span>
+</div>
+<span class="text-xs text-gray-500">1 week ago</span>
+</div>
+<p class="text-sm text-gray-300 mb-4 line-clamp-2 italic">"Great seller, very responsive. The packaging was excellent. Would buy again."</p>
+<div class="flex items-center gap-3">
+<img alt="User" class="w-8 h-8 rounded-full object-cover border border-white/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYt1tWNIAiNm0JhKSSYVc05pCDKGjImzlNiNG8jDn3_i0cnm0NVALab5txzK-5J_zMkhcQkQ24m84bJwbtO-BQVwa7ksHluLsACa2NqVQDS5zZyCPq3XQu6QCEtsDz-I9fLTYsrIRGAbHZqO5G8uMNjpnad64Lm2ak-GeHF8L_1OE7axJty82gxsT_cfGopOm0U4Y3ndO0dZA3a07N4nbQAoD7cWe_Xr44sEwAXYSV--b9BlJ2t48idw8CgwhV5oN8TO42f7CN_Q"/>
+<div>
+<span class="text-xs font-bold text-white block">Mike R.</span>
+<span class="text-[10px] text-gray-500 block">Verified Buyer</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="px-6 pb-28">
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-lg font-bold text-white">Active Listings</h2>
+<div class="flex gap-2 bg-[var(--charcoal-card)] p-1 rounded-lg border border-white/5">
+<button class="p-1.5 rounded-md bg-[var(--charcoal-lighter)] text-[var(--diamond-cyan)] shadow-sm"><span class="material-symbols-outlined text-lg">grid_view</span></button>
+<button class="p-1.5 rounded-md hover:bg-[var(--charcoal-lighter)] text-gray-500 transition-colors"><span class="material-symbols-outlined text-lg">list</span></button>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="glass-card rounded-2xl overflow-hidden group hover:border-[var(--diamond-cyan)]/30 transition-colors">
+<div class="relative aspect-[4/5] bg-gray-800">
+<img alt="Shoes" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUtctQv0y0PsUjNYYfymvdML_qUQmdlkl80iZ90GEGpwfopoAyW2TDdMAGe1K0Wyx6DSVPz_xWnQtxsEGeh9eciFbEomIhs9AdMfmQC-Ka_VZp6_rOcPsBScZ-tu7qK1x7pHjE3D_91sSUAqB_kQVtG8We0TwOJbKIQgSBn8agVICZ8hWxuUmk2v6ZZk2sXM0FSeJt10WgTcBNOXnC30xEIU6RiDaBkLZQrYrZYkZcCniqelxytL1Nh_eVeEMhU8I6uof3r4fkXQ"/>
+<div class="absolute top-2 left-2 bg-[var(--spark-orange)]/90 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-bold text-white shadow-lg">Ends in 2h</div>
+<button class="absolute bottom-2 right-2 w-9 h-9 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white hover:bg-[var(--spark-gold)] hover:text-black transition-colors border border-white/10">
+<span class="material-symbols-outlined text-base">favorite</span>
+</button>
+</div>
+<div class="p-3">
+<h3 class="text-sm font-semibold text-white mb-2 truncate">Nike Air Max 90</h3>
+<div class="flex items-end justify-between">
+<div>
+<p class="text-[10px] text-gray-400 mb-0.5">Current Bid</p>
+<p class="text-lg font-bold text-white">$124</p>
+</div>
+<div class="px-2 py-1 rounded bg-[var(--charcoal-bg)] text-[10px] text-[var(--diamond-cyan)] font-medium border border-[var(--diamond-cyan)]/20">12 bids</div>
+</div>
+</div>
+</div>
+<div class="glass-card rounded-2xl overflow-hidden group hover:border-[var(--diamond-cyan)]/30 transition-colors">
+<div class="relative aspect-[4/5] bg-gray-800">
+<img alt="Keyboard" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbktTsJflLV3rK1Z3XjYEbg4Prw7UrreizIWQDCdbqXg8q95p82pAl8OQZLnBVaHrpi6TVffOMRmJWHIW0avmOJk3YPut_k2DNm1MalM5JPR29ug9N_vlnVm0W44NWJdaHjVN-vntjAWlWLnO0zBVq_BhRkyGdErGaY3mJ5imK9xIwsbYC3QTGqFgX1CYI4bJ_xKTWldSSpEyF2T_uqzEtEv0VCfKRpY3iQuBBtcozuC6RZF0n1JcyxCaAfAH11mWC3i5PECu8Yw"/>
+<div class="absolute top-2 left-2 bg-[var(--diamond-cyan)]/90 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-bold text-[var(--charcoal-bg)] shadow-lg">New</div>
+<button class="absolute bottom-2 right-2 w-9 h-9 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white hover:bg-[var(--spark-gold)] hover:text-black transition-colors border border-white/10">
+<span class="material-symbols-outlined text-base">favorite</span>
+</button>
+</div>
+<div class="p-3">
+<h3 class="text-sm font-semibold text-white mb-2 truncate">Keychron K2</h3>
+<div class="flex items-end justify-between">
+<div>
+<p class="text-[10px] text-gray-400 mb-0.5">Starting at</p>
+<p class="text-lg font-bold text-white">$45</p>
+</div>
+<div class="px-2 py-1 rounded bg-[var(--charcoal-bg)] text-[10px] text-gray-500 font-medium border border-gray-700">0 bids</div>
+</div>
+</div>
+</div>
+<div class="glass-card rounded-2xl overflow-hidden group hover:border-[var(--diamond-cyan)]/30 transition-colors">
+<div class="relative aspect-[4/5] bg-gray-800">
+<img alt="Watch" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCXey37xVUwkxlEBdthjDY7exOwVVSqt8_uHRcJ0m-Oyp-x9C-NX7Rwu51zb98uRSgvu7Nhcwd1y0P9_5JIL6WvysoLl275eSCsymloChAHuqb7y7JaTpBC3XJuZhaJHdD0dkvMbbR0tEN6y1m5DG-yqHbiOlD51j6Q967XE4ynwwY1Awyg7BtvkRHM0fiOX04pFVnzxAUg4lf1v2Ll66ZPboe09vM10R_FKV9Qywq8hFX7OXDKct8Av8vDkVimdCiZ09Ua39EFnQ"/>
+<button class="absolute bottom-2 right-2 w-9 h-9 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white hover:bg-[var(--spark-gold)] hover:text-black transition-colors border border-white/10">
+<span class="material-symbols-outlined text-base">favorite</span>
+</button>
+</div>
+<div class="p-3">
+<h3 class="text-sm font-semibold text-white mb-2 truncate">Casio Vintage</h3>
+<div class="flex items-end justify-between">
+<div>
+<p class="text-[10px] text-gray-400 mb-0.5">Current Bid</p>
+<p class="text-lg font-bold text-white">$32</p>
+</div>
+<div class="px-2 py-1 rounded bg-[var(--charcoal-bg)] text-[10px] text-[var(--diamond-cyan)] font-medium border border-[var(--diamond-cyan)]/20">4 bids</div>
+</div>
+</div>
+</div>
+<div class="glass-card rounded-2xl overflow-hidden group hover:border-[var(--diamond-cyan)]/30 transition-colors">
+<div class="relative aspect-[4/5] bg-gray-800">
+<img alt="Camera" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDT-IGiqzgFIuGVOIkwdZsr4QPfY8YdCe-nCrwTIDY6mRzhEzcE4MaIaHTlRJHLgFnFyejYh7Yk-tQ7rV7s2y_akJUvrz3JvcSEe4pGktI1-C1fHAUeAAMns6cmLgg7lIfYAnldZ76smE5RhbPYPc7wATBdG814OSDMkn5OGKoGwHsaYdfreNKqeZm4Q6SHzM571OtBp0IG-_KMDHkTO33FyEz24duTPMlXtY0niLRApNvt0qHrLllKBEE8TO0YSydzvtwkPDVpg"/>
+<div class="absolute top-2 left-2 bg-[var(--spark-orange)]/90 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-bold text-white shadow-lg">Hot</div>
+<button class="absolute bottom-2 right-2 w-9 h-9 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white hover:bg-[var(--spark-gold)] hover:text-black transition-colors border border-white/10">
+<span class="material-symbols-outlined text-base">favorite</span>
+</button>
+</div>
+<div class="p-3">
+<h3 class="text-sm font-semibold text-white mb-2 truncate">Polaroid OneStep</h3>
+<div class="flex items-end justify-between">
+<div>
+<p class="text-[10px] text-gray-400 mb-0.5">Current Bid</p>
+<p class="text-lg font-bold text-white">$65</p>
+</div>
+<div class="px-2 py-1 rounded bg-[var(--charcoal-bg)] text-[10px] text-[var(--diamond-cyan)] font-medium border border-[var(--diamond-cyan)]/20">8 bids</div>
+</div>
+</div>
+</div>
+</div>
+<button class="w-full mt-6 py-3.5 rounded-2xl border border-[var(--diamond-cyan)]/50 text-[var(--diamond-cyan)] font-semibold text-sm hover:bg-[var(--diamond-cyan)] hover:text-[var(--charcoal-bg)] transition-colors shadow-[0_0_15px_rgba(0,217,255,0.1)]">
+            View All Listings
+        </button>
+</div>
+<nav class="fixed bottom-0 left-0 w-full bg-[rgba(18,18,18,0.9)] backdrop-blur-xl border-t border-white/5 pb-6 pt-3 px-6 flex justify-between items-center z-50">
+<a class="flex flex-col items-center text-gray-500 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined mb-1 text-[24px]">home</span>
+<span class="text-[10px] font-medium">Home</span>
+</a>
+<a class="flex flex-col items-center text-gray-500 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined mb-1 text-[24px]">search</span>
+<span class="text-[10px] font-medium">Search</span>
+</a>
+<div class="relative -top-6">
+<a class="flex items-center justify-center w-14 h-14 rounded-full bg-gradient-brand shadow-[0_8px_16px_rgba(123,97,255,0.3)] text-white transform hover:scale-110 transition-all border-4 border-[var(--charcoal-bg)]" href="#">
+<span class="material-symbols-outlined text-[28px]">diamond</span>
+</a>
+</div>
+<a class="flex flex-col items-center text-gray-500 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined mb-1 text-[24px]">chat</span>
+<span class="text-[10px] font-medium">Messages</span>
+</a>
+<a class="flex flex-col items-center text-[var(--diamond-cyan)]" href="#">
+<span class="material-symbols-outlined mb-1 text-[24px] text-[var(--diamond-cyan)]" style="font-variation-settings: 'FILL' 1">person</span>
+<span class="text-[10px] font-medium">Profile</span>
+</a>
+</nav>
+
+</body></html>

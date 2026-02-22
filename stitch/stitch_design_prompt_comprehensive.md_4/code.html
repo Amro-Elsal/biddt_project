@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Biddt Splash Screen</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {
+            --charcoal-black: #05070A;
+            --diamond-cyan: #00D9FF;
+            --soft-white: #E8E8E8;
+            --metallic-light: #F0F4F8;
+            --metallic-dark: #B0C4DE;
+            --metallic-shine: rgba(255, 255, 255, 0.8);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--charcoal-black);
+            color: var(--soft-white);
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 0.6; transform: scale(1.2); }
+        }
+        .sparkle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle 4s infinite ease-in-out;
+            box-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(1deg); }
+        }
+        @keyframes spark-burst {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: scale(1.2); opacity: 0; }
+        }
+        .diamond-container {
+            animation: float 5s ease-in-out infinite;
+            filter: drop-shadow(0 0 25px rgba(0, 217, 255, 0.25));}.diamond-shape {
+            width: 100px;
+            height: 100px;background: linear-gradient(135deg, #E0E7FF 0%, #A5B4FC 20%, #6366F1 50%, #4338CA 100%);background: conic-gradient(from 180deg at 50% 50%, #C7D2FE 0deg, #FFFFFF 60deg, #818CF8 120deg, #312E81 180deg, #818CF8 240deg, #FFFFFF 300deg, #C7D2FE 360deg);background: linear-gradient(135deg, #dbeafe 0%, #93c5fd 25%, #3b82f6 50%, #1e40af 75%, #172554 100%);background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 30%, #64748b 60%, #334155 100%);background: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 20%, #94a3b8 45%, #475569 55%, #1e293b 80%, #0f172a 100%);
+            transform: rotate(45deg);
+            position: relative;
+            z-index: 10;
+            border-radius: 16px;box-shadow: 
+                inset 2px 2px 5px rgba(255, 255, 255, 0.7),
+                inset -2px -2px 5px rgba(0, 0, 0, 0.4);
+        }.diamond-shape::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 16px;
+            background: linear-gradient(125deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 40%);
+            z-index: 11;
+        }.diamond-shape::after {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: inset 0 0 10px rgba(0, 217, 255, 0.15);background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.1) 100%);
+        }
+        .sparks-wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200px;
+            height: 200px;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            pointer-events: none;
+        }
+        .spark-ray {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 1px;height: 50px;background: linear-gradient(to top, transparent, var(--diamond-cyan), transparent);
+            transform-origin: center bottom;
+            opacity: 0;
+            animation: burst 2.5s infinite ease-out;}
+        @keyframes burst {
+            0% { 
+                transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-45px) scaleY(0.3); 
+                opacity: 0; 
+            }
+            30% {
+                opacity: 0.7;
+            }
+            100% { 
+                transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-85px) scaleY(0); 
+                opacity: 0; 
+            }
+        }
+        @keyframes load {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        .loading-bar {
+            height: 2px;background: linear-gradient(90deg, #475569, #00D9FF, #475569);
+            animation: load 2.5s ease-out forwards;
+            box-shadow: 0 0 8px rgba(0, 217, 255, 0.4);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+</style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="flex flex-col items-center justify-center h-screen relative overflow-hidden bg-[var(--charcoal-black)]">
+<div class="sparkle w-0.5 h-0.5 top-[10%] left-[20%] delay-0"></div>
+<div class="sparkle w-1 h-1 top-[30%] left-[80%] delay-700"></div>
+<div class="sparkle w-0.5 h-0.5 top-[60%] left-[10%] delay-200"></div>
+<div class="sparkle w-0.5 h-0.5 top-[80%] left-[70%] delay-500"></div>
+<div class="sparkle w-1 h-1 top-[15%] left-[60%] delay-1000"></div>
+<div class="sparkle w-0.5 h-0.5 top-[45%] left-[30%] delay-300"></div>
+<div class="sparkle w-1 h-1 top-[75%] left-[40%] delay-1200"></div>
+<div class="sparkle w-0.5 h-0.5 top-[90%] left-[90%] delay-150"></div>
+<div class="sparkle w-0.5 h-0.5 top-[5%] left-[45%] delay-900"></div>
+<div class="sparkle w-1 h-1 top-[50%] left-[90%] delay-600"></div>
+<div class="relative z-10 flex flex-col items-center">
+<div class="relative w-48 h-48 flex items-center justify-center mb-10">
+<div class="sparks-wrapper">
+<div class="spark-ray" style="--angle: 0deg; animation-delay: 0s;"></div>
+<div class="spark-ray" style="--angle: 30deg; animation-delay: 0.1s;"></div>
+<div class="spark-ray" style="--angle: 60deg; animation-delay: 0.2s;"></div>
+<div class="spark-ray" style="--angle: 90deg; animation-delay: 0.3s;"></div>
+<div class="spark-ray" style="--angle: 120deg; animation-delay: 0.4s;"></div>
+<div class="spark-ray" style="--angle: 150deg; animation-delay: 0.5s;"></div>
+<div class="spark-ray" style="--angle: 180deg; animation-delay: 0.6s;"></div>
+<div class="spark-ray" style="--angle: 210deg; animation-delay: 0.7s;"></div>
+<div class="spark-ray" style="--angle: 240deg; animation-delay: 0.8s;"></div>
+<div class="spark-ray" style="--angle: 270deg; animation-delay: 0.9s;"></div>
+<div class="spark-ray" style="--angle: 300deg; animation-delay: 1.0s;"></div>
+<div class="spark-ray" style="--angle: 330deg; animation-delay: 1.1s;"></div>
+</div>
+<div class="diamond-container">
+<div class="diamond-shape"></div>
+<div class="absolute top-1/2 left-1/2 w-4 h-4 bg-white rounded-full opacity-50 blur-sm transform -translate-x-1/2 -translate-y-1/2 z-20"></div>
+</div>
+</div>
+<h1 class="text-4xl font-bold tracking-tight text-[#F1F5F9] mb-3 drop-shadow-lg" style="font-family: 'Inter', sans-serif;">
+        Biddt
+    </h1>
+<p class="text-[#94A3B8] text-base font-medium tracking-widest uppercase opacity-80" style="letter-spacing: 0.15em;">
+        Win Your Treasure
+    </p>
+</div>
+<div class="absolute bottom-24 w-32 h-1 bg-[#1e293b] rounded-full overflow-hidden">
+<div class="loading-bar w-0 h-full"></div>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-[#05070A] via-transparent to-[#05070A] pointer-events-none z-0 opacity-80"></div>
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_var(--charcoal-black)_120%)] pointer-events-none z-0"></div>
+
+</body></html>

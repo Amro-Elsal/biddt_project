@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Biddt Dark Splash Experience</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {
+            --charcoal-bg: #05070A;
+            --spark-gold: #FFD700;
+            --deep-gold: #B8860B;
+            --soft-white: #FFFFFF;
+            --glass-dark: rgba(255, 255, 255, 0.08);
+            --gold-glow: rgba(255, 215, 0, 0.4);
+            --text-secondary: #9CA3AF;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: var(--charcoal-bg);
+            color: var(--soft-white);
+            background: radial-gradient(circle at center, #1a1f2e 0%, #05070A 100%);
+        }
+        .sparkle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            opacity: 0.4;
+        }.diamond-container {
+            position: relative;
+        }
+        .diamond-shape {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #FFECB3 0%, #FFD700 40%, #B8860B 100%);
+            transform: rotate(45deg);
+            position: relative;
+            z-index: 10;
+            box-shadow: 
+                -4px 4px 15px rgba(0,0,0,0.8), 
+                inset 2px -2px 10px rgba(0,0,0,0.4),
+                0 0 50px var(--gold-glow); 
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            overflow: hidden;
+        }
+        .diamond-shape::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right, 
+                rgba(255,255,255,0) 0%, 
+                rgba(255,255,255,0.4) 45%, 
+                rgba(255,255,255,0.6) 50%,
+                rgba(255,255,255,0.4) 55%,
+                rgba(255,255,255,0) 100%
+            );
+            transform: rotate(-45deg);
+        }
+        .diamond-shape::after {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            right: 6px;
+            bottom: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: inset 0 0 15px rgba(255, 215, 0, 0.5);
+        }.glow-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            border-radius: 50%;
+            z-index: 1;
+        }.auth-btn-glass {
+            background-color: var(--glass-dark);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.2s ease;
+        }
+        .auth-btn-glass:active {
+            background-color: rgba(255, 255, 255, 0.12);
+            transform: scale(0.98);
+        }
+        .auth-btn-gold {
+            background: linear-gradient(135deg, #FFD700 0%, #E6C200 50%, #B8860B 100%);
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.2);
+            color: #05070A;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        .auth-btn-gold:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 10px rgba(255, 215, 0, 0.15);
+        }.glass-badge {
+            background: rgba(255, 215, 0, 0.08);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .text-dynamic {
+            color: white !important;
+        }
+        .text-sub-dynamic {
+            color: var(--text-secondary) !important;
+        }
+        .separator-line {
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(800px, 100dvh);
+    }
+</style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="flex flex-col items-center justify-between h-screen relative overflow-hidden">
+<div class="absolute inset-0 z-0 pointer-events-none">
+<div class="sparkle w-1 h-1 top-[10%] left-[20%] opacity-20"></div>
+<div class="sparkle w-1.5 h-1.5 top-[30%] left-[80%] opacity-30"></div>
+<div class="sparkle w-1 h-1 top-[60%] left-[10%] opacity-15"></div>
+<div class="sparkle w-0.5 h-0.5 top-[80%] left-[70%] opacity-25"></div>
+<div class="sparkle w-1 h-1 top-[15%] left-[60%] opacity-20"></div>
+<div class="sparkle w-1 h-1 top-[45%] left-[30%] opacity-10"></div>
+<div class="sparkle w-1.5 h-1.5 top-[75%] left-[40%] opacity-30"></div>
+<div class="sparkle w-0.5 h-0.5 top-[90%] left-[90%] opacity-20"></div>
+</div>
+<div class="relative z-10 flex flex-col items-center justify-center flex-grow w-full px-6 pt-12 pb-4">
+<div class="relative w-52 h-52 flex items-center justify-center mb-8">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-[var(--spark-gold)] opacity-10 blur-[50px] rounded-full"></div>
+<div class="glow-ring w-32 h-32 opacity-30"></div>
+<div class="glow-ring w-48 h-48 opacity-10"></div>
+<div class="diamond-container">
+<div class="diamond-shape rounded-sm"></div>
+<div class="absolute top-1/2 left-1/2 w-10 h-10 bg-gradient-to-br from-[#1a1a1a] to-[#000000] border border-[rgba(255,215,0,0.3)] shadow-inner transform -translate-x-1/2 -translate-y-1/2 rotate-45 z-20 flex items-center justify-center">
+<div class="w-1.5 h-1.5 rounded-full bg-[var(--spark-gold)] shadow-[0_0_10px_var(--spark-gold)]"></div>
+</div>
+</div>
+</div>
+<h1 class="text-5xl font-bold tracking-tight text-white mb-3 drop-shadow-lg" style="font-family: 'Inter', sans-serif; letter-spacing: -0.02em;">
+        Biddt
+    </h1>
+<p class="text-gray-400 text-xs font-medium tracking-[0.25em] uppercase opacity-90 mb-12 text-center">
+        Premium Marketplace
+    </p>
+<div class="w-full max-w-sm space-y-4 mb-6">
+<button class="auth-btn-glass w-full py-4 px-4 rounded-xl flex items-center justify-center gap-3 font-medium text-sm">
+<i class="fa-brands fa-google text-lg"></i>
+            Continue with Google
+        </button>
+<button class="auth-btn-glass w-full py-4 px-4 rounded-xl flex items-center justify-center gap-3 font-medium text-sm">
+<i class="fa-brands fa-apple text-xl"></i>
+            Continue with Apple
+        </button>
+<div class="flex items-center gap-4 px-2 py-2">
+<div class="h-[1px] flex-1 separator-line"></div>
+<span class="text-[10px] uppercase tracking-wider text-gray-500 font-semibold">or</span>
+<div class="h-[1px] flex-1 separator-line"></div>
+</div>
+<button class="auth-btn-gold w-full py-4 px-4 rounded-xl flex items-center justify-center gap-3 text-sm">
+<span class="material-symbols-outlined text-xl">call</span>
+            Continue with Phone Number
+        </button>
+</div>
+</div>
+<div class="relative z-10 w-full flex flex-col items-center mb-10 space-y-5">
+<div class="glass-badge px-5 py-2 rounded-full flex items-center gap-2">
+<span class="material-symbols-outlined text-[var(--spark-gold)] text-sm">verified_user</span>
+<span class="text-[10px] font-bold text-gray-300 tracking-wide uppercase">Secured Bidding</span>
+</div>
+<p class="text-[10px] text-gray-600 font-semibold tracking-widest uppercase opacity-60">
+        Discovery • Competition • Victory
+    </p>
+</div>
+
+</body></html>

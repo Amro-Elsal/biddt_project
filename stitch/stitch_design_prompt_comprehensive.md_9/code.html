@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Biddt - Safe Exchange Verification</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {
+            --charcoal-black: #121212;
+            --charcoal-dark: #0A0A0A;
+            --charcoal-card: #1E1E1E;
+            --slate-blue: #5C6BC0;
+            --slate-blue-dark: #3949AB;
+            --premium-gold: #FFD700;
+            --premium-gold-dim: #C5A900;
+            --text-primary: #FFFFFF;
+            --text-secondary: #E0E0E0;
+            --text-muted: #9E9E9E;
+            --success: #66BB6A;
+            --error: #FF5252;
+            --white-high-contrast: #FFFFFF;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--charcoal-black);
+            color: var(--text-primary);
+        }
+        .gradient-gold {
+            background: linear-gradient(135deg, var(--premium-gold) 0%, #FFB700 100%);
+        }.qr-card-container {
+            position: relative;
+            background: var(--white-high-contrast);
+            border-radius: 1.5rem;
+            z-index: 1;
+            box-shadow: 0 10px 30px -5px rgba(255, 255, 255, 0.1);
+        }
+        .qr-pattern {
+            background-image: radial-gradient(var(--charcoal-black) 2px, transparent 2px);
+            background-size: 10px 10px;
+        }
+        .safe-zone-marker {
+            box-shadow: 0 0 0 8px rgba(92, 107, 192, 0.3);
+        }
+        .progress-line-bg {
+            background-color: #333;
+        }
+        .progress-line-active {
+            background: linear-gradient(to right, var(--slate-blue), var(--premium-gold));
+        }
+    </style>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased min-h-screen relative pb-8">
+<div class="h-12 w-full flex justify-between items-end px-6 pb-2 text-[var(--text-primary)]">
+<span class="text-sm font-semibold">9:41</span>
+<div class="flex gap-1.5 items-center">
+<span class="material-symbols-outlined text-sm">signal_cellular_alt</span>
+<span class="material-symbols-outlined text-sm">wifi</span>
+<span class="material-symbols-outlined text-sm">battery_full</span>
+</div>
+</div>
+<header class="px-5 pt-2 pb-4 flex items-center justify-between sticky top-0 bg-[var(--charcoal-black)] z-20 border-b border-white/5">
+<button class="p-2 -ml-2 rounded-full hover:bg-[var(--charcoal-card)] transition-colors">
+<span class="material-symbols-outlined text-[var(--text-primary)]">arrow_back</span>
+</button>
+<h1 class="text-lg font-bold tracking-tight">Safe Exchange</h1>
+<button class="p-2 -mr-2 rounded-full hover:bg-[var(--charcoal-card)] transition-colors">
+<span class="material-symbols-outlined text-[var(--text-primary)]">help</span>
+</button>
+</header>
+<main class="px-5 space-y-6 pt-4">
+<div class="flex items-center justify-between px-4 relative mt-2">
+<div class="absolute top-4 left-6 right-6 h-1 bg-[#333] -z-10 rounded-full"></div>
+<div class="absolute top-4 left-6 w-1/3 h-1 bg-[var(--slate-blue)] -z-10 rounded-full"></div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-[var(--slate-blue)] flex items-center justify-center ring-4 ring-[var(--charcoal-black)] shadow-lg shadow-slate-900/50">
+<span class="material-symbols-outlined text-white text-sm font-bold">location_on</span>
+</div>
+<span class="text-xs font-bold text-[var(--slate-blue)] tracking-wide">Meet</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-[var(--charcoal-card)] border-2 border-[var(--text-muted)] flex items-center justify-center ring-4 ring-[var(--charcoal-black)]">
+<span class="text-xs font-bold text-[var(--text-muted)]">2</span>
+</div>
+<span class="text-xs font-medium text-[var(--text-muted)]">Scan</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-[var(--charcoal-card)] border-2 border-[var(--text-muted)] flex items-center justify-center ring-4 ring-[var(--charcoal-black)]">
+<span class="text-xs font-bold text-[var(--text-muted)]">3</span>
+</div>
+<span class="text-xs font-medium text-[var(--text-muted)]">Complete</span>
+</div>
+</div>
+<div class="qr-card-container p-8 flex flex-col items-center justify-center space-y-6">
+<div class="text-center space-y-1">
+<h2 class="text-xl font-extrabold text-black tracking-tight">Show QR to Seller</h2>
+<p class="text-sm text-gray-500 font-medium">Verification needed for pickup</p>
+</div>
+<div class="relative group">
+<div class="w-56 h-56 bg-white border-4 border-black relative flex flex-wrap content-start p-2">
+<div class="absolute top-0 left-0 w-14 h-14 border-[6px] border-black bg-white z-10">
+<div class="absolute inset-2 bg-black"></div>
+</div>
+<div class="absolute top-0 right-0 w-14 h-14 border-[6px] border-black bg-white z-10">
+<div class="absolute inset-2 bg-black"></div>
+</div>
+<div class="absolute bottom-0 left-0 w-14 h-14 border-[6px] border-black bg-white z-10">
+<div class="absolute inset-2 bg-black"></div>
+</div>
+<div class="w-full h-full grid grid-cols-6 grid-rows-6 gap-1 opacity-90">
+<div class="bg-transparent col-span-2"></div>
+<div class="bg-black"></div>
+<div class="bg-transparent"></div>
+<div class="bg-transparent col-span-2"></div>
+<div class="bg-transparent col-span-2"></div>
+<div class="bg-transparent"></div>
+<div class="bg-black col-span-2"></div>
+<div class="bg-transparent"></div>
+<div class="bg-black"></div>
+<div class="bg-transparent"></div>
+<div class="bg-black col-span-2 row-span-2"></div>
+<div class="bg-black"></div>
+<div class="bg-transparent"></div>
+<div class="bg-black col-span-2"></div>
+<div class="bg-transparent"></div>
+<div class="bg-black"></div>
+<div class="bg-transparent col-span-2"></div>
+<div class="bg-black"></div>
+<div class="bg-transparent col-span-2"></div>
+<div class="bg-black"></div>
+<div class="bg-transparent col-span-2"></div>
+<div class="bg-black col-span-2"></div>
+<div class="bg-transparent"></div>
+<div class="bg-black"></div>
+</div>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="w-12 h-12 bg-white rounded-lg border-2 border-[var(--premium-gold)] flex items-center justify-center shadow-md z-20">
+<span class="material-symbols-outlined text-[var(--premium-gold)] text-2xl">verified_user</span>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 border border-gray-200">
+<span class="material-symbols-outlined text-[var(--slate-blue-dark)] text-lg">timer</span>
+<span class="font-mono font-bold text-gray-800 text-lg">14:32</span>
+<span class="text-xs font-bold text-gray-500 uppercase tracking-wider">Valid</span>
+</div>
+</div>
+<div class="bg-[var(--charcoal-card)] rounded-2xl p-4 space-y-4 border border-white/5 shadow-xl">
+<div class="flex items-start gap-4">
+<div class="w-20 h-20 rounded-xl bg-[#2C2C2E] relative overflow-hidden flex-shrink-0 border border-white/10">
+<div class="absolute inset-0 bg-[#1C1C1E]">
+<div class="absolute top-0 left-1/2 w-3 h-full bg-[#3A3A3C] -translate-x-1/2 rotate-12"></div>
+<div class="absolute top-1/2 left-0 w-full h-3 bg-[#3A3A3C] -translate-y-1/2"></div>
+</div>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-3 h-3 bg-[var(--slate-blue)] rounded-full safe-zone-marker relative z-10 border-2 border-white"></div>
+<div class="w-12 h-12 bg-[var(--slate-blue)] rounded-full opacity-20 absolute animate-pulse"></div>
+</div>
+</div>
+<div class="flex-1 space-y-1">
+<div class="flex justify-between items-start">
+<h3 class="font-bold text-white text-base">Safe Exchange Zone #42</h3>
+<span class="bg-[var(--premium-gold)]/10 text-[var(--premium-gold)] text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wide border border-[var(--premium-gold)]/20">Verified</span>
+</div>
+<p class="text-sm text-[var(--text-secondary)]">Central Library Plaza</p>
+<p class="text-xs text-[var(--text-muted)]">710 W Cesar Chavez St, Austin</p>
+<button class="mt-2 text-xs font-semibold text-[var(--slate-blue)] flex items-center gap-1 hover:text-[var(--premium-gold)] transition-colors">
+<span class="material-symbols-outlined text-sm">directions</span>
+                        Get Directions
+                    </button>
+</div>
+</div>
+<div class="h-px bg-white/10 w-full"></div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<img alt="Seller" class="w-10 h-10 rounded-full border-2 border-[var(--premium-gold)] object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCavpNPnT4k9opa7J-KjQz8-0_udjD5NgctCiWtQ1-a0heU4wMtZhf9hGW9GHUEcmRcer1pDeTVQMea1enhcmAVL3FJFJcxSW5SjOJaQjqkWy0Zkp5HA4AJs8sr-DpNsGdXgD1mZHkUYE1cYrfwNMeDVKfRAWbjgIMUXKdyDjf7tj1AYa0oZlDqECIal_0xoIzoa20daarnIGAahezICstZ_ZRaAA7zpJCd6tb8-hsLC4YABedCzcZTAij2bAHi3sl2FimOyxX_9Q"/>
+<div>
+<p class="text-sm font-semibold text-white">Meeting Alex M.</p>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[var(--premium-gold)] text-[14px] fill-current">star</span>
+<span class="text-xs text-[var(--text-secondary)] font-medium">4.9</span>
+<span class="text-xs text-[var(--text-muted)]">(124)</span>
+</div>
+</div>
+</div>
+<button class="bg-white/5 hover:bg-white/10 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 border border-white/5">
+<span class="material-symbols-outlined text-sm">chat</span>
+                    Contact
+                </button>
+</div>
+</div>
+<div class="bg-[var(--slate-blue)]/10 border border-[var(--slate-blue)]/30 rounded-xl p-4 flex items-start gap-3">
+<span class="material-symbols-outlined text-[var(--slate-blue)] mt-0.5">shield_lock</span>
+<div>
+<h4 class="text-sm font-bold text-[var(--slate-blue)]">Premium Protection Active</h4>
+<p class="text-xs text-[var(--text-muted)] mt-1 leading-relaxed">
+                    This exchange is monitored for your safety. Stay in the zone and verify item condition before scanning.
+                </p>
+</div>
+</div>
+</main>
+<div class="fixed bottom-0 left-0 right-0 p-5 bg-[var(--charcoal-black)]/95 backdrop-blur-xl border-t border-white/5 space-y-3 z-30 safe-area-pb">
+<button class="w-full bg-[var(--slate-blue)] hover:bg-[var(--slate-blue-dark)] active:scale-[0.98] text-white font-bold text-lg py-4 rounded-xl shadow-[0_4px_12px_rgba(92,107,192,0.4)] transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">near_me</span>
+            I've Arrived
+        </button>
+<button class="w-full bg-transparent text-[var(--error)] font-medium text-sm py-2 rounded-xl flex items-center justify-center gap-1 hover:bg-[var(--error)]/5 transition-colors">
+<span class="material-symbols-outlined text-sm">report_problem</span>
+            Report Issue or Cancel
+        </button>
+</div>
+<div class="h-32"></div>
+
+</body></html>

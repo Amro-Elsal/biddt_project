@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Biddt - Create Listing</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ffd900",
+                        "primary-light": "#fffdf0",
+                        "primary-dark": "#e6c300",
+                        "background-light": "#FAFAFA", /* Pearl White */
+                        "background-dark": "#23200f",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#2a2715",
+                        "text-main": "#181710",
+                        "text-subtle": "#8d865e",
+                        "border-subtle": "#e7e5da",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom Scrollbar for hidden look */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-main dark:text-slate-100 antialiased selection:bg-primary/30">
+<div class="relative mx-auto flex min-h-screen w-full max-w-md flex-col overflow-hidden bg-background-light dark:bg-background-dark shadow-2xl">
+<!-- Header -->
+<header class="sticky top-0 z-30 bg-surface-light/80 dark:bg-surface-dark/80 backdrop-blur-md border-b border-border-subtle dark:border-white/10 px-4 pt-12 pb-3">
+<div class="flex items-center justify-between">
+<button class="text-text-main dark:text-slate-200 hover:text-primary transition-colors">
+<span class="text-base font-medium">Cancel</span>
+</button>
+<h1 class="text-lg font-bold tracking-tight">New Listing</h1>
+<button class="text-text-subtle dark:text-primary hover:text-primary font-bold transition-colors">
+                    Save
+                </button>
+</div>
+<!-- Progress Bar -->
+<div class="mt-4 flex flex-col gap-2">
+<div class="flex justify-between text-xs font-medium text-text-subtle dark:text-slate-400">
+<span>Details</span>
+<span>Step 1 of 3</span>
+</div>
+<div class="h-1.5 w-full rounded-full bg-border-subtle dark:bg-white/10 overflow-hidden">
+<div class="h-full w-1/3 rounded-full bg-primary shadow-[0_0_10px_rgba(255,217,0,0.5)]"></div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto no-scrollbar pb-24">
+<!-- Photo Upload Grid -->
+<section class="p-5">
+<div class="mb-3 flex items-center justify-between">
+<h3 class="text-base font-bold text-text-main dark:text-white">Photos</h3>
+<span class="text-xs font-medium text-text-subtle dark:text-slate-400">0/6 added</span>
+</div>
+<div class="grid grid-cols-3 gap-3">
+<!-- Add Photo Button (Primary) -->
+<button class="group relative flex aspect-square cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-primary bg-primary/5 hover:bg-primary/10 transition-all active:scale-95">
+<div class="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-text-main shadow-sm group-hover:shadow-md transition-shadow">
+<span class="material-symbols-outlined text-[24px]">add</span>
+</div>
+<span class="mt-2 text-xs font-bold text-text-main dark:text-white">Add Photos</span>
+</button>
+<!-- Placeholders -->
+<div class="relative aspect-square rounded-xl bg-surface-light dark:bg-surface-dark border border-border-subtle dark:border-white/10 flex items-center justify-center overflow-hidden">
+<!-- Simulated uploaded image -->
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Close up of a minimalist laptop on a wooden desk" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBE7NyBvZ1s8UNOwnSqgoLhCG-cMdZAFyWGyesU0X9oRtTexGk5NcXTuLvuu9vuXHI0sE1p1UzKQvEh4-Z80m41GLM2zrOvPzwqL7i4p4wKF9-ifdPz73VM9YjGFdOvWpS-cBiwrT3bExNnXUtwfY0mgqKBkYtdZw3EsspUCcUMnveYKf_fTrz1GND-ayY1vQlMYW7vdM7xbQAygusOVRzFQ31KLoDRM0czIERA-_aaSWy-cIjmAR9j7BXMoqb2rnouubINNBMjBw');"></div>
+<button class="absolute top-1 right-1 flex h-6 w-6 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-sm hover:bg-red-500 transition-colors">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+<div class="aspect-square rounded-xl bg-border-subtle/30 dark:bg-white/5 border border-transparent flex items-center justify-center">
+<span class="material-symbols-outlined text-border-subtle dark:text-white/20 text-3xl">image</span>
+</div>
+<div class="aspect-square rounded-xl bg-border-subtle/30 dark:bg-white/5 border border-transparent flex items-center justify-center">
+<span class="material-symbols-outlined text-border-subtle dark:text-white/20 text-3xl">image</span>
+</div>
+<div class="aspect-square rounded-xl bg-border-subtle/30 dark:bg-white/5 border border-transparent flex items-center justify-center">
+<span class="material-symbols-outlined text-border-subtle dark:text-white/20 text-3xl">image</span>
+</div>
+<div class="aspect-square rounded-xl bg-border-subtle/30 dark:bg-white/5 border border-transparent flex items-center justify-center">
+<span class="material-symbols-outlined text-border-subtle dark:text-white/20 text-3xl">image</span>
+</div>
+</div>
+<p class="mt-3 text-xs text-text-subtle dark:text-slate-400">Add up to 6 photos. The first photo will be your cover.</p>
+</section>
+<!-- AI Suggestion Banner -->
+<section class="px-5">
+<div class="relative overflow-hidden rounded-xl border border-primary/20 bg-gradient-to-br from-primary-light to-white dark:from-surface-dark dark:to-surface-dark p-4 shadow-sm">
+<div class="absolute -right-4 -top-4 h-16 w-16 rotate-12 bg-primary/10 rounded-full blur-xl"></div>
+<div class="relative flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+<div class="flex items-start gap-3">
+<div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/20 text-primary-dark dark:text-primary">
+<span class="material-symbols-outlined text-[18px]">auto_awesome</span>
+</div>
+<div>
+<h4 class="text-sm font-bold text-text-main dark:text-white">AI Auto-fill</h4>
+<p class="text-xs text-text-subtle dark:text-slate-300">We detected a MacBook Pro. Fill details automatically?</p>
+</div>
+</div>
+<button class="shrink-0 rounded-lg bg-primary px-4 py-2 text-xs font-bold text-text-main shadow-sm hover:bg-primary-dark transition-colors active:scale-95">
+                            Auto-fill
+                        </button>
+</div>
+</div>
+</section>
+<div class="h-4"></div>
+<!-- Form Fields -->
+<section class="flex flex-col gap-6 px-5">
+<!-- Title Input -->
+<div class="space-y-1.5">
+<label class="text-sm font-bold text-text-main dark:text-white">What are you selling?</label>
+<input class="w-full rounded-xl border-border-subtle bg-surface-light dark:bg-surface-dark dark:border-white/10 px-4 py-3 text-base font-medium placeholder:text-text-subtle focus:border-primary focus:ring-1 focus:ring-primary dark:text-white dark:focus:border-primary transition-all shadow-sm" placeholder="e.g. MacBook Pro M1 2021" type="text" value="MacBook Pro 13-inch"/>
+</div>
+<!-- Price Input -->
+<div class="space-y-1.5">
+<label class="text-sm font-bold text-text-main dark:text-white">Starting Bid</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+<span class="text-text-subtle font-medium">$</span>
+</div>
+<input class="w-full rounded-xl border-border-subtle bg-surface-light dark:bg-surface-dark dark:border-white/10 pl-8 pr-4 py-3 text-lg font-bold placeholder:text-text-subtle focus:border-primary focus:ring-1 focus:ring-primary dark:text-white dark:focus:border-primary transition-all shadow-sm" placeholder="0.00" type="number"/>
+<div class="absolute inset-y-0 right-0 flex items-center pr-3">
+<span class="text-xs font-medium text-text-subtle bg-border-subtle/30 dark:bg-white/10 px-2 py-1 rounded">USD</span>
+</div>
+</div>
+</div>
+<!-- Condition Selector -->
+<div class="space-y-2">
+<label class="text-sm font-bold text-text-main dark:text-white">Condition</label>
+<div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+<label class="cursor-pointer">
+<input class="peer sr-only" name="condition" type="radio" value="new"/>
+<span class="inline-block rounded-full border border-border-subtle bg-surface-light px-4 py-2 text-sm font-medium text-text-subtle hover:bg-gray-50 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:text-text-main dark:bg-surface-dark dark:border-white/10 dark:text-slate-400 dark:peer-checked:text-primary dark:peer-checked:border-primary transition-all">New</span>
+</label>
+<label class="cursor-pointer">
+<input checked="" class="peer sr-only" name="condition" type="radio" value="like-new"/>
+<span class="inline-block rounded-full border border-border-subtle bg-surface-light px-4 py-2 text-sm font-medium text-text-subtle hover:bg-gray-50 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:text-text-main dark:bg-surface-dark dark:border-white/10 dark:text-slate-400 dark:peer-checked:text-primary dark:peer-checked:border-primary transition-all">Like New</span>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="condition" type="radio" value="good"/>
+<span class="inline-block rounded-full border border-border-subtle bg-surface-light px-4 py-2 text-sm font-medium text-text-subtle hover:bg-gray-50 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:text-text-main dark:bg-surface-dark dark:border-white/10 dark:text-slate-400 dark:peer-checked:text-primary dark:peer-checked:border-primary transition-all">Good</span>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="condition" type="radio" value="fair"/>
+<span class="inline-block rounded-full border border-border-subtle bg-surface-light px-4 py-2 text-sm font-medium text-text-subtle hover:bg-gray-50 peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:text-text-main dark:bg-surface-dark dark:border-white/10 dark:text-slate-400 dark:peer-checked:text-primary dark:peer-checked:border-primary transition-all">Fair</span>
+</label>
+</div>
+</div>
+<!-- Category -->
+<div class="space-y-1.5">
+<label class="text-sm font-bold text-text-main dark:text-white">Category</label>
+<div class="relative">
+<select class="w-full appearance-none rounded-xl border-border-subtle bg-surface-light dark:bg-surface-dark dark:border-white/10 px-4 py-3 text-base font-medium text-text-main focus:border-primary focus:ring-1 focus:ring-primary dark:text-white dark:focus:border-primary transition-all shadow-sm">
+<option>Electronics</option>
+<option>Fashion</option>
+<option>Home &amp; Garden</option>
+<option>Collectibles</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-text-subtle">
+<span class="material-symbols-outlined text-[20px]">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Description -->
+<div class="space-y-1.5">
+<label class="text-sm font-bold text-text-main dark:text-white">Description</label>
+<textarea class="w-full min-h-[120px] resize-none rounded-xl border-border-subtle bg-surface-light dark:bg-surface-dark dark:border-white/10 px-4 py-3 text-base font-normal placeholder:text-text-subtle focus:border-primary focus:ring-1 focus:ring-primary dark:text-white dark:focus:border-primary transition-all shadow-sm" placeholder="Describe the item you are selling... include any defects or specific details."></textarea>
+</div>
+</section>
+<div class="h-8"></div>
+</main>
+<!-- Sticky Footer CTA -->
+<footer class="absolute bottom-0 left-0 right-0 z-40 bg-surface-light dark:bg-surface-dark border-t border-border-subtle dark:border-white/10 p-4 pb-8">
+<button class="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-3.5 text-base font-bold text-text-main shadow-lg shadow-primary/20 transition-transform active:scale-[0.98] hover:bg-primary-dark">
+<span>Continue</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</footer>
+</div>
+</body></html>

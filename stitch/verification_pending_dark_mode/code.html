@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Verification Pending Dark Mode</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+            extend: {
+                colors: {
+                "primary": "#f4c025",
+                "background-light": "#f8f8f5",
+                "background-dark": "#1a1a1a", /* Updated to match 'Charcoal Black' request better than the previous #221e10 */
+                "charcoal": "#1a1a1a",
+                "charcoal-light": "#2a2a2a",
+                },
+                fontFamily: {
+                "display": ["Inter", "sans-serif"]
+                },
+                borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+            },
+        }
+    </script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased min-h-screen flex flex-col items-center justify-center text-slate-900 dark:text-slate-100 selection:bg-primary selection:text-black">
+<div class="w-full max-w-md mx-auto h-full min-h-screen flex flex-col relative overflow-hidden shadow-2xl bg-background-light dark:bg-background-dark">
+<!-- Background Gradient Glow -->
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[300px] bg-primary/10 blur-[100px] rounded-full pointer-events-none"></div>
+<!-- Header -->
+<div class="flex items-center justify-between p-4 pt-12 pb-2 z-10">
+<button class="flex items-center justify-center text-slate-500 dark:text-slate-400 hover:text-primary transition-colors p-2 -ml-2 rounded-full hover:bg-black/5 dark:hover:bg-white/5">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+</button>
+<h2 class="text-lg font-bold leading-tight tracking-tight flex-1 text-center pr-8">Status</h2>
+</div>
+<!-- Main Content -->
+<div class="flex-1 flex flex-col items-center justify-center px-6 py-8 z-10">
+<!-- Hero Illustration -->
+<div class="relative w-64 h-64 mb-10 flex items-center justify-center">
+<div class="absolute inset-0 bg-primary/5 rounded-full blur-2xl"></div>
+<!-- Placeholder for Golden Hourglass Illustration -->
+<div class="w-full h-full bg-contain bg-center bg-no-repeat relative z-10" data-alt="Golden hourglass with diamond particles floating around it on a dark background" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC6s5S_U3K-KfhhASzVaLFFsMwXoehEldfk2v7EJg5wpahTF5Ev_5DC8zNhiXrkAUB4B8PvlVWdINZD_1_q5VK-pGEHW33YheqksGKpWLAsxMc0v4-21Kffom1-uxwYyKeUD2kAE4x_Y1zbEV2VqnIJEWVEbJXai8MA9-3WgTqo52uymVMaUnoqvrkwkw3OoTvQ3-L3kVO5sdvR4FB9UiM1OqhpDJ1lrtnEOYbpLtd6r0mD6RflA2KDvM7KY8t8XsIgEKfdMR6Slg');">
+</div>
+</div>
+<!-- Text Content -->
+<div class="text-center space-y-4 max-w-xs mx-auto">
+<h1 class="text-3xl font-black tracking-tight leading-tight text-slate-900 dark:text-white">
+                    Verification in<br/> <span class="text-primary">Progress</span>
+</h1>
+<p class="text-slate-500 dark:text-slate-400 text-base font-normal leading-relaxed">
+                    We are reviewing your ID to ensure a safe community. This usually takes less than 2 hours.
+                </p>
+</div>
+</div>
+<!-- Controls Section -->
+<div class="w-full px-6 py-8 flex flex-col gap-6 z-10">
+<!-- Notification Toggle Card -->
+<div class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-charcoal-light border border-slate-200 dark:border-white/10 shadow-sm">
+<div class="flex flex-col gap-1 mr-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">notifications_active</span>
+<p class="text-base font-bold leading-tight">Notify me when ready</p>
+</div>
+<p class="text-xs text-slate-500 dark:text-slate-400 pl-[28px]">Get a push notification once verified.</p>
+</div>
+<!-- Custom Toggle Switch -->
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary shadow-inner"></div>
+</label>
+</div>
+<!-- Ghost Button -->
+<button class="w-full py-4 px-6 rounded-lg border border-transparent hover:border-slate-200 dark:hover:border-white/10 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-semibold text-base transition-all duration-200 active:scale-[0.98]">
+                Back to Home
+            </button>
+<!-- Bottom safe area spacing for iOS -->
+<div class="h-6 w-full"></div>
+</div>
+</div>
+</body></html>

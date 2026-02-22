@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Verification Pending</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+            extend: {
+                colors: {
+                "primary": "#f4c025",
+                "background-light": "#f8f8f5", // Pearl white
+                "background-dark": "#221e10",
+                "charcoal": "#1f2937", // Slate-800 equivalent for "charcoal"
+                },
+                fontFamily: {
+                "display": ["Inter", "sans-serif"]
+                },
+                borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display antialiased min-h-screen flex flex-col items-center justify-between transition-colors duration-300">
+<!-- Header / Status Bar Area -->
+<header class="w-full pt-12 px-6 flex justify-between items-center z-10">
+<!-- Brand/Logo placeholder or back arrow if needed -->
+<div class="size-10 flex items-center justify-center rounded-full bg-white dark:bg-white/10 shadow-sm border border-slate-100 dark:border-white/5">
+<span class="material-symbols-outlined text-charcoal dark:text-white">
+                arrow_back
+            </span>
+</div>
+<div class="text-sm font-semibold text-charcoal/60 dark:text-white/60 tracking-wider uppercase">Help</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 w-full max-w-md flex flex-col items-center justify-center px-6 pb-12 text-center">
+<!-- Illustration Container -->
+<div class="relative w-64 h-64 mb-8">
+<!-- Decorative Glow -->
+<div class="absolute inset-0 bg-primary/20 blur-[60px] rounded-full transform scale-75"></div>
+<!-- Illustration Image -->
+<div class="relative w-full h-full bg-contain bg-center bg-no-repeat drop-shadow-xl animate-pulse-slow" data-alt="Golden hourglass illustration with floating diamond particles" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB8khMhxr1wDiWbmOpI8tmMx49z8fT6Ahx92Hiyz7BmKUlmMKwL-nYIqVgPNV9KSeDIis4mPjGv6k1sv0DByS4rKiXw-NcqkXY4B-ZIOIaT_qQhsnfcUSp_IEY9LlO--alug5fiTGCGN0vZMCmGyswOQjF_80EcnP6V1170b0VMqFpa5X9YgjTGpC2_Lv0gFfTY8Hw2rTw6G6tlDIia1WP44xG9CBqWwp7Zg4RxDWIOHp68hVi-n8fSdvswova185sy-0M0-4x7SA"); mask-image: radial-gradient(circle, black 60%, transparent 100%); -webkit-mask-image: radial-gradient(circle, black 60%, transparent 100%);'>
+</div>
+<!-- Overlay gradient to tint the image gold/primary if the placeholder isn't perfect -->
+<div class="absolute inset-0 bg-primary/10 mix-blend-overlay rounded-full"></div>
+</div>
+<!-- Text Block -->
+<div class="space-y-4 max-w-[320px]">
+<h1 class="text-charcoal dark:text-white text-[32px] font-bold leading-tight tracking-tight">
+                Verification in Progress
+            </h1>
+<p class="text-charcoal/70 dark:text-white/70 text-base font-medium leading-relaxed">
+                We are reviewing your ID to ensure a safe community. This usually takes less than 2 hours.
+            </p>
+</div>
+</main>
+<!-- Bottom Actions Area -->
+<footer class="w-full max-w-md px-6 pb-8 space-y-6">
+<!-- Notify Me Toggle Card -->
+<div class="bg-white dark:bg-white/5 border border-slate-100 dark:border-white/10 rounded-xl p-4 shadow-[0_2px_8px_rgba(0,0,0,0.04)] flex items-center justify-between">
+<div class="flex items-center gap-3 overflow-hidden">
+<div class="flex items-center justify-center size-10 rounded-lg bg-primary/10 text-primary shrink-0">
+<span class="material-symbols-outlined">notifications_active</span>
+</div>
+<div class="flex flex-col">
+<span class="text-charcoal dark:text-white font-semibold text-sm">Get notified</span>
+<span class="text-charcoal/50 dark:text-white/50 text-xs truncate">Notify me when verification is complete</span>
+</div>
+</div>
+<!-- Toggle Switch -->
+<label class="relative inline-flex items-center cursor-pointer shrink-0">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary shadow-inner"></div>
+</label>
+</div>
+<!-- Secondary Action -->
+<button class="w-full h-12 flex items-center justify-center rounded-lg text-charcoal/60 dark:text-white/60 hover:text-charcoal dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/10 transition-colors font-bold text-base tracking-wide">
+            Back to Home
+        </button>
+<!-- Safe Area Spacer -->
+<div class="h-2"></div>
+</footer>
+</body></html>

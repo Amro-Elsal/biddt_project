@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Biddt Marketplace Chat</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+            extend: {
+                colors: {
+                "primary": "#ffd900", // Gold
+                "primary-dark": "#e6c300", // Darker Gold for hover/gradient
+                "background-light": "#f8f8f5", // Pearl White
+                "background-dark": "#23200f",
+                "neutral-surface": "#ffffff", // Pure white for cards
+                "text-primary": "#181710", // Charcoal
+                "text-secondary": "#8d865e", // Muted Gold/Grey
+                },
+                fontFamily: {
+                "display": ["Plus Jakarta Sans", "sans-serif"]
+                },
+                borderRadius: {
+                    "DEFAULT": "0.25rem", 
+                    "lg": "0.5rem", 
+                    "xl": "0.75rem", 
+                    "2xl": "1rem",
+                    "3xl": "1.5rem",
+                    "full": "9999px"
+                },
+            },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar hiding for cleaner mobile look */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-text-primary antialiased h-screen flex justify-center overflow-hidden">
+<!-- Mobile Container -->
+<div class="relative w-full max-w-md h-full bg-background-light dark:bg-background-dark flex flex-col shadow-2xl overflow-hidden">
+<!-- Header Section -->
+<header class="bg-neutral-surface/80 dark:bg-background-dark/80 backdrop-blur-md sticky top-0 z-20 border-b border-primary/10">
+<!-- Top Bar: Nav & User -->
+<div class="flex items-center justify-between p-4 pb-2">
+<button class="p-2 -ml-2 rounded-full hover:bg-black/5 transition-colors text-text-primary">
+<span class="material-symbols-outlined">arrow_back_ios_new</span>
+</button>
+<div class="flex flex-col items-center">
+<div class="flex items-center gap-1.5">
+<h2 class="text-lg font-bold text-text-primary leading-tight">Sarah J.</h2>
+<span class="material-symbols-outlined text-primary text-[20px] fill-1" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div class="flex items-center gap-1 text-xs text-text-secondary">
+<span class="material-symbols-outlined text-[14px] text-primary" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-medium">4.9</span>
+<span>•</span>
+<span>Response time: &lt; 1hr</span>
+</div>
+</div>
+<button class="p-2 -mr-2 rounded-full hover:bg-black/5 transition-colors text-text-primary">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+<!-- Item Context Card (Sticky under nav) -->
+<div class="px-4 pb-4 pt-1">
+<div class="flex items-center p-3 bg-white dark:bg-white/5 rounded-xl border border-primary/20 shadow-sm gap-3">
+<div class="w-12 h-12 bg-gray-200 rounded-lg bg-cover bg-center shrink-0 relative overflow-hidden" data-alt="Vintage Eames Chair thumbnail" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB_4WsJMTa0y3V6JSzx-ugd742GC21x81111qyEOEQwhhDwOtbwiCHnKA8_Ce57Um2snxI95IFeCRp79ex36fqM7gAhJqROKfpAaCyldgg3eBRqL2z64HX8axEXuf49r1LZht47TfEkw9z8yBNZeuoN8K-7g9_5vmYufhNDo9EQ-P416Q3qlW9_7mc11rpy6kQlAo6xpi8N6Pj-B21PYcVxT9Xwf-jAT8OzmCumBjc3uF971n2Q25sSHMB82tPsbRSP_e8j7kPEhA');">
+</div>
+<div class="flex-1 min-w-0">
+<h3 class="text-sm font-bold text-text-primary truncate">Vintage Eames Chair</h3>
+<p class="text-xs text-text-secondary font-medium">Current Bid: <span class="text-primary-dark font-bold">$450</span></p>
+</div>
+<button class="shrink-0 px-3 py-1.5 bg-background-light text-text-primary text-xs font-bold rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">
+                        View Item
+                    </button>
+</div>
+</div>
+</header>
+<!-- Chat Area -->
+<main class="flex-1 overflow-y-auto p-4 flex flex-col gap-4 no-scrollbar pb-24" id="chat-container">
+<!-- Timestamp -->
+<div class="flex justify-center my-2">
+<span class="text-[11px] font-medium text-text-secondary bg-white/60 dark:bg-white/10 px-3 py-1 rounded-full backdrop-blur-sm">
+                    Today 9:41 AM
+                </span>
+</div>
+<!-- Message: Received -->
+<div class="flex items-end gap-2 max-w-[85%] group">
+<div class="w-8 h-8 rounded-full bg-gray-300 bg-cover bg-center shrink-0 border border-white shadow-sm" data-alt="Sarah J profile picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCUIpynOJUXGf8bRUFRd3UX6Gd0h3o99uZ21Ga-hvjsX1KacTK9NxXY7UX7n3eOUzI6IAuLda_AFvyhZ9sjJZCy_Lghb7VpSxIzfcvdH1Ff8bZouK1BPr4EG7Rdd2vVhoZnoIHiv9iuTehxX3lF64gmntKQJRXrl-U2N9SV8ZZYtPK1lJhyb7cUtRRUaAu-JHdtEzRe4tHS5EP_A13jgav4OXt7kkv9W5h94OY2kkATa7l12R_sC7sryDZnd4OpfSb_TwoksAvD5A');">
+</div>
+<div class="flex flex-col gap-1">
+<div class="bg-white dark:bg-neutral-800 p-3.5 rounded-2xl rounded-bl-none shadow-sm text-sm text-text-primary leading-relaxed border border-gray-100 dark:border-gray-700">
+<p>Hi! Is the chair still available for pickup this weekend?</p>
+</div>
+<span class="text-[10px] text-text-secondary ml-1 opacity-0 group-hover:opacity-100 transition-opacity">9:41 AM</span>
+</div>
+</div>
+<!-- Message: Sent -->
+<div class="flex items-end gap-2 max-w-[85%] self-end flex-row-reverse group">
+<div class="flex flex-col gap-1 items-end">
+<div class="bg-gradient-to-br from-primary to-[#f0c000] p-3.5 rounded-2xl rounded-br-none shadow-md text-sm text-neutral-900 font-medium leading-relaxed">
+<p>Yes, I'm free Saturday morning.</p>
+</div>
+<span class="text-[10px] text-text-secondary mr-1 opacity-0 group-hover:opacity-100 transition-opacity text-right">9:42 AM</span>
+</div>
+</div>
+<!-- Message: Sent -->
+<div class="flex items-end gap-2 max-w-[85%] self-end flex-row-reverse group">
+<div class="flex flex-col gap-1 items-end">
+<div class="bg-gradient-to-br from-primary to-[#f0c000] p-3.5 rounded-2xl rounded-br-none shadow-md text-sm text-neutral-900 font-medium leading-relaxed">
+<p>Does 10 AM work for you?</p>
+</div>
+<div class="flex items-center gap-1 mr-1">
+<span class="text-[10px] text-text-secondary opacity-0 group-hover:opacity-100 transition-opacity">9:43 AM</span>
+<span class="material-symbols-outlined text-[12px] text-primary">done_all</span>
+</div>
+</div>
+</div>
+<!-- Message: Received -->
+<div class="flex items-end gap-2 max-w-[85%] group">
+<div class="w-8 h-8 rounded-full bg-gray-300 bg-cover bg-center shrink-0 border border-white shadow-sm" data-alt="Sarah J profile picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBoyV7hTvoSUeAhmRI-dzBJBggimYGCv_494cVTdQ9UyH8EDEVdwTxHXQ8zcjk-hBD8a4lFCtQAo1Dr1ALyZ5uQt9pA_X3ArNQ8nixjycJajQFQLS3oBfOuBMQ7MjKhrx7fUP_LpKFfLpZ5J59eS8EnV2G_Pg9LitJ7BhrhfFMTYAvuuDw_hVDBsdH4XvuzFE-Gg0RHKJbzZ0DoE0v9onB30ZwgEDD0KKifJ3fY6yD2HNn5P1kZvl3VvURP90NYllY9lynJHxKQQQ');">
+</div>
+<div class="flex flex-col gap-1">
+<div class="bg-white dark:bg-neutral-800 p-3.5 rounded-2xl rounded-bl-none shadow-sm text-sm text-text-primary leading-relaxed border border-gray-100 dark:border-gray-700">
+<p>Perfect. Where should we meet?</p>
+</div>
+<span class="text-[10px] text-text-secondary ml-1 opacity-0 group-hover:opacity-100 transition-opacity">9:45 AM</span>
+</div>
+</div>
+<!-- System Message: Safety Tip -->
+<div class="my-4 flex justify-center">
+<div class="flex items-center gap-2 bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800/30 px-4 py-2 rounded-full">
+<span class="material-symbols-outlined text-blue-500 text-[16px] shrink-0" style="font-variation-settings: 'FILL' 1;">shield</span>
+<p class="text-[11px] text-blue-600 dark:text-blue-300 font-medium">Biddt Tip: Meet in a public place for safety.</p>
+</div>
+</div>
+<!-- Spacer for input area -->
+<div class="h-4"></div>
+</main>
+<!-- Input Area -->
+<div class="absolute bottom-0 left-0 w-full bg-neutral-surface/90 dark:bg-background-dark/90 backdrop-blur-lg border-t border-primary/10 p-4 pb-6 z-30">
+<div class="flex items-end gap-3">
+<button class="flex items-center justify-center w-10 h-10 rounded-full bg-background-light hover:bg-primary/10 text-primary transition-colors shrink-0">
+<span class="material-symbols-outlined text-[24px]">add_circle</span>
+</button>
+<div class="flex-1 bg-background-light dark:bg-white/5 rounded-2xl border border-gray-200 dark:border-white/10 flex items-center px-4 py-2 min-h-[44px]">
+<textarea class="w-full bg-transparent border-none focus:ring-0 text-sm text-text-primary placeholder:text-text-secondary resize-none h-[24px] max-h-[100px] p-0" placeholder="Type a message..." rows="1"></textarea>
+</div>
+<button class="flex items-center justify-center w-10 h-10 rounded-full bg-primary hover:bg-primary-dark text-neutral-900 shadow-md transition-all transform hover:scale-105 active:scale-95 shrink-0">
+<span class="material-symbols-outlined text-[20px] ml-0.5" style="font-variation-settings: 'FILL' 1;">send</span>
+</button>
+</div>
+</div>
+</div>
+</body></html>

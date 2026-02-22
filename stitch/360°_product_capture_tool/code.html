@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Biddt 360° Capture Tool</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ecb613",
+                        "primary-dark": "#d9a50f",
+                        "background-light": "#f8f8f6",
+                        "background-dark": "#221d10",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>/* Custom Styles for overlays and specific shapes */
+.camera-view-bg {
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuBiGucDcgDXdUnaOd36F5XqSDuP7aSiO3JmTpToJzWs9e2N7W2HAOcCqoEYofviKMpOL9vK0K398fH3eHCx0Pi6I0AT0VRD-cYLNjtZdlEFz9XjtgvnGH8LGTNEUm5qllI5I7tKAtvr1wTPkfv21aGLRoan4gDYQteF9IViRHYf2XxMMqmFdJwrN6xqd4UAf9ZDxPk3VCaGuAnLhMeNPdolS6s6uWfKBj4rhLLCTREoJAWjHK9Do8sY3dAkHBJxg39TFvJbMuaucw);
+    background-size: cover;
+    background-position: center
+    }
+/* Dashed circle animation */
+@keyframes spin-slow {
+    from {
+        transform: rotate(0deg);
+        } to {
+        transform: rotate(360deg);
+        }
+    }
+.spin-slow {
+    animation: spin-slow 12s linear infinite
+    }
+/* Gradient for the progress ring */
+.conic-gradient-progress {
+    background: conic-gradient(var(--tw-gradient-from) 0deg 230deg, transparent 230deg 360deg)
+    }</style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex justify-center items-center p-0 sm:p-4 selection:bg-primary selection:text-black">
+<!-- Phone Container -->
+<div class="relative w-full max-w-[400px] h-[850px] bg-black rounded-[40px] shadow-2xl overflow-hidden border-[8px] border-zinc-800 flex flex-col">
+<!-- Status Bar Area (Simulated) -->
+<div class="absolute top-0 w-full h-8 z-50 flex justify-between items-center px-6 pt-2">
+<span class="text-white text-xs font-semibold">9:41</span>
+<div class="flex gap-1.5">
+<span class="material-symbols-outlined text-white text-[16px]">signal_cellular_alt</span>
+<span class="material-symbols-outlined text-white text-[16px]">wifi</span>
+<span class="material-symbols-outlined text-white text-[16px]">battery_full</span>
+</div>
+</div>
+<!-- Camera Viewport (Background) -->
+<div class="absolute inset-0 camera-view-bg z-0" data-alt="A modern wooden chair in a studio setting, slightly out of focus">
+<!-- Dark Overlay for better UI visibility -->
+<div class="absolute inset-0 bg-black/30"></div>
+</div>
+<!-- Header Controls -->
+<div class="relative z-10 flex justify-between items-center p-4 pt-12">
+<!-- Close Button -->
+<button class="flex items-center justify-center w-12 h-12 rounded-full bg-black/40 backdrop-blur-md text-white hover:bg-black/60 transition-colors">
+<span class="material-symbols-outlined text-[28px]">close</span>
+</button>
+<!-- Context Label -->
+<div class="px-4 py-1.5 bg-black/40 backdrop-blur-md rounded-full border border-white/10">
+<span class="text-xs font-medium text-white tracking-wide uppercase">360° Capture</span>
+</div>
+<!-- Help Button -->
+<button class="flex items-center justify-center w-12 h-12 rounded-full bg-black/40 backdrop-blur-md text-white hover:bg-black/60 transition-colors">
+<span class="material-symbols-outlined text-[28px]">help</span>
+</button>
+</div>
+<!-- Main Capture Area -->
+<div class="relative flex-1 flex flex-col items-center justify-center z-10">
+<!-- Floating Utility Bar (Right Side) -->
+<div class="absolute right-4 top-10 flex flex-col gap-4">
+<button class="flex items-center justify-center w-10 h-10 rounded-full bg-black/40 backdrop-blur-md text-white hover:text-primary transition-colors">
+<span class="material-symbols-outlined">flash_off</span>
+</button>
+<button class="flex items-center justify-center w-10 h-10 rounded-full bg-black/40 backdrop-blur-md text-primary hover:text-primary-dark transition-colors border border-primary/30">
+<span class="material-symbols-outlined">grid_4x4</span>
+</button>
+<button class="flex items-center justify-center w-10 h-10 rounded-full bg-black/40 backdrop-blur-md text-white hover:text-primary transition-colors">
+<span class="material-symbols-outlined">exposure</span>
+</button>
+</div>
+<!-- Central Guide System -->
+<div class="relative w-72 h-72 flex items-center justify-center">
+<!-- Orbit Ring (Progress) -->
+<!-- Using conic gradient via tailwind arbitrary values -->
+<div class="absolute inset-0 rounded-full border-4 border-white/10"></div>
+<div class="absolute inset-[-4px] rounded-full" style="background: conic-gradient(#ecb613 0deg 230deg, transparent 230deg 360deg); -webkit-mask: radial-gradient(transparent 66%, black 67%); mask: radial-gradient(transparent 66%, black 67%);"></div>
+<!-- Circular Guide (Dashed) -->
+<div class="absolute inset-2 border-2 border-dashed border-white/50 rounded-full animate-[spin_20s_linear_infinite]"></div>
+<!-- Ghost Image / Silhouette -->
+<div class="w-48 h-48 opacity-30 flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-[120px]">chair</span>
+</div>
+<!-- Level Indicator (Crosshair) -->
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-full h-[1px] bg-primary/30 absolute"></div>
+<div class="h-full w-[1px] bg-primary/30 absolute"></div>
+<div class="w-4 h-4 rounded-full border border-primary bg-primary/20 backdrop-blur-sm z-20 shadow-[0_0_10px_rgba(236,182,19,0.5)]"></div>
+</div>
+<!-- Degrees Indicator -->
+<div class="absolute -bottom-10 bg-primary/90 text-black text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+                    230°
+                </div>
+</div>
+<!-- Feedback Message -->
+<div class="mt-16 bg-black/60 backdrop-blur-lg px-6 py-3 rounded-full border border-white/10 shadow-xl flex items-center gap-3 animate-pulse">
+<span class="material-symbols-outlined text-primary text-xl">rotate_right</span>
+<p class="text-white text-sm font-medium">Move slowly around the item</p>
+</div>
+</div>
+<!-- Footer / Control Deck -->
+<div class="relative z-20 pb-10 pt-6 px-8 bg-gradient-to-t from-black via-black/80 to-transparent">
+<!-- Quick mode selector (optional visual detail) -->
+<div class="flex justify-center gap-6 mb-8 text-sm font-medium tracking-wider">
+<span class="text-white/40">PHOTO</span>
+<span class="text-primary drop-shadow-[0_0_8px_rgba(236,182,19,0.6)]">360° VIEW</span>
+<span class="text-white/40">VIDEO</span>
+</div>
+<div class="flex items-center justify-between">
+<!-- Gallery Thumbnail -->
+<button class="w-14 h-14 rounded-xl overflow-hidden border-2 border-white/20 hover:border-white transition-colors relative group">
+<div class="absolute inset-0 bg-cover bg-center transition-transform group-hover:scale-110" data-alt="Thumbnail of last taken photo showing a sofa" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuARDCZhg22EZ8HDOsUvJmpWCuzDibzBubXlgdwS7otAFN6cNCDXK6zXcPFoNt2naNbNPCy0YZ1LE_BFPF3b9v8i2qHwDP7T945eOFNS2q5JlPC9M0isiKvbE0TwIEsvupf2JPG_OGLpiv3G69re-dFMtKAK3F2x61Phde9h3EbcKwIaem3VlQhFf7mGVgja6oLlxSj-mF1Hxaeq5qJEyGM_nK8f7B0qK0IEmswVHyGQvvbMG8GsV-nE9Mgl63Xbm5bxWRYTtd5O0g');"></div>
+</button>
+<!-- Shutter Button -->
+<button class="relative w-20 h-20 group">
+<!-- Outer Ring -->
+<div class="absolute inset-0 rounded-full border-[5px] border-white group-active:scale-95 transition-transform duration-100"></div>
+<!-- Inner Circle (Fill) -->
+<div class="absolute inset-2 rounded-full bg-primary shadow-[0_0_15px_rgba(236,182,19,0.4)] group-active:scale-90 transition-transform duration-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-black/50 text-3xl font-bold">stop</span>
+</div>
+</button>
+<!-- Camera Switch -->
+<button class="w-14 h-14 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/20 transition-colors">
+<span class="material-symbols-outlined text-2xl">flip_camera_ios</span>
+</button>
+</div>
+<!-- Bottom safe area indicator -->
+<div class="w-32 h-1 bg-white/20 rounded-full mx-auto mt-8"></div>
+</div>
+</div>
+</body></html>

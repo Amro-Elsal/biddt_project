@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fund Buying Power - Light Mode</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {
+            --charcoal-bg: #121212;
+            --charcoal-text: #1a1a1a;
+            --spark-gold: #FFD700;
+            --deep-gold: #B8860B;
+            --soft-gold-tint: #FFF9E5;
+            --pearl-white: #F8F9FA;
+            --gold-border: rgba(212, 175, 55, 0.4);
+            --gold-glow: rgba(255, 215, 0, 0.4);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--pearl-white);
+            color: var(--charcoal-text);
+            -webkit-font-smoothing: antialiased;
+        }
+        .bg-pearl-gradient {
+            background: linear-gradient(180deg, #FFFFFF 0%, #F5F5F5 100%);
+        }
+        .gold-card {
+            background-color: var(--soft-gold-tint);
+            border: 1px solid var(--gold-border);
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.08);
+        }
+        .chip-option {
+            background-color: white;
+            border: 1px solid var(--gold-border);
+            color: var(--charcoal-text);
+            transition: all 0.2s ease;
+        }
+        .chip-option:active {
+            background-color: var(--soft-gold-tint);
+            transform: scale(0.98);
+        }
+        .chip-option.selected {
+            background-color: var(--spark-gold);
+            border-color: var(--deep-gold);
+            font-weight: 600;
+        }
+        .btn-gold-gradient {
+            background: linear-gradient(135deg, #FFD700 0%, #E6C200 50%, #D4AF37 100%);
+            color: #1a1a1a;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.25);
+            transition: all 0.3s ease;
+        }
+        .btn-gold-gradient:active {
+            transform: scale(0.98);
+        }
+        .input-underline {
+            border: none;
+            border-bottom: 2px solid #E5E7EB;
+            border-radius: 0;
+            background: transparent;
+            padding: 0.5rem 0;
+            transition: border-color 0.3s ease;
+        }
+        .input-underline:focus {
+            ring: 0;
+            outline: none;
+            border-bottom-color: var(--deep-gold);
+            box-shadow: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-pearl-gradient min-h-screen flex flex-col relative">
+<div class="px-6 pt-12 pb-4 flex items-center justify-between z-10">
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-sm border border-gray-100">
+<span class="material-symbols-outlined text-gray-700 text-xl">arrow_back</span>
+</button>
+<h2 class="text-base font-semibold text-gray-900 tracking-wide uppercase">Add Funds</h2>
+<div class="w-10"></div> 
+</div>
+<div class="flex-1 px-6 flex flex-col w-full max-w-md mx-auto z-10">
+<div class="mt-4 mb-8 text-center">
+<p class="text-sm text-gray-500 font-medium tracking-wide uppercase mb-2">Buying Power</p>
+<div class="relative inline-block">
+<span class="text-3xl font-light text-gray-400 align-top mt-2 inline-block">$</span>
+<input class="text-6xl font-bold text-[var(--charcoal-text)] bg-transparent border-none text-center w-48 focus:ring-0 p-0 font-['Inter'] tracking-tight placeholder-gray-300" placeholder="0" type="text" value="0.00"/>
+</div>
+<p class="text-xs text-gray-400 mt-2">Available Balance: $124.50</p>
+</div>
+<div class="gold-card rounded-2xl p-5 mb-8 relative overflow-hidden">
+<div class="absolute -top-6 -right-6 w-20 h-20 bg-[var(--spark-gold)] opacity-10 rounded-full blur-xl"></div>
+<div class="flex items-start gap-4">
+<div class="w-10 h-10 rounded-full bg-white flex items-center justify-center border border-[var(--gold-border)] shadow-sm shrink-0">
+<span class="material-symbols-outlined text-[var(--deep-gold)]">shield_lock</span>
+</div>
+<div>
+<h3 class="font-semibold text-gray-900 mb-1">10% Deposit Rule</h3>
+<p class="text-xs text-gray-600 leading-relaxed">
+                        To maintain a safe marketplace, Biddt requires a 10% refundable deposit of your intended bid amount. This Buying Power unlocks your ability to bid.
+                    </p>
+</div>
+</div>
+</div>
+<div class="mb-8">
+<p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4 px-1">Quick Select</p>
+<div class="grid grid-cols-3 gap-3">
+<button class="chip-option rounded-xl py-3 font-medium text-sm shadow-sm">$100</button>
+<button class="chip-option rounded-xl py-3 font-medium text-sm shadow-sm">$500</button>
+<button class="chip-option rounded-xl py-3 font-medium text-sm shadow-sm">$1,000</button>
+<button class="chip-option rounded-xl py-3 font-medium text-sm shadow-sm">$2,500</button>
+<button class="chip-option rounded-xl py-3 font-medium text-sm shadow-sm">$5,000</button>
+<button class="chip-option rounded-xl py-3 font-medium text-sm shadow-sm">Custom</button>
+</div>
+</div>
+<div class="flex items-center justify-between py-4 border-t border-gray-100 mb-auto">
+<div class="flex items-center gap-3">
+<div class="w-10 h-6 bg-gray-100 rounded border border-gray-200 flex items-center justify-center">
+<i class="fa-brands fa-cc-apple-pay text-black text-lg"></i>
+</div>
+<div>
+<p class="text-sm font-semibold text-gray-900">Apple Pay</p>
+<p class="text-[10px] text-gray-500">Chase Ending in •••• 4242</p>
+</div>
+</div>
+<button class="text-[var(--deep-gold)] text-xs font-semibold uppercase tracking-wide">Change</button>
+</div>
+<div class="pb-8">
+<button class="btn-gold-gradient w-full py-4 rounded-xl font-bold text-base shadow-lg flex items-center justify-center gap-2 group">
+<span class="material-symbols-outlined text-xl group-active:scale-95 transition-transform">add_card</span>
+                Add Funds
+            </button>
+<p class="text-[10px] text-center text-gray-400 mt-4 flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[12px]">lock</span>
+                Payments are processed securely
+            </p>
+</div>
+</div>
+<div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+<div class="absolute top-[-10%] right-[-20%] w-[80%] h-[40%] bg-gradient-to-b from-yellow-50 to-transparent rounded-full blur-3xl opacity-60"></div>
+<div class="absolute bottom-[-10%] left-[-10%] w-[60%] h-[30%] bg-gradient-to-t from-gray-100 to-transparent rounded-full blur-3xl opacity-50"></div>
+</div>
+
+</body></html>

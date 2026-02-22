@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Add Bidding Funds - Biddt</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ecb613",
+                        "background-light": "#f8f8f6",
+                        "background-dark": "#181611", 
+                        "surface-dark": "#27241c",
+                        "surface-highlight": "#393528",
+                        "border-dark": "#544d3b"
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar hiding */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* Glassmorphism utility */
+        .glass-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col antialiased selection:bg-primary/30 selection:text-primary">
+<!-- Top Navigation -->
+<div class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-black/5 dark:border-white/5">
+<div class="flex items-center justify-between px-4 h-14">
+<button class="flex items-center justify-center w-10 h-10 -ml-2 rounded-full text-slate-500 dark:text-[#b9b29d] hover:bg-black/5 dark:hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined text-[28px]">close</span>
+</button>
+<h1 class="text-lg font-bold tracking-tight">Add Buying Power</h1>
+<button class="text-sm font-medium text-slate-500 dark:text-[#b9b29d]">Help</button>
+</div>
+</div>
+<!-- Main Content Scroll Area -->
+<main class="flex-1 overflow-y-auto pb-32">
+<!-- Balance Display -->
+<div class="text-center pt-8 pb-6">
+<p class="text-sm font-medium text-slate-500 dark:text-[#b9b29d] mb-1">Current Balance</p>
+<h2 class="text-3xl font-bold tracking-tight">$250.00</h2>
+</div>
+<!-- Amount Input Section -->
+<div class="px-5">
+<div class="relative group">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+<span class="text-2xl font-bold text-slate-400 dark:text-[#b9b29d]">$</span>
+</div>
+<input class="block w-full pl-10 pr-4 py-5 bg-white dark:bg-surface-dark border-2 border-slate-200 dark:border-border-dark rounded-2xl text-3xl font-bold text-slate-900 dark:text-white placeholder:text-slate-300 dark:placeholder:text-[#544d3b] focus:border-primary focus:ring-0 focus:outline-none transition-all text-center" placeholder="0.00" type="number" value="500.00"/>
+<div class="absolute inset-y-0 right-4 flex items-center">
+<button class="p-1 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+<span class="material-symbols-outlined text-[20px]">backspace</span>
+</button>
+</div>
+</div>
+<!-- Quick Amount Chips -->
+<div class="flex gap-3 mt-4 overflow-x-auto no-scrollbar pb-2">
+<button class="flex-shrink-0 px-5 py-2.5 rounded-xl bg-slate-100 dark:bg-surface-highlight border border-transparent hover:border-primary/50 text-sm font-semibold transition-colors">
+                    +$50
+                </button>
+<button class="flex-shrink-0 px-5 py-2.5 rounded-xl bg-slate-100 dark:bg-surface-highlight border border-transparent hover:border-primary/50 text-sm font-semibold transition-colors">
+                    +$100
+                </button>
+<button class="flex-shrink-0 px-5 py-2.5 rounded-xl bg-primary text-black border border-primary text-sm font-semibold shadow-lg shadow-primary/20 transition-colors">
+                    +$500
+                </button>
+<button class="flex-shrink-0 px-5 py-2.5 rounded-xl bg-slate-100 dark:bg-surface-highlight border border-transparent hover:border-primary/50 text-sm font-semibold transition-colors">
+                    +$1000
+                </button>
+</div>
+<!-- Informational Note -->
+<div class="flex gap-3 mt-6 p-4 rounded-xl bg-primary/10 border border-primary/20">
+<span class="material-symbols-outlined text-primary shrink-0">info</span>
+<p class="text-xs text-slate-600 dark:text-[#b9b29d] leading-relaxed">
+                    Funds are securely held and used for the <span class="text-primary font-bold">10% bidding deposit</span> required to place bids and for your final purchases.
+                </p>
+</div>
+</div>
+<div class="h-px w-full bg-slate-200 dark:bg-white/5 my-8"></div>
+<!-- Payment Methods -->
+<div class="px-5 space-y-4">
+<h3 class="text-xs font-bold text-slate-500 dark:text-[#b9b29d] uppercase tracking-wider mb-4">Payment Method</h3>
+<!-- Apple Pay Option -->
+<label class="relative flex items-center p-4 rounded-xl border border-slate-200 dark:border-border-dark bg-white dark:bg-surface-dark cursor-pointer group hover:border-primary transition-colors">
+<input class="peer sr-only" name="payment_method" type="radio"/>
+<div class="flex items-center justify-center w-12 h-8 bg-black rounded text-white mr-4">
+<span class="material-symbols-outlined text-[20px]">ios</span>
+</div>
+<div class="flex-1">
+<span class="font-semibold block">Apple Pay</span>
+</div>
+<div class="w-5 h-5 rounded-full border-2 border-slate-300 dark:border-slate-600 peer-checked:border-primary peer-checked:bg-primary transition-all relative flex items-center justify-center">
+<div class="w-2 h-2 bg-black rounded-full opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+</div>
+</label>
+<!-- Credit Card Option (Glassmorphic) -->
+<label class="relative block cursor-pointer">
+<input checked="" class="peer sr-only" name="payment_method" type="radio"/>
+<!-- Active Indicator Border -->
+<div class="absolute -inset-[2px] rounded-[18px] bg-gradient-to-r from-primary via-yellow-200 to-primary opacity-0 peer-checked:opacity-100 transition-opacity z-0 blur-[2px]"></div>
+<div class="relative z-10 p-5 rounded-2xl glass-card overflow-hidden group">
+<!-- Abstract Background Pattern for Card -->
+<div class="absolute -right-10 -top-10 w-40 h-40 bg-primary/20 rounded-full blur-3xl"></div>
+<div class="absolute -left-10 -bottom-10 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl"></div>
+<div class="relative flex justify-between items-start mb-6">
+<img alt="Mastercard Logo" class="h-8 w-auto opacity-80" data-alt="Mastercard logo on payment card" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTn4I9NK4Xlc4hTamg8pRHErkndLnhYR-v6J5AmWbY_RAdhJQAb71UBZemlBNzFzyAFLTTXg7aN6JlbfBBEnyrXpxikgdykJosyC0iqEqaTOWTjunIshHmx3AERh3Hj8T7QMUesxWm-5jcX_juxhsdE88Jc8rNB9HxbqSUHimMtS1XELkHZfwspsiT6XfoSrZTN2CGs7JpYA0xVZ7Kbl534hGGrE9JuBz15Tvhv1K1WEIMLRGs9LFwDMZ9DG3htdttZS4QAtHVZA"/>
+<div class="w-5 h-5 rounded-full border-2 border-white/30 bg-white/10 peer-checked:bg-primary peer-checked:border-primary transition-all flex items-center justify-center shadow-inner">
+<div class="w-2 h-2 bg-black rounded-full opacity-0 peer-checked:opacity-100"></div>
+</div>
+</div>
+<div class="relative">
+<p class="text-xs text-white/60 mb-1 uppercase tracking-widest font-medium">Biddt Card</p>
+<div class="flex items-center gap-3">
+<span class="text-white text-lg tracking-widest font-mono">•••• •••• •••• 4242</span>
+</div>
+</div>
+</div>
+</label>
+<!-- Add New Method -->
+<button class="w-full flex items-center gap-3 p-4 rounded-xl border border-dashed border-slate-300 dark:border-border-dark text-slate-500 dark:text-[#b9b29d] hover:bg-slate-50 dark:hover:bg-white/5 transition-colors">
+<span class="material-symbols-outlined">add_card</span>
+<span class="font-medium text-sm">Add New Card or Bank</span>
+</button>
+</div>
+<div class="h-px w-full bg-slate-200 dark:bg-white/5 my-8"></div>
+<!-- Auto Replenish Toggle -->
+<div class="px-5 pb-8">
+<div class="flex items-center justify-between">
+<div class="pr-4">
+<p class="text-base font-semibold text-slate-900 dark:text-white">Auto-replenish</p>
+<p class="text-xs text-slate-500 dark:text-[#b9b29d] mt-1">Automatically add $200 when balance drops below $50 to maintain bidding power.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer flex-shrink-0">
+<input class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-surface-highlight peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</main>
+<!-- Sticky Footer CTA -->
+<div class="fixed bottom-0 left-0 right-0 p-5 bg-background-light dark:bg-background-dark border-t border-slate-200 dark:border-white/5 backdrop-blur-xl z-40 pb-8">
+<button class="w-full bg-primary hover:bg-yellow-400 text-black font-bold text-lg py-4 px-6 rounded-xl shadow-lg shadow-primary/25 transition-all transform active:scale-[0.98] flex items-center justify-center gap-2">
+<span>Confirm &amp; Pay $500.00</span>
+<span class="material-symbols-outlined text-[20px] font-bold">arrow_forward</span>
+</button>
+<div class="flex items-center justify-center gap-1.5 mt-3 text-slate-400 dark:text-[#544d3b]">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+<span class="text-[10px] font-medium uppercase tracking-wider">Secure 256-bit SSL Encryption</span>
+</div>
+</div>
+</body></html>
