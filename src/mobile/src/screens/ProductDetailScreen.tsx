@@ -1,309 +1,375 @@
-import React, { useState, useRef, useEffect } from 'react';
+// src/screens/ProductDetailScreen.tsx
+import React, { useState } from 'react';
 import { 
   View, 
   Text, 
   StyleSheet, 
-  ScrollView, 
-  Image, 
+  ScrollView,
+  Image,
   TouchableOpacity,
-  SafeAreaView,
-  TextInput,
-  Animated,
-  Easing,
-  Modal,
+  Dimensions,
+  FlatList
 } from 'react-native';
-import { colors, spacing, typography } from '../theme';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
+import { Avatar } from '../components/Avatar';
 import { Button } from '../components/Button';
+import { Timer } from '../components/Timer';
+import { Card } from '../components/Card';
+import { PricePredictor } from '../components/PricePredictor';
+import { Theme, typography, spacing, borderRadius } from '../theme';
+import { Listing } from '../types';
 
-export const ProductDetailScreen = ({ route, navigation }: any) => {
-  const { listing } = route.params;
-  const [bidAmount, setBidAmount] = useState('');
-  const [showBidInput, setShowBidInput] = useState(false);
-  const [showWinModal, setShowWinModal] = useState(false);
-  const [currentBid, setCurrentBid] = useState(listing.currentBid);
-  const [isOutbid, setIsOutbid] = useState(false);
+const { width } = Dimensions.get('window');
 
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  const slideAnim = useRef(new Animated.Value(100)).current;
-  const scaleAnim = useRef(new Animated.Value(0.8)).current;
+interface ProductDetailScreenProps {
+  navigation: any;
+  route?: { params?: { listing?: Listing } };
+  theme: Theme;
+}
 
-  useEffect(() => {
-    Animated.parallel([
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 400,
-        useNativeDriver: true,
-      }),
-      Animated.timing(slideAnim, {
-        toValue: 0,
-        duration: 500,
-        easing: Easing.out(Easing.back(1.2)),
-        useNativeDriver: true,
-      }),
-    ]).start();
-  }, []);
+export const ProductDetailScreen: React.FC<ProductDetailScreenProps> = ({ 
+  navigation, 
+  route,
+  theme 
+}) => {
+  const { colors } = theme;
+  const { listing } = route?.params || {};
+  if (!listing) return null;
+  const [activeTab, setActiveTab] = useState<'description' | 'details' | 'bids'>('description');
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const formatPrice = (cents: number) => `$${(cents / 100).toLocaleString()}`;
-  
-  const minBid = currentBid + 500;
+  const tabs = [
+    { key: 'description', label: 'Description' },
+    { key: 'details', label: 'Details' },
+    { key: 'bids', label: 'Bid History' },
+  ];
 
-  const handlePlaceBid = () => {
-    const bid = parseInt(bidAmount) * 100;
-    if (bid >= minBid) {
-      setCurrentBid(bid);
-      setShowBidInput(false);
-      setBidAmount('');
-      setShowWinModal(true);
-      
-      // Animate win modal
-      Animated.sequence([
-        Animated.timing(scaleAnim, {
-          toValue: 1.2,
-          duration: 200,
-          useNativeDriver: true,
-        }),
-        Animated.spring(scaleAnim, {
-          toValue: 1,
-          friction: 4,
-          tension: 100,
-          useNativeDriver: true,
-        }),
-      ]).start();
+  const mockBids = [
+    { id: '1', bidder: 'sneaker_king', amount: 450, time: '2 min ago' },
+    { id: '2', bidder: 'collector_99', amount: 425, time: '15 min ago' },
+    { id: '3', bidder: 'jordan_fan', amount: 400, time: '32 min ago' },
+    { id: '4', bidder: 'bid_master', amount: 375, time: '1 hour ago' },
+  ];
 
-      setTimeout(() => setShowWinModal(false), 3000);
-    } else {
-      alert(`Minimum bid is ${formatPrice(minBid)}`);
-    }
-  };
-
-  const quickBids = [5, 10, 25, 50];
+  const similarItems = [
+    {
+      id: 's1',
+      title: 'Air Jordan 4 Retro',
+      price: 380,
+      image: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400',
+    },
+    {
+      id: 's2',
+      title: 'Nike Dunk Low',
+      price: 220,
+      image: 'https://images.unsplash.com/photo-1600269452121-4f2416e55c28?w=400',
+    },
+    {
+      id: 's3',
+      title: 'Yeezy Boost 350',
+      price: 290,
+      image: 'https://images.unsplash.com/photo-1606902965551-dce093cda6e7?w=400',
+    },
+  ];
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {/* Header */}
-        <View style={styles.header}>
-          <TouchableOpacity 
-            style={styles.headerButton} 
-            onPress={() => navigation.goBack()}
-          >
-            <Text style={styles.headerButtonText}>←</Text>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+      {/* Header */}
+      <View style={styles.header}>
+        <TouchableOpacity 
+          style={[styles.iconButton, { backgroundColor: colors.surface }]}
+          onPress={() => navigation.goBack()}
+        >
+          <Ionicons name="arrow-back" size={24} color={colors.textPrimary} />
+        </TouchableOpacity>
+        
+        <View style={styles.headerActions}>
+          <TouchableOpacity style={[styles.iconButton, { backgroundColor: colors.surface }]}>
+            <Ionicons name="share-outline" size={22} color={colors.textPrimary} />
           </TouchableOpacity>
           
-          <View style={styles.headerActions}>
-            <TouchableOpacity style={styles.headerButton}>
-              <Text style={styles.headerButtonText}>♡</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.headerButton}>
-              <Text style={styles.headerButtonText}>↗</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity style={[styles.iconButton, { backgroundColor: colors.surface }]}>
+            <Ionicons name="heart-outline" size={22} color={colors.textPrimary} />
+          </TouchableOpacity>
         </View>
+      </View>
 
-        {/* Image */}
-        <Animated.View style={{ opacity: fadeAnim }}>
-          <Image source={{ uri: listing.image }} style={styles.image} />
-        </Animated.View>
-
-        {/* Live Badge */}
-        <View style={styles.liveBadge}>
-          <View style={styles.liveDot} />
-          <Text style={styles.liveText}>LIVE AUCTION</Text>
-          <View style={styles.watcherBadge}>
-            <Text style={styles.watcherText}>👥 12 watching</Text>
-          </View>
-        </View>
-
-        {/* Content */}
-        <Animated.View 
-          style={[
-            styles.content,
-            {
-              opacity: fadeAnim,
-              transform: [{ translateY: slideAnim }],
-            }
-          ]}
-        >
-          <Text style={styles.title}>{listing.title}</Text>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {/* Image Carousel */}
+        <View style={styles.imageContainer}>
+          <FlatList
+            data={listing.images}
+            horizontal
+            pagingEnabled
+            showsHorizontalScrollIndicator={false}
+            onScroll={(e) => {
+              const index = Math.round(e.nativeEvent.contentOffset.x / width);
+              setCurrentImageIndex(index);
+            }}
+            renderItem={({ item }) => (
+              <Image source={{ uri: item }} style={styles.image} />
+            )}
+            keyExtractor={(_, index) => index.toString()}
+          />
           
-          <View style={styles.sellerCard}>
-            <View style={styles.sellerAvatar}>
-              <Text style={styles.sellerAvatarText}>{listing.seller.name[0]}</Text>
-            </View>
-            <View style={styles.sellerInfo}>
-              <Text style={styles.sellerName}>{listing.seller.name}</Text>
-              <View style={styles.sellerStats}>
-                <Text style={styles.sellerRating}>★ {listing.seller.rating}</Text>
-                <Text style={styles.sellerDivider}>•</Text>
-                <Text style={styles.sellerSales}>234 sales</Text>
-              </View>
-            </View>
+          {/* 360 View Badge */}
+          <View style={[styles.view360Badge, { backgroundColor: colors.surface }]}>
+            <Ionicons name="scan-circle" size={16} color={colors.textPrimary} />
+            <Text style={[styles.view360Text, { color: colors.textPrimary }]} >360°</Text>
+          </View>
+          
+          {/* Image Dots */}
+          <View style={styles.dotsContainer}>
+            {listing.images.map((_, index) => (
+              <View
+                key={index}
+                style={[
+                  styles.dot,
+                  {
+                    backgroundColor: index === currentImageIndex 
+                      ? colors.primary 
+                      : 'rgba(255,255,255,0.5)',
+                  },
+                ]}
+              />
+            ))}
+          </View>
+        </View>
+
+        <View style={styles.content}>
+          {/* Lot Number & Timer */}
+          <View style={styles.lotRow}>
+            <Text style={[styles.lotNumber, { color: colors.textMuted }]} >
+              Lot #{listing.lotNumber}
+            </Text>
             
-            <TouchableOpacity style={styles.contactButton}>
-              <Text style={styles.contactButtonText}>Contact</Text>
-            </TouchableOpacity>
+            <View style={[styles.liveBadge, { backgroundColor: colors.live }]} >
+              <View style={styles.liveDot} />
+              <Text style={styles.liveText}>LIVE</Text>
+            </View>
           </View>
 
-          {/* Price Section */}
-          <View style={styles.priceCard}>
-            <View style={styles.priceMain}>
-              <Text style={styles.priceLabel}>Current Bid</Text>
-              <Text style={[
-                styles.currentPrice,
-                isOutbid && styles.outbidPrice
-              ]}>
-                {formatPrice(currentBid)}
+          {/* Title */}
+          <Text style={[styles.title, { color: colors.textPrimary }]} >
+            {listing.title}
+          </Text>
+
+          {/* Price */}
+          <View style={styles.priceRow}>
+            <View>
+              <Text style={[styles.currentBidLabel, { color: colors.textMuted }]} >
+                Current Bid
               </Text>
-              {isOutbid && (
-                <Text style={styles.outbidText}>You've been outbid!</Text>
-              )}
+              <Text style={[styles.currentBid, { color: colors.textPrimary }]} >
+                ${listing.currentPrice.toLocaleString()}
+              </Text>
             </View>
             
-            <View style={styles.timeSection}>
-              <Text style={styles.timeLabel}>Ends in</Text>
-              <View style={styles.timeBox}>
-                <Text style={styles.timeValue}>{listing.timeLeft}</Text>
-              </View>
-            </View>
+            <Text style={[styles.originalPrice, { color: colors.textMuted }]} >
+              ${listing.startingPrice.toLocaleString()}
+            </Text>
           </View>
 
-          {/* Bid History */}
-          <View style={styles.bidHistory}>
-            <View style={styles.bidHistoryHeader}>
-              <Text style={styles.sectionTitle}>Bid History</Text>
-              <View style={styles.bidCountBadge}>
-                <Text style={styles.bidCountText}>{listing.bidCount} bids</Text>
+          {/* Timer */}
+          <View style={styles.timerContainer}>
+            <Text style={[styles.timerLabel, { color: colors.textSecondary }]} >
+              Auction ends in:
+            </Text>
+            <Timer endTime={new Date(listing.endTime)} theme={theme} />
+          </View>
+
+          {/* Buying Power Card */}
+          <Card theme={theme} style={styles.buyingPowerCard}>
+            <View style={styles.buyingPowerContent}>
+              <View>
+                <Text style={[styles.buyingPowerLabel, { color: colors.textMuted }]} >
+                  Your Buying Power
+                </Text>
+                <Text style={[styles.buyingPowerAmount, { color: colors.textPrimary }]} >
+                  $0
+                </Text>
               </View>
+              
+              <Button
+                title="Add Funds"
+                variant="outline"
+                size="sm"
+                onPress={() => navigation.navigate('Payment')}
+                theme={theme}
+              />
+            </View>
+          </Card>
+
+          {/* Smart Price Predictor */}
+          <PricePredictor
+            currentPrice={listing.currentPrice}
+            similarSoldPrice={listing.currentPrice * 1.1}
+            bidCount={listing.bids?.length || 0}
+            watchers={listing.watchers}
+            timeLeft={4}
+            theme={theme}
+            onAcceptSuggestion={(amount) => navigation.navigate('Payment', { listing: { ...listing, suggestedBid: amount } })}
+          />
+
+          {/* Seller Info */}
+          <TouchableOpacity style={styles.sellerRow}>
+            <Avatar
+              uri={listing.seller.avatar}
+              name={listing.seller.displayName}
+              size="lg"
+              verified={listing.seller.verified}
+              theme={theme}
+            />
+            
+            <View style={styles.sellerInfo}>
+              <View style={styles.sellerNameRow}>
+                <Text style={[styles.sellerName, { color: colors.textPrimary }]} >
+                  {listing.seller.displayName}
+                </Text>
+                
+                {listing.seller.verified && (
+                  <View style={[styles.verifiedBadge, { backgroundColor: colors.success }]} >
+                    <Text style={styles.verifiedText}>Verified</Text>
+                  </View>
+                )}
+              </View>
+              
+              <Text style={[styles.sellerStats, { color: colors.textMuted }]} >
+                {listing.seller.soldCount} sold • {listing.seller.replyTime} reply
+              </Text>
             </View>
             
-            {[1, 2, 3].map((_, i) => (
-              <View key={i} style={styles.bidRow}>
-                <View style={styles.bidderInfo}>
-                  <View style={styles.bidderAvatar}>
-                    <Text style={styles.bidderAvatarText}>B</Text>
-                  </View>
-                  <Text style={styles.bidder}>Bidder {listing.bidCount - i}</Text>
-                </View>
-                <Text style={styles.bidAmount}>{formatPrice(currentBid - (i * 1000))}</Text>
-              </View>
+            <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
+          </TouchableOpacity>
+
+          {/* Tabs */}
+          <View style={styles.tabsContainer}>
+            {tabs.map(tab => (
+              <TouchableOpacity
+                key={tab.key}
+                style={[
+                  styles.tab,
+                  activeTab === tab.key && { borderBottomColor: colors.primary, borderBottomWidth: 2 },
+                ]}
+                onPress={() => setActiveTab(tab.key as any)}
+              >
+                <Text
+                  style={[
+                    styles.tabText,
+                    {
+                      color: activeTab === tab.key ? colors.textPrimary : colors.textMuted,
+                      fontFamily: activeTab === tab.key 
+                        ? typography.fontFamily.semibold 
+                        : typography.fontFamily.medium,
+                    },
+                  ]}
+                >
+                  {tab.label}
+                </Text>
+              </TouchableOpacity>
             ))}
           </View>
 
-          {/* Description */}
-          <View style={styles.descriptionSection}>
-            <Text style={styles.sectionTitle}>Description</Text>
-            <Text style={styles.description}>{listing.description}</Text>
+          {/* Tab Content */}
+          <View style={styles.tabContent}>
+            {activeTab === 'description' && (
+              <Text style={[styles.description, { color: colors.textSecondary }]} >
+                {listing.description}
+              </Text>
+            )}
             
-            <View style={styles.tags}>
-              {['Vintage', 'Authentic', 'Verified'].map((tag, i) => (
-                <View key={i} style={styles.tag}>
-                  <Text style={styles.tagText}>✓ {tag}</Text>
-                </View>
-              ))}
-            </View>
+            {activeTab === 'details' && (
+              <View>
+                {[
+                  { label: 'Condition', value: listing.condition },
+                  { label: 'Category', value: listing.category },
+                  { label: 'Location', value: listing.location },
+                  { label: 'Shipping', value: `$${listing.shipping.cost}` },
+                  { label: 'Watchers', value: listing.watchers.toString() },
+                ].map((detail, index) => (
+                  <View key={index} style={styles.detailRow}>
+                    <Text style={[styles.detailLabel, { color: colors.textMuted }]} >
+                      {detail.label}
+                    </Text>
+                    <Text style={[styles.detailValue, { color: colors.textPrimary }]} >
+                      {detail.value}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            )}
+            
+            {activeTab === 'bids' && (
+              <View>
+                {mockBids.map((bid, index) => (
+                  <View key={bid.id} style={styles.bidRow}>
+                    <View style={styles.bidderInfo}>
+                      <Text style={[styles.bidderRank, { color: colors.textMuted }]} >
+                        #{index + 1}
+                      </Text>
+                      <Text style={[styles.bidderName, { color: colors.textPrimary }]} >
+                        {bid.bidder}
+                      </Text>
+                    </View>
+                    <View style={styles.bidInfo}>
+                      <Text style={[styles.bidAmount, { color: colors.textPrimary }]} >
+                        ${bid.amount}
+                      </Text>
+                      <Text style={[styles.bidTime, { color: colors.textMuted }]} >
+                        {bid.time}
+                      </Text>
+                    </View>
+                  </View>
+                ))}
+              </View>
+            )}
           </View>
-        </Animated.View>
 
-        <View style={styles.bottomPadding} />
+          {/* Similar Auctions */}
+          <View style={styles.similarSection}>
+            <Text style={[styles.similarTitle, { color: colors.textPrimary }]} >
+              Similar Auctions
+            </Text>
+            
+            <FlatList
+              data={similarItems}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={item => item.id}
+              renderItem={({ item }) => (
+                <TouchableOpacity style={styles.similarItem}>
+                  <Image source={{ uri: item.image }} style={styles.similarImage} />
+                  <Text 
+                    style={[styles.similarItemTitle, { color: colors.textPrimary }]}
+                    numberOfLines={1}
+                  >
+                    {item.title}
+                  </Text>
+                  
+                  <Text style={[styles.similarItemPrice, { color: colors.textPrimary }]} >
+                    ${item.price}
+                  </Text>
+                </TouchableOpacity>
+              )}
+              contentContainerStyle={styles.similarList}
+            />
+          </View>
+
+          <View style={{ height: 100 }} />
+        </View>
       </ScrollView>
 
-      {/* Bottom Action Bar */}
-      <View style={styles.bottomBar}>
-        {showBidInput ? (
-          <View style={styles.bidInputContainer}>
-            <Text style={styles.minBidText}>Min bid: {formatPrice(minBid)}</Text>
-            
-            <View style={styles.quickBids}>
-              {quickBids.map((amount) => (
-                <TouchableOpacity
-                  key={amount}
-                  style={styles.quickBidButton}
-                  onPress={() => {
-                    const newBid = Math.round((currentBid/100 + amount));
-                    setBidAmount(newBid.toString());
-                  }}
-                >
-                  <Text style={styles.quickBidText}>+${amount}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-            
-            <View style={styles.bidInputRow}>
-              <Text style={styles.dollarSign}>$</Text>
-              <TextInput
-                style={styles.bidInput}
-                placeholder="0"
-                placeholderTextColor={colors.muted}
-                keyboardType="numeric"
-                value={bidAmount}
-                onChangeText={setBidAmount}
-                autoFocus
-              />
-            </View>
-            
-            <View style={styles.bidButtons}>
-              <TouchableOpacity 
-                style={styles.cancelButton}
-                onPress={() => {
-                  setShowBidInput(false);
-                  setBidAmount('');
-                }}
-              >
-                <Text style={styles.cancelText}>Cancel</Text>
-              </TouchableOpacity>
-              <TouchableOpacity 
-                style={styles.placeBidButton}
-                onPress={handlePlaceBid}
-              >
-                <Text style={styles.placeBidText}>Place Bid</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        ) : (
-          <View style={styles.actionButtons}>
-            <TouchableOpacity style={styles.watchButton}>
-              <Text style={styles.watchIcon}>♡</Text>
-              <Text style={styles.watchText}>Watch</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity 
-              style={styles.bidButton}
-              onPress={() => setShowBidInput(true)}
-            >
-              <Text style={styles.bidButtonText}>Place Bid</Text>
-            </TouchableOpacity>
-          </View>
-        )}
+      {/* Bottom Action */}
+      <View style={[styles.bottomBar, { backgroundColor: colors.surface, borderTopColor: colors.border }]}>
+        <Button
+          title="Deposit & Bid"
+          size="lg"
+          onPress={() => navigation.navigate('Payment', { listing })}
+          theme={theme}
+          style={{ flex: 1 }}
+        />
       </View>
-
-      {/* Win Modal */}
-      <Modal
-        visible={showWinModal}
-        transparent
-        animationType="fade"
-      >
-        <View style={styles.modalOverlay}>
-          <Animated.View 
-            style={[
-              styles.modalContent,
-              { transform: [{ scale: scaleAnim }] }
-            ]}
-          >
-            <View style={styles.confetti}>
-              <Text style={styles.confettiText}>🎉</Text>
-            </View>
-            
-            <View style={styles.trophy}>
-              <Text style={styles.trophyText}>🏆</Text>
-            </View>
-            
-            <Text style={styles.winTitle}>You're Winning!</Text>
-            <Text style={styles.winAmount}>{formatPrice(currentBid)}</Text>
-            
-            <Text style={styles.winSubtitle}>Keep watching to maintain your lead</Text>
-          </Animated.View>
-        </View>
-      </Modal>
     </SafeAreaView>
   );
 };
@@ -311,445 +377,290 @@ export const ProductDetailScreen = ({ route, navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.deepNavy,
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    padding: spacing.md,
-    position: 'absolute',
-    top: 50,
-    left: 0,
-    right: 0,
-    zIndex: 10,
+    justifyContent: 'space-between',
+    paddingHorizontal: spacing.xxxl,
+    paddingVertical: spacing.md,
+  },
+  iconButton: {
+    width: 40,
+    height: 40,
+    borderRadius: borderRadius.full,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   headerActions: {
     flexDirection: 'row',
     gap: spacing.sm,
   },
-  headerButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  headerButtonText: {
-    color: colors.white,
-    fontSize: 18,
+  imageContainer: {
+    height: 350,
+    position: 'relative',
   },
   image: {
-    width: '100%',
-    height: 400,
+    width,
+    height: 350,
     resizeMode: 'cover',
+  },
+  view360Badge: {
+    position: 'absolute',
+    top: spacing.md,
+    right: spacing.xxxl,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 4,
+    borderRadius: borderRadius.sm,
+  },
+  view360Text: {
+    fontSize: typography.sizes.caption,
+    fontFamily: typography.fontFamily.semibold,
+    marginLeft: 4,
+  },
+  dotsContainer: {
+    position: 'absolute',
+    bottom: spacing.md,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: spacing.xs,
+  },
+  dot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+  content: {
+    paddingHorizontal: spacing.xxxl,
+    paddingTop: spacing.lg,
+  },
+  lotRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: spacing.sm,
+  },
+  lotNumber: {
+    fontSize: typography.sizes.caption,
+    fontFamily: typography.fontFamily.medium,
   },
   liveBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.diamondCyan,
-    marginHorizontal: spacing.lg,
-    marginTop: -20,
-    paddingHorizontal: spacing.md,
-    paddingVertical: 10,
-    borderRadius: 12,
-    alignSelf: 'flex-start',
-    shadowColor: colors.diamondCyan,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.4,
-    shadowRadius: 8,
-    elevation: 8,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 4,
+    borderRadius: borderRadius.sm,
   },
   liveDot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: colors.white,
-    marginRight: 8,
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#fff',
+    marginRight: 4,
   },
   liveText: {
-    color: colors.deepNavy,
-    fontWeight: '800',
-    marginRight: spacing.md,
-  },
-  watcherBadge: {
-    backgroundColor: 'rgba(0,0,0,0.2)',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 8,
-  },
-  watcherText: {
-    color: colors.deepNavy,
-    fontSize: 12,
-    fontWeight: '600',
-  },
-  content: {
-    padding: spacing.lg,
+    color: '#fff',
+    fontSize: typography.sizes.overline,
+    fontFamily: typography.fontFamily.bold,
   },
   title: {
-    fontSize: 28,
-    fontWeight: '700',
-    color: colors.white,
+    fontSize: typography.sizes.h2,
+    fontFamily: typography.fontFamily.bold,
     marginBottom: spacing.md,
   },
-  sellerCard: {
+  priceRow: {
     flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.midnight,
-    padding: spacing.md,
-    borderRadius: 16,
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
     marginBottom: spacing.lg,
   },
-  sellerAvatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    backgroundColor: colors.diamondPurple,
-    alignItems: 'center',
-    justifyContent: 'center',
+  currentBidLabel: {
+    fontSize: typography.sizes.caption,
+    fontFamily: typography.fontFamily.medium,
+    marginBottom: spacing.xs,
   },
-  sellerAvatarText: {
-    color: colors.white,
-    fontSize: 20,
-    fontWeight: '700',
+  currentBid: {
+    fontSize: typography.sizes.h1,
+    fontFamily: typography.fontFamily.extrabold,
+  },
+  originalPrice: {
+    fontSize: typography.sizes.body,
+    fontFamily: typography.fontFamily.regular,
+    textDecorationLine: 'line-through',
+  },
+  timerContainer: {
+    alignItems: 'center',
+    marginBottom: spacing.lg,
+  },
+  timerLabel: {
+    fontSize: typography.sizes.body,
+    fontFamily: typography.fontFamily.medium,
+    marginBottom: spacing.sm,
+  },
+  buyingPowerCard: {
+    marginBottom: spacing.lg,
+  },
+  buyingPowerContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: spacing.lg,
+  },
+  buyingPowerLabel: {
+    fontSize: typography.sizes.caption,
+    fontFamily: typography.fontFamily.medium,
+    marginBottom: spacing.xs,
+  },
+  buyingPowerAmount: {
+    fontSize: typography.sizes.h3,
+    fontFamily: typography.fontFamily.bold,
+  },
+  sellerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: spacing.lg,
   },
   sellerInfo: {
     flex: 1,
     marginLeft: spacing.md,
   },
+  sellerNameRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 2,
+  },
   sellerName: {
-    color: colors.white,
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: typography.sizes.body,
+    fontFamily: typography.fontFamily.semibold,
+    marginRight: spacing.sm,
+  },
+  verifiedBadge: {
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 2,
+    borderRadius: borderRadius.sm,
+  },
+  verifiedText: {
+    color: '#fff',
+    fontSize: typography.sizes.overline,
+    fontFamily: typography.fontFamily.bold,
   },
   sellerStats: {
+    fontSize: typography.sizes.caption,
+    fontFamily: typography.fontFamily.regular,
+  },
+  tabsContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 2,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(0,0,0,0.1)',
   },
-  sellerRating: {
-    color: colors.sparkGold,
-    fontSize: 14,
-  },
-  sellerDivider: {
-    color: colors.muted,
-    marginHorizontal: spacing.xs,
-  },
-  sellerSales: {
-    color: colors.muted,
-    fontSize: 14,
-  },
-  contactButton: {
-    backgroundColor: colors.twilight,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    borderRadius: 12,
-  },
-  contactButtonText: {
-    color: colors.diamondCyan,
-    fontWeight: '600',
-  },
-  priceCard: {
-    flexDirection: 'row',
-    backgroundColor: colors.midnight,
-    borderRadius: 20,
-    padding: spacing.lg,
-    marginBottom: spacing.lg,
-  },
-  priceMain: {
+  tab: {
     flex: 1,
+    paddingVertical: spacing.md,
+    alignItems: 'center',
   },
-  priceLabel: {
-    color: colors.muted,
-    fontSize: 14,
-    marginBottom: 4,
+  tabText: {
+    fontSize: typography.sizes.body,
   },
-  currentPrice: {
-    color: colors.white,
-    fontSize: 40,
-    fontWeight: '800',
+  tabContent: {
+    paddingVertical: spacing.lg,
   },
-  outbidPrice: {
-    color: colors.error,
+  description: {
+    fontSize: typography.sizes.body,
+    fontFamily: typography.fontFamily.regular,
+    lineHeight: 22,
   },
-  outbidText: {
-    color: colors.error,
-    fontSize: 14,
-    marginTop: 4,
-  },
-  timeSection: {
-    alignItems: 'flex-end',
-  },
-  timeLabel: {
-    color: colors.muted,
-    fontSize: 14,
-    marginBottom: 4,
-  },
-  timeBox: {
-    backgroundColor: colors.twilight,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: colors.sparkOrange,
-  },
-  timeValue: {
-    color: colors.sparkOrange,
-    fontSize: 18,
-    fontWeight: '700',
-  },
-  bidHistory: {
-    backgroundColor: colors.midnight,
-    borderRadius: 20,
-    padding: spacing.lg,
-    marginBottom: spacing.lg,
-  },
-  bidHistoryHeader: {
+  detailRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: spacing.md,
+    paddingVertical: spacing.sm,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(0,0,0,0.05)',
   },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: colors.white,
+  detailLabel: {
+    fontSize: typography.sizes.body,
+    fontFamily: typography.fontFamily.medium,
   },
-  bidCountBadge: {
-    backgroundColor: colors.twilight,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 4,
-    borderRadius: 12,
-  },
-  bidCountText: {
-    color: colors.muted,
-    fontSize: 12,
+  detailValue: {
+    fontSize: typography.sizes.body,
+    fontFamily: typography.fontFamily.semibold,
   },
   bidRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: spacing.sm,
+    paddingVertical: spacing.md,
     borderBottomWidth: 1,
-    borderBottomColor: colors.twilight,
+    borderBottomColor: 'rgba(0,0,0,0.05)',
   },
   bidderInfo: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  bidderAvatar: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: colors.twilight,
-    alignItems: 'center',
-    justifyContent: 'center',
+  bidderRank: {
+    fontSize: typography.sizes.caption,
+    fontFamily: typography.fontFamily.medium,
     marginRight: spacing.sm,
+    width: 24,
   },
-  bidderAvatarText: {
-    color: colors.white,
-    fontSize: 12,
-    fontWeight: '600',
+  bidderName: {
+    fontSize: typography.sizes.body,
+    fontFamily: typography.fontFamily.medium,
   },
-  bidder: {
-    color: colors.softWhite,
+  bidInfo: {
+    alignItems: 'flex-end',
   },
   bidAmount: {
-    color: colors.white,
-    fontWeight: '700',
+    fontSize: typography.sizes.body,
+    fontFamily: typography.fontFamily.bold,
   },
-  descriptionSection: {
-    marginBottom: spacing.xl,
+  bidTime: {
+    fontSize: typography.sizes.caption,
+    fontFamily: typography.fontFamily.regular,
+    marginTop: 2,
   },
-  description: {
-    color: colors.muted,
-    fontSize: 16,
-    lineHeight: 24,
+  similarSection: {
+    marginTop: spacing.lg,
   },
-  tags: {
-    flexDirection: 'row',
-    gap: spacing.sm,
-    marginTop: spacing.md,
+  similarTitle: {
+    fontSize: typography.sizes.h4,
+    fontFamily: typography.fontFamily.bold,
+    marginBottom: spacing.md,
   },
-  tag: {
-    backgroundColor: 'rgba(0, 217, 255, 0.15)',
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.xs,
-    borderRadius: 20,
+  similarList: {
+    paddingRight: spacing.xxxl,
   },
-  tagText: {
-    color: colors.diamondCyan,
-    fontSize: 13,
-    fontWeight: '500',
+  similarItem: {
+    width: 140,
+    marginRight: spacing.md,
   },
-  bottomPadding: {
-    height: 120,
+  similarImage: {
+    width: 140,
+    height: 140,
+    borderRadius: borderRadius.md,
+    marginBottom: spacing.sm,
+  },
+  similarItemTitle: {
+    fontSize: typography.sizes.caption,
+    fontFamily: typography.fontFamily.medium,
+    marginBottom: 2,
+  },
+  similarItemPrice: {
+    fontSize: typography.sizes.body,
+    fontFamily: typography.fontFamily.bold,
   },
   bottomBar: {
-    backgroundColor: colors.midnight,
-    padding: spacing.lg,
-    borderTopWidth: 1,
-    borderTopColor: colors.twilight,
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-  },
-  actionButtons: {
-    flexDirection: 'row',
-    gap: spacing.md,
-  },
-  watchButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.twilight,
-    paddingVertical: 16,
-    paddingHorizontal: spacing.lg,
-    borderRadius: 16,
-    gap: spacing.xs,
-  },
-  watchIcon: {
-    fontSize: 20,
-  },
-  watchText: {
-    color: colors.white,
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  bidButton: {
-    flex: 1,
-    backgroundColor: colors.sparkGold,
-    paddingVertical: 16,
-    borderRadius: 16,
-    alignItems: 'center',
-    shadowColor: colors.sparkGold,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.4,
-    shadowRadius: 8,
-    elevation: 8,
-  },
-  bidButtonText: {
-    color: colors.deepNavy,
-    fontSize: 18,
-    fontWeight: '800',
-  },
-  bidInputContainer: {
-    gap: spacing.sm,
-  },
-  minBidText: {
-    color: colors.muted,
-    fontSize: 12,
-    textAlign: 'center',
-  },
-  quickBids: {
-    flexDirection: 'row',
-    gap: spacing.sm,
-    justifyContent: 'center',
-  },
-  quickBidButton: {
-    backgroundColor: colors.twilight,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    borderRadius: 12,
-  },
-  quickBidText: {
-    color: colors.diamondCyan,
-    fontWeight: '600',
-  },
-  bidInputRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: colors.twilight,
-    borderRadius: 16,
-    padding: spacing.md,
-  },
-  dollarSign: {
-    color: colors.white,
-    fontSize: 32,
-    fontWeight: '300',
-  },
-  bidInput: {
-    color: colors.white,
-    fontSize: 32,
-    fontWeight: '700',
-    minWidth: 100,
-    textAlign: 'center',
-  },
-  bidButtons: {
-    flexDirection: 'row',
-    gap: spacing.md,
-    marginTop: spacing.sm,
-  },
-  cancelButton: {
-    flex: 1,
-    padding: spacing.md,
-    alignItems: 'center',
-    backgroundColor: colors.twilight,
-    borderRadius: 16,
-  },
-  cancelText: {
-    color: colors.muted,
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  placeBidButton: {
-    flex: 2,
-    backgroundColor: colors.sparkGold,
-    padding: spacing.md,
-    borderRadius: 16,
-    alignItems: 'center',
-  },
-  placeBidText: {
-    color: colors.deepNavy,
-    fontSize: 16,
-    fontWeight: '800',
-  },
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.8)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  modalContent: {
-    backgroundColor: colors.midnight,
-    padding: spacing.xl,
-    borderRadius: 24,
-    alignItems: 'center',
-    width: '80%',
-    borderWidth: 2,
-    borderColor: colors.sparkGold,
-  },
-  confetti: {
-    position: 'absolute',
-    top: -20,
-  },
-  confettiText: {
-    fontSize: 40,
-  },
-  trophy: {
-    marginBottom: spacing.md,
-  },
-  trophyText: {
-    fontSize: 60,
-  },
-  winTitle: {
-    color: colors.sparkGold,
-    fontSize: 24,
-    fontWeight: '800',
-    marginBottom: spacing.sm,
-  },
-  winAmount: {
-    color: colors.white,
-    fontSize: 36,
-    fontWeight: '800',
-    marginBottom: spacing.sm,
-  },
-  winSubtitle: {
-    color: colors.muted,
-    fontSize: 14,
-    textAlign: 'center',
+    paddingHorizontal: spacing.xxxl,
+    paddingVertical: spacing.md,
+    borderTopWidth: 1,
   },
 });

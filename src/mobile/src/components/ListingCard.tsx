@@ -1,334 +1,397 @@
-import React, { useRef, useEffect } from 'react';
+// src/components/ListingCard.tsx
+import React from 'react';
 import { 
   View, 
   Text, 
   Image, 
   StyleSheet, 
   TouchableOpacity,
-  Animated,
-  Easing,
+  Dimensions
 } from 'react-native';
-import { colors, spacing, typography } from '../theme';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Listing } from '../types';
+import { Theme, typography, spacing, borderRadius } from '../theme';
+
+const { width } = Dimensions.get('window');
+const CARD_WIDTH = (width - spacing.xxxl * 2) / 2;
 
 interface ListingCardProps {
-  id: string;
-  title: string;
-  price: number;
-  currentBid: number;
-  bidCount: number;
-  image: string;
-  seller: { name: string; rating: number };
-  timeLeft: string;
-  isLive: boolean;
+  listing: Listing;
   onPress: () => void;
-  index?: number;
+  variant?: 'grid' | 'horizontal' | 'featured';
+  theme: Theme;
 }
 
 export const ListingCard: React.FC<ListingCardProps> = ({
-  title,
-  currentBid,
-  bidCount,
-  image,
-  seller,
-  timeLeft,
-  isLive,
+  listing,
   onPress,
-  index = 0,
+  variant = 'grid',
+  theme,
 }) => {
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  const slideAnim = useRef(new Animated.Value(50)).current;
-  const scaleAnim = useRef(new Animated.Value(1)).current;
+  const { colors } = theme;
 
-  useEffect(() => {
-    // Staggered entrance animation
-    Animated.parallel([
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 600,
-        delay: index * 100,
-        easing: Easing.out(Easing.ease),
-        useNativeDriver: true,
-      }),
-      Animated.timing(slideAnim, {
-        toValue: 0,
-        duration: 600,
-        delay: index * 100,
-        easing: Easing.out(Easing.back(1.2)),
-        useNativeDriver: true,
-      }),
-    ]).start();
-  }, []);
-
-  const handlePressIn = () => {
-    Animated.spring(scaleAnim, {
-      toValue: 0.98,
-      friction: 5,
-      tension: 100,
-      useNativeDriver: true,
-    }).start();
+  const formatTimeLeft = (endTime: Date) => {
+    const now = new Date();
+    const end = new Date(endTime);
+    const diff = end.getTime() - now.getTime();
+    
+    if (diff <= 0) return 'Ended';
+    
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    
+    if (hours > 24) {
+      const days = Math.floor(hours / 24);
+      return `${days}d ${hours % 24}h`;
+    }
+    return `${hours}h ${minutes}m`;
   };
 
-  const handlePressOut = () => {
-    Animated.spring(scaleAnim, {
-      toValue: 1,
-      friction: 5,
-      tension: 100,
-      useNativeDriver: true,
-    }).start();
-  };
+  const isLive = listing.status === 'live';
+  const isEndingSoon = listing.status === 'ending_soon';
 
-  const formatPrice = (cents: number) => {
-    return `$${(cents / 100).toLocaleString()}`;
-  };
-
-  return (
-    <Animated.View
-      style={{
-        opacity: fadeAnim,
-        transform: [
-          { translateY: slideAnim },
-          { scale: scaleAnim },
-        ],
-      }}
-    >
-      <TouchableOpacity 
-        style={styles.card} 
-        onPress={onPress}
-        onPressIn={handlePressIn}
-        onPressOut={handlePressOut}
-        activeOpacity={0.9}
-      >
-        <View style={styles.imageContainer}>
-          <Image source={{ uri: image }} style={styles.image} />
-          
-          {isLive && (
-            <View style={styles.liveBadge}>
-              <LiveDot />
-              <Text style={styles.liveText}>LIVE</Text>
+  if (variant === 'horizontal') {
+    return (
+      <TouchableOpacity onPress={onPress} style={styles.horizontalContainer}>
+        <View style={[styles.horizontalCard, { backgroundColor: colors.surface }]}>
+          <Image source={{ uri: listing.images[0] }} style={styles.horizontalImage} />
+          <View style={styles.horizontalContent}>
+            <Text 
+              style={[styles.title, { color: colors.textPrimary }]}
+              numberOfLines={1}
+            >
+              {listing.title}
+            </Text>
+            <Text style={[styles.lotNumber, { color: colors.textMuted }]}>
+              Lot #{listing.lotNumber}
+            </Text>
+            
+            <View style={styles.priceRow}>
+              <Text style={[styles.currentPrice, { color: colors.textPrimary }]}>
+                ${listing.currentPrice.toLocaleString()}
+              </Text>
+              <Text style={[styles.originalPrice, { color: colors.textMuted }]}>
+                ${listing.startingPrice.toLocaleString()}
+              </Text>
             </View>
-          )}
-          
-          <View style={styles.timeBadge}>
-            <Text style={styles.timeText}>{timeLeft}</Text>
-          </View>
-        </View>
-        
-        <View style={styles.content}>
-          <Text style={styles.title} numberOfLines={1}>{title}</Text>
-          
-          <View style={styles.priceRow}>
-            <View>
-              <Text style={styles.priceLabel}>Current Bid</Text>
-              <Text style={styles.currentBid}>{formatPrice(currentBid)}</Text>
-            </View>
-            <View style={styles.bidInfo}>
-              <Text style={styles.bidCount}>{bidCount} bids</Text>
-            </View>
-          </View>
-          
-          <View style={styles.sellerRow}>
-            <View style={styles.sellerInfo}>
-              <View style={styles.avatar}>
-                <Text style={styles.avatarText}>{seller.name[0]}</Text>
-              </View>
-              <Text style={styles.sellerName}>{seller.name}</Text>
-            </View>
-            <View style={styles.ratingContainer}>
-              <Text style={styles.star}>★</Text>
-              <Text style={styles.rating}>{seller.rating}</Text>
+            
+            <View style={styles.footer}>
+              {(isLive || isEndingSoon) && (
+                <View style={[styles.liveBadge, { backgroundColor: isEndingSoon ? colors.warning : colors.live }]} >
+                  <View style={styles.liveDot} />
+                  <Text style={styles.liveText}>
+                    {isEndingSoon ? 'Ending Soon' : 'LIVE'}
+                  </Text>
+                </View>
+              )}
+              <Text style={[styles.timeLeft, { color: colors.textSecondary }]} >
+                {formatTimeLeft(listing.endTime)}
+              </Text>
             </View>
           </View>
         </View>
       </TouchableOpacity>
-    </Animated.View>
-  );
-};
+    );
+  }
 
-const LiveDot = () => {
-  const scaleAnim = useRef(new Animated.Value(1)).current;
-  const opacityAnim = useRef(new Animated.Value(1)).current;
+  if (variant === 'featured') {
+    return (
+      <TouchableOpacity onPress={onPress} style={styles.featuredContainer}>
+        <View style={styles.featuredCard}>
+          <Image source={{ uri: listing.images[0] }} style={styles.featuredImage} />
+          
+          <LinearGradient
+            colors={['transparent', 'rgba(0,0,0,0.8)']}
+            style={styles.featuredGradient}
+          >
+            <View style={styles.featuredBadge}>
+              <View style={[styles.liveBadgeLarge, { backgroundColor: colors.live }]} >
+                <View style={styles.liveDot} />
+                <Text style={styles.liveTextLarge}>LIVE AUCTION</Text>
+              </View>
+            </View>
+            
+            <View style={styles.featuredContent}>
+              <Text style={styles.featuredTitle} numberOfLines={2}>
+                {listing.title}
+              </Text>
+              
+              <View style={styles.featuredFooter}>
+                <View>
+                  <Text style={styles.featuredLabel}>Current Bid</Text>
+                  <Text style={styles.featuredPrice}>
+                    ${listing.currentPrice.toLocaleString()}
+                  </Text>
+                </View>
+                
+                <View style={styles.timerContainer}>
+                  <Text style={styles.timerLabel}>Ends in</Text>
+                  <Text style={styles.timerValue}>{formatTimeLeft(listing.endTime)}</Text>
+                </View>
+              </View>
+            </View>
+          </LinearGradient>
+          
+          {/* Glassmorphism overlay */}
+          <View style={[styles.glassOverlay, { backgroundColor: colors.glass }]} >
+            <Text style={[styles.glassText, { color: colors.textPrimary }]} >
+              {listing.bids?.length || 0} bids
+            </Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  }
 
-  React.useEffect(() => {
-    Animated.loop(
-      Animated.parallel([
-        Animated.sequence([
-          Animated.timing(scaleAnim, {
-            toValue: 1.4,
-            duration: 800,
-            easing: Easing.out(Easing.ease),
-            useNativeDriver: true,
-          }),
-          Animated.timing(scaleAnim, {
-            toValue: 1,
-            duration: 0,
-            useNativeDriver: true,
-          }),
-        ]),
-        Animated.sequence([
-          Animated.timing(opacityAnim, {
-            toValue: 0.4,
-            duration: 800,
-            useNativeDriver: true,
-          }),
-          Animated.timing(opacityAnim, {
-            toValue: 1,
-            duration: 0,
-            useNativeDriver: true,
-          }),
-        ]),
-      ])
-    ).start();
-  }, []);
-
+  // Grid variant (default)
   return (
-    <Animated.View
-      style={{
-        width: 8,
-        height: 8,
-        borderRadius: 4,
-        backgroundColor: '#fff',
-        transform: [{ scale: scaleAnim }],
-        opacity: opacityAnim,
-        marginRight: 6,
-      }}
-    />
+    <TouchableOpacity onPress={onPress} style={styles.gridContainer}>
+      <View style={[styles.gridCard, { backgroundColor: colors.surface }]} >
+        <Image source={{ uri: listing.images[0] }} style={styles.gridImage} />
+        
+        {(isLive || isEndingSoon) && (
+          <View style={[styles.gridBadge, { backgroundColor: isEndingSoon ? colors.warning : colors.live }]} >
+            <View style={styles.liveDot} />
+            <Text style={styles.gridBadgeText}>
+              {isEndingSoon ? 'Ending' : 'LIVE'}
+            </Text>
+          </View>
+        )}
+        
+        <View style={styles.gridContent}>
+          <Text style={[styles.gridTitle, { color: colors.textPrimary }]} numberOfLines={1}>
+            {listing.title}
+          </Text>
+          
+          <Text style={[styles.gridPrice, { color: colors.textPrimary }]}>
+            ${listing.currentPrice.toLocaleString()}
+          </Text>
+          
+          <Text style={[styles.gridTime, { color: colors.textMuted }]} >
+            {formatTimeLeft(listing.endTime)}
+          </Text>
+        </View>
+      </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  card: {
-    backgroundColor: colors.midnight,
-    borderRadius: 20,
+  // Grid styles
+  gridContainer: {
+    width: CARD_WIDTH,
+    marginBottom: spacing.lg,
+  },
+  gridCard: {
+    borderRadius: borderRadius.lg,
     overflow: 'hidden',
-    marginBottom: spacing.md,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.4,
-    shadowRadius: 12,
-    elevation: 8,
   },
-  imageContainer: {
-    position: 'relative',
-    height: 220,
-  },
-  image: {
+  gridImage: {
     width: '100%',
-    height: '100%',
+    height: CARD_WIDTH,
     resizeMode: 'cover',
   },
-  liveBadge: {
+  gridBadge: {
     position: 'absolute',
-    top: spacing.md,
-    left: spacing.md,
+    top: spacing.sm,
+    left: spacing.sm,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.diamondCyan,
-    paddingHorizontal: spacing.md,
-    paddingVertical: 6,
-    borderRadius: 20,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 4,
+    borderRadius: borderRadius.sm,
   },
-  liveText: {
-    color: colors.deepNavy,
-    fontSize: 12,
-    fontWeight: '800',
-    letterSpacing: 0.5,
+  gridBadgeText: {
+    color: '#fff',
+    fontSize: typography.sizes.overline,
+    fontFamily: typography.fontFamily.bold,
+    marginLeft: 4,
   },
-  timeBadge: {
-    position: 'absolute',
-    bottom: spacing.md,
-    right: spacing.md,
-    backgroundColor: 'rgba(10, 14, 39, 0.95)',
-    paddingHorizontal: spacing.md,
-    paddingVertical: 8,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: colors.sparkOrange,
+  gridContent: {
+    padding: spacing.md,
   },
-  timeText: {
-    color: colors.sparkOrange,
-    fontSize: 13,
-    fontWeight: '700',
+  gridTitle: {
+    fontSize: typography.sizes.body,
+    fontFamily: typography.fontFamily.medium,
+    marginBottom: spacing.xs,
   },
-  content: {
-    padding: spacing.lg,
+  gridPrice: {
+    fontSize: typography.sizes.h4,
+    fontFamily: typography.fontFamily.bold,
+    marginBottom: spacing.xs,
+  },
+  gridTime: {
+    fontSize: typography.sizes.caption,
+    fontFamily: typography.fontFamily.regular,
+  },
+
+  // Horizontal styles
+  horizontalContainer: {
+    marginRight: spacing.lg,
+  },
+  horizontalCard: {
+    flexDirection: 'row',
+    width: 280,
+    borderRadius: borderRadius.lg,
+    overflow: 'hidden',
+  },
+  horizontalImage: {
+    width: 100,
+    height: 100,
+    resizeMode: 'cover',
+  },
+  horizontalContent: {
+    flex: 1,
+    padding: spacing.md,
+    justifyContent: 'space-between',
   },
   title: {
-    color: colors.white,
-    fontSize: 20,
-    fontWeight: '700',
-    marginBottom: spacing.sm,
+    fontSize: typography.sizes.body,
+    fontFamily: typography.fontFamily.semibold,
+  },
+  lotNumber: {
+    fontSize: typography.sizes.caption,
+    fontFamily: typography.fontFamily.regular,
+    marginTop: 2,
   },
   priceRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: spacing.md,
+    marginTop: spacing.sm,
   },
-  priceLabel: {
-    color: colors.muted,
-    fontSize: 12,
-    marginBottom: 2,
-  },
-  currentBid: {
-    color: colors.white,
-    fontSize: 32,
-    fontWeight: '800',
-  },
-  bidInfo: {
-    alignItems: 'flex-end',
-  },
-  bidCount: {
-    color: colors.muted,
-    fontSize: 14,
-    fontWeight: '500',
-  },
-  sellerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingTop: spacing.sm,
-    borderTopWidth: 1,
-    borderTopColor: colors.twilight,
-  },
-  sellerInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  avatar: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: colors.diamondPurple,
-    alignItems: 'center',
-    justifyContent: 'center',
+  currentPrice: {
+    fontSize: typography.sizes.h4,
+    fontFamily: typography.fontFamily.bold,
     marginRight: spacing.sm,
   },
-  avatarText: {
-    color: colors.white,
-    fontSize: 14,
-    fontWeight: '600',
+  originalPrice: {
+    fontSize: typography.sizes.caption,
+    fontFamily: typography.fontFamily.regular,
+    textDecorationLine: 'line-through',
   },
-  sellerName: {
-    color: colors.softWhite,
-    fontSize: 14,
-    fontWeight: '500',
-  },
-  ratingContainer: {
+  footer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 215, 0, 0.15)',
+    justifyContent: 'space-between',
+    marginTop: spacing.sm,
+  },
+  liveBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: spacing.sm,
     paddingVertical: 4,
-    borderRadius: 12,
+    borderRadius: borderRadius.sm,
   },
-  star: {
-    color: colors.sparkGold,
-    fontSize: 12,
-    marginRight: 2,
+  liveDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#fff',
+    marginRight: 4,
   },
-  rating: {
-    color: colors.sparkGold,
-    fontSize: 13,
-    fontWeight: '700',
+  liveText: {
+    color: '#fff',
+    fontSize: typography.sizes.overline,
+    fontFamily: typography.fontFamily.bold,
+  },
+  timeLeft: {
+    fontSize: typography.sizes.caption,
+    fontFamily: typography.fontFamily.medium,
+  },
+
+  // Featured styles
+  featuredContainer: {
+    marginHorizontal: spacing.xxxl,
+    marginBottom: spacing.lg,
+  },
+  featuredCard: {
+    height: 320,
+    borderRadius: borderRadius.xxl,
+    overflow: 'hidden',
+  },
+  featuredImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+  },
+  featuredGradient: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: '70%',
+    justifyContent: 'flex-end',
+    padding: spacing.xxl,
+  },
+  featuredBadge: {
+    position: 'absolute',
+    top: spacing.lg,
+    left: spacing.lg,
+  },
+  liveBadgeLarge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    borderRadius: borderRadius.md,
+  },
+  liveTextLarge: {
+    color: '#fff',
+    fontSize: typography.sizes.caption,
+    fontFamily: typography.fontFamily.bold,
+    marginLeft: spacing.xs,
+  },
+  featuredContent: {
+    marginTop: 'auto',
+  },
+  featuredTitle: {
+    color: '#fff',
+    fontSize: typography.sizes.h2,
+    fontFamily: typography.fontFamily.bold,
+    marginBottom: spacing.md,
+  },
+  featuredFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+  },
+  featuredLabel: {
+    color: 'rgba(255,255,255,0.7)',
+    fontSize: typography.sizes.caption,
+    fontFamily: typography.fontFamily.medium,
+    marginBottom: spacing.xs,
+  },
+  featuredPrice: {
+    color: '#fff',
+    fontSize: typography.sizes.h2,
+    fontFamily: typography.fontFamily.bold,
+  },
+  timerContainer: {
+    alignItems: 'flex-end',
+  },
+  timerLabel: {
+    color: 'rgba(255,255,255,0.7)',
+    fontSize: typography.sizes.caption,
+    fontFamily: typography.fontFamily.medium,
+    marginBottom: spacing.xs,
+  },
+  timerValue: {
+    color: '#fff',
+    fontSize: typography.sizes.h3,
+    fontFamily: typography.fontFamily.bold,
+  },
+  glassOverlay: {
+    position: 'absolute',
+    top: spacing.lg,
+    right: spacing.lg,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    borderRadius: borderRadius.md,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.3)',
+  },
+  glassText: {
+    fontSize: typography.sizes.caption,
+    fontFamily: typography.fontFamily.semibold,
   },
 });

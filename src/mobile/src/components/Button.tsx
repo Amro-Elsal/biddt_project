@@ -1,70 +1,122 @@
+// src/components/Button.tsx
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { colors, spacing, typography } from '../theme';
+import { 
+  TouchableOpacity, 
+  Text, 
+  StyleSheet, 
+  ActivityIndicator,
+  ViewStyle,
+  TextStyle
+} from 'react-native';
+import { Theme, typography, borderRadius } from '../theme';
 
 interface ButtonProps {
   title: string;
   onPress: () => void;
-  variant?: 'primary' | 'secondary' | 'gold';
-  size?: 'small' | 'medium' | 'large';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
+  disabled?: boolean;
+  loading?: boolean;
+  style?: ViewStyle;
+  textStyle?: TextStyle;
+  theme: Theme;
 }
 
-export const Button: React.FC<ButtonProps> = ({ 
-  title, 
-  onPress, 
+export const Button: React.FC<ButtonProps> = ({
+  title,
+  onPress,
   variant = 'primary',
-  size = 'medium' 
+  size = 'md',
+  disabled = false,
+  loading = false,
+  style,
+  textStyle,
+  theme,
 }) => {
+  const { colors } = theme;
+
   const getBackgroundColor = () => {
+    if (disabled) return colors.textMuted;
     switch (variant) {
-      case 'gold': return colors.sparkGold;
-      case 'secondary': return 'transparent';
-      default: return colors.diamondCyan;
+      case 'primary': return colors.primary;
+      case 'secondary': return colors.surfaceSecondary;
+      case 'outline': return 'transparent';
+      case 'ghost': return 'transparent';
+      default: return colors.primary;
     }
   };
 
   const getTextColor = () => {
     switch (variant) {
-      case 'gold': return colors.deepNavy;
-      case 'secondary': return colors.diamondCyan;
-      default: return colors.deepNavy;
+      case 'primary': return colors.textPrimary;
+      case 'secondary': return colors.textPrimary;
+      case 'outline': return colors.primary;
+      case 'ghost': return colors.primary;
+      default: return colors.textPrimary;
     }
   };
 
   const getPadding = () => {
     switch (size) {
-      case 'small': return { paddingVertical: 8, paddingHorizontal: 16 };
-      case 'large': return { paddingVertical: 18, paddingHorizontal: 32 };
-      default: return { paddingVertical: 14, paddingHorizontal: 24 };
+      case 'sm': return { paddingVertical: 8, paddingHorizontal: 12 };
+      case 'md': return { paddingVertical: 12, paddingHorizontal: 20 };
+      case 'lg': return { paddingVertical: 16, paddingHorizontal: 24 };
+      default: return { paddingVertical: 12, paddingHorizontal: 20 };
+    }
+  };
+
+  const getFontSize = () => {
+    switch (size) {
+      case 'sm': return typography.sizes.caption;
+      case 'md': return typography.sizes.body;
+      case 'lg': return typography.sizes.bodyLarge;
+      default: return typography.sizes.body;
     }
   };
 
   return (
-    <TouchableOpacity 
+    <TouchableOpacity
       onPress={onPress}
+      disabled={disabled || loading}
       style={[
-        styles.button, 
-        { backgroundColor: getBackgroundColor() },
-        getPadding(),
-        variant === 'secondary' && { borderWidth: 2, borderColor: colors.diamondCyan }
+        styles.button,
+        {
+          backgroundColor: getBackgroundColor(),
+          borderWidth: variant === 'outline' ? 2 : 0,
+          borderColor: colors.primary,
+          borderRadius: borderRadius.lg,
+          ...getPadding(),
+        },
+        style,
       ]}
-      activeOpacity={0.8}
     >
-      <Text style={[styles.text, { color: getTextColor() }]}>
-        {title}
-      </Text>
+      {loading ? (
+        <ActivityIndicator color={getTextColor()} />
+      ) : (
+        <Text
+          style={[
+            styles.text,
+            {
+              color: getTextColor(),
+              fontSize: getFontSize(),
+              fontFamily: typography.fontFamily.semibold,
+            },
+            textStyle,
+          ]}
+        >
+          {title}
+        </Text>
+      )}
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
   },
   text: {
-    fontSize: 16,
-    fontWeight: '600',
+    textAlign: 'center',
   },
 });

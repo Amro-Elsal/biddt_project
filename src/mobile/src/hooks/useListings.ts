@@ -1,125 +1,99 @@
-// src/hooks/useListings.ts
 import { useState, useEffect, useCallback } from 'react';
-import { 
-  getListings, 
-  getListing, 
-  createListing, 
-  subscribeToListings,
-  subscribeToListing,
-  placeBid,
+import {
+  getListings,
+  getListing,
+  createListing as createListingService,
   getBids,
+  placeBid as placeBidService,
+  subscribeToListings,
   subscribeToBids,
-  uploadImage
-} from '../services/firebase';
-import { Listing, Bid, Category } from '../types';
+} from '../services/localStorage';
 
-export const useListings = (filters?: { category?: Category; status?: string }) => {
-  const [listings, setListings] = useState<Listing[]>([]);
+export const useListings = (filters?: { category?: string }) => {
+  const [listings, setListings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setLoading(true);
-    
-    // Try to get cached data first
-    const unsubscribe = subscribeToListings((data) => {
-      setListings(data as Listing[]);
-      setLoading(false);
+    loadListings();
+    const unsubscribe = subscribeToListings((updatedListings) => {
+      if (filters?.category && filters.category !== 'all') {
+        setListings(updatedListings.filter((l) => l.category === filters.category));
+      } else {
+        setListings(updatedListings);
+      }
     });
-
     return () => unsubscribe();
-  }, [filters?.category, filters?.status]);
+  }, [filters?.category]);
 
-  const refresh = useCallback(async () => {
-    setLoading(true);
+  const loadListings = async () => {
     try {
+      setLoading(true);
       const data = await getListings(filters);
-      setListings(data as Listing[]);
-    } catch (err: any) {
-      setError(err.message);
+      setListings(data);
+    } catch (error) {
+      console.error('Error loading listings:', error);
     } finally {
       setLoading(false);
     }
-  }, [filters]);
+  };
 
-  return { listings, loading, error, refresh };
+  const createListing = async (listingData: any) => {
+    const id = await createListingService(listingData);
+    await loadListings();
+    return id;
+  };
+
+  return { listings, loading, createListing, refresh: loadListings };
 };
 
 export const useListing = (listingId: string) => {
-  const [listing, setListing] = useState<Listing | null>(null);
+  const [listing, setListing] = useState<any>(null);
+  const [bids, setBids] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!listingId) return;
-
-    const unsubscribe = subscribeToListing(listingId, (data) => {
-      setListing(data as Listing);
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
+    if (listingId) {
+      loadListing();
+      loadBids();
+      
+      const unsubscribeBids = subscribeToBids(listingId, (updatedBids) => {
+        setBids(updatedBids);
+      });
+      
+      return () => unsubscribeBids();
+    }
   }, [listingId]);
 
-  return { listing, loading, error };
-};
-
-export const useCreateListing = () => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const create = useCallback(async (listingData: Partial<Listing>, imageUris: string[]) => {
-    setLoading(true);
-    setError(null);
-
+  const loadListing = async () => {
     try {
-      // Upload images
-      const imageUrls = await Promise.all(
-        imageUris.map((uri, index) =
-          uploadImage(uri, `listings/${Date.now()}_${index}.jpg`)
-        )
-      );
-
-      const listing = await createListing({
-        ...listingData,
-        images: imageUrls,
-      });
-
-      return { success: true, listingId: listing };
-    } catch (err: any) {
-      setError(err.message);
-      return { success: false, error: err.message };
+      setLoading(true);
+      const data = await getListing(listingId);
+      setListing(data);
+    } catch (error) {
+      console.error('Error loading listing:', error);
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
-  return { create, loading, error };
-};
-
-export const useBids = (listingId: string) => {
-  const [bids, setBids] = useState<Bid[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (!listingId) return;
-
-    const unsubscribe = subscribeToBids(listingId, (data) => {
-      setBids(data as Bid[]);
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, [listingId]);
-
-  const placeNewBid = useCallback(async (bidData: Partial<Bid>) => {
+  const loadBids = async () => {
     try {
-      await placeBid(listingId, bidData);
-      return { success: true };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+      const data = await getBids(listingId);
+      setBids(data);
+    } catch (error) {
+      console.error('Error loading bids:', error);
     }
-  }, [listingId]);
+  };
 
-  return { bids, loading, placeNewBid };
+  const placeBid = async (amount: number, userId: string, userName: string) => {
+    await placeBidService(listingId, {
+      amount,
+      bidderId: userId,
+      bidderName: userName,
+    });
+    await loadListing();
+    await loadBids();
+  };
+
+  return { listing, bids, loading, placeBid, refresh: loadListing };
 };

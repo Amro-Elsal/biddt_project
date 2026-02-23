@@ -1,164 +1,243 @@
+// src/screens/PhoneAuthScreen.tsx
 import React, { useState, useRef } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
+import { 
+  View, 
+  Text, 
+  StyleSheet, 
+  KeyboardAvoidingView,
+  Platform,
   TextInput,
-  TouchableOpacity,
-  SafeAreaView,
-  Animated,
-  Alert,
+  TouchableOpacity
 } from 'react-native';
-import { colors, spacing } from '../theme';
-import { db, generateId } from '../data/database';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button } from '../components/Button';
+import { Theme, typography, spacing, borderRadius } from '../theme';
 
-export const PhoneAuthScreen = ({ navigation }: any) => {
-  const [phone, setPhone] = useState('');
-  const [otp, setOtp] = useState('');
+interface PhoneAuthScreenProps {
+  navigation: any;
+  theme: Theme;
+}
+
+export const PhoneAuthScreen: React.FC<PhoneAuthScreenProps> = ({ 
+  navigation, 
+  theme 
+}) => {
+  const { colors } = theme;
   const [step, setStep] = useState<'phone' | 'otp'>('phone');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [loading, setLoading] = useState(false);
-  const [generatedOtp, setGeneratedOtp] = useState('');
+  const [error, setError] = useState('');
   
-  const shakeAnim = useRef(new Animated.Value(0)).current;
+  const otpRefs = useRef<TextInput[]>([]);
 
-  const shake = () => {
-    Animated.sequence([
-      Animated.timing(shakeAnim, { toValue: 10, duration: 50, useNativeDriver: true }),
-      Animated.timing(shakeAnim, { toValue: -10, duration: 50, useNativeDriver: true }),
-      Animated.timing(shakeAnim, { toValue: 10, duration: 50, useNativeDriver: true }),
-      Animated.timing(shakeAnim, { toValue: 0, duration: 50, useNativeDriver: true }),
-    ]).start();
+  const formatPhoneNumber = (text: string) => {
+    const cleaned = text.replace(/\D/g, '');
+    if (cleaned.length <= 3) return cleaned;
+    if (cleaned.length <= 6) return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3)}`;
+    return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6, 10)}`;
   };
 
-  const handleSendOTP = () => {
-    if (phone.length < 10) {
-      shake();
-      Alert.alert('Invalid Phone', 'Please enter a valid phone number');
+  const handlePhoneChange = (text: string) => {
+    const formatted = formatPhoneNumber(text);
+    setPhoneNumber(formatted);
+    setError('');
+  };
+
+  const handleSendOtp = async () => {
+    const cleaned = phoneNumber.replace(/\D/g, '');
+    if (cleaned.length !== 10) {
+      setError('Please enter a valid 10-digit phone number');
       return;
     }
 
     setLoading(true);
-    
-    // Generate fake OTP
-    const fakeOtp = Math.floor(100000 + Math.random() * 900000).toString();
-    setGeneratedOtp(fakeOtp);
-    
-    setTimeout(() => {
-      setLoading(false);
-      setStep('otp');
-      Alert.alert(
-        'OTP Sent!',
-        `Your verification code is: ${fakeOtp}\n\n(In production, this would be sent via SMS)`,
-        [{ text: 'OK' }]
-      );
-    }, 1500);
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    setLoading(false);
+    setStep('otp');
   };
 
-  const handleVerifyOTP = async () => {
-    if (otp.length !== 6) {
-      shake();
-      Alert.alert('Invalid OTP', 'Please enter the 6-digit code');
+  const handleOtpChange = (index: number, value: string) => {
+    if (value.length > 1) return;
+    
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+    setError('');
+
+    // Auto-focus next input
+    if (value && index < 5) {
+      otpRefs.current[index + 1]?.focus();
+    }
+  };
+
+  const handleOtpKeyPress = (index: number, key: string) => {
+    if (key === 'Backspace' && !otp[index] && index > 0) {
+      otpRefs.current[index - 1]?.focus();
+    }
+  };
+
+  const handleVerifyOtp = async () => {
+    const otpString = otp.join('');
+    if (otpString.length !== 6) {
+      setError('Please enter the complete 6-digit code');
       return;
     }
 
     setLoading(true);
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    setLoading(false);
+    
+    // Navigate to profile setup
+    navigation.navigate('ProfileSetup');
+  };
 
-    setTimeout(async () => {
-      if (otp === generatedOtp) {
-        // Create new user
-        const newUser = {
-          id: generateId(),
-          phone: phone,
-          name: '',
-          rating: 0,
-          transactions: 0,
-          verified: false,
-          createdAt: new Date().toISOString(),
-        };
-        
-        await db.setCurrentUser(newUser);
-        setLoading(false);
-        navigation.replace('ProfileSetup');
-      } else {
-        setLoading(false);
-        shake();
-        Alert.alert('Invalid OTP', 'The code you entered is incorrect');
-      }
-    }, 1000);
+  const handleResendOtp = async () => {
+    setLoading(true);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    setLoading(false);
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <Text style={styles.icon}>📱</Text>
-        
-        <Text style={styles.title}>
-          {step === 'phone' ? 'Enter Your Phone' : 'Verify OTP'}
-        </Text>
-        
-        <Text style={styles.description}>
-          {step === 'phone' 
-            ? 'We\'ll send you a verification code to get started'
-            : `Enter the 6-digit code sent to ${phone}`}
-        </Text>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.keyboardView}
+      >
+        <View style={styles.content}>
+          <Text
+            style={[
+              styles.title,
+              {
+                color: colors.textPrimary,
+                fontFamily: typography.fontFamily.extrabold,
+              },
+            ]}
+          >
+            {step === 'phone' ? 'Enter your phone' : 'Verify your number'}
+          </Text>
+          
+          <Text
+            style={[
+              styles.subtitle,
+              {
+                color: colors.textSecondary,
+                fontFamily: typography.fontFamily.regular,
+              },
+            ]}
+          >
+            {step === 'phone'
+              ? "We'll send you a verification code to get started."
+              : `Enter the 6-digit code sent to ${phoneNumber}`}
+          </Text>
 
-        <Animated.View style={{ transform: [{ translateX: shakeAnim }] }}>
           {step === 'phone' ? (
-            <View style={styles.inputContainer}>
-              <Text style={styles.countryCode}>+1</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Phone number"
-                placeholderTextColor={colors.muted}
-                keyboardType="phone-pad"
-                value={phone}
-                onChangeText={setPhone}
-                maxLength={10}
-                autoFocus
-              />
+            <View style={styles.phoneContainer}>
+              <View
+                style={[
+                  styles.phoneInput,
+                  {
+                    backgroundColor: colors.surface,
+                    borderColor: error ? colors.error : colors.border,
+                    borderWidth: 1,
+                  },
+                ]}
+              >
+                <Text style={[styles.countryCode, { color: colors.textPrimary }]} >+1</Text>
+                <TextInput
+                  style={[
+                    styles.phoneTextInput,
+                    {
+                      color: colors.textPrimary,
+                      fontFamily: typography.fontFamily.regular,
+                      fontSize: typography.sizes.h3,
+                    },
+                  ]}
+                  value={phoneNumber}
+                  onChangeText={handlePhoneChange}
+                  placeholder="(555) 000-0000"
+                  placeholderTextColor={colors.textMuted}
+                  keyboardType="phone-pad"
+                  maxLength={14}
+                  autoFocus
+                />
+              </View>
             </View>
           ) : (
             <View style={styles.otpContainer}>
-              <TextInput
-                style={styles.otpInput}
-                placeholder="000000"
-                placeholderTextColor={colors.muted}
-                keyboardType="number-pad"
-                value={otp}
-                onChangeText={setOtp}
-                maxLength={6}
-                autoFocus
-              />
+              {otp.map((digit, index) => (
+                <TextInput
+                  key={index}
+                  ref={ref => { if (ref) otpRefs.current[index] = ref; }}
+                  style={[
+                    styles.otpInput,
+                    {
+                      backgroundColor: colors.surface,
+                      borderColor: error ? colors.error : colors.border,
+                      borderWidth: 2,
+                      color: colors.textPrimary,
+                      fontFamily: typography.fontFamily.bold,
+                      fontSize: typography.sizes.h2,
+                    },
+                  ]}
+                  value={digit}
+                  onChangeText={(value) => handleOtpChange(index, value)}
+                  onKeyPress={({ nativeEvent }) => handleOtpKeyPress(index, nativeEvent.key)}
+                  keyboardType="number-pad"
+                  maxLength={1}
+                  textAlign="center"
+                  selectTextOnFocus
+                />
+              ))}
             </View>
           )}
-        </Animated.View>
 
-        {step === 'otp' && (
-          <TouchableOpacity 
-            style={styles.resendButton}
-            onPress={() => {
-              setOtp('');
-              setStep('phone');
-            }}
-          >
-            <Text style={styles.resendText}>Wrong number? Change it</Text>
-          </TouchableOpacity>
-        )}
+          {error ? (
+            <Text style={[styles.error, { color: colors.error }]} >{error}</Text>
+          ) : null}
 
-        <TouchableOpacity
-          style={[styles.button, loading && styles.buttonDisabled]}
-          onPress={step === 'phone' ? handleSendOTP : handleVerifyOTP}
-          disabled={loading}
-        >
-          <Text style={styles.buttonText}>
-            {loading 
-              ? 'Please wait...' 
-              : step === 'phone' 
-                ? 'Send OTP' 
-                : 'Verify'}
-          </Text>
-        </TouchableOpacity>
-      </View>
+          {step === 'otp' && (
+            <TouchableOpacity
+              onPress={handleResendOtp}
+              disabled={loading}
+              style={styles.resendContainer}
+            >
+              <Text
+                style={[
+                  styles.resendText,
+                  {
+                    color: colors.primary,
+                    fontFamily: typography.fontFamily.semibold,
+                  },
+                ]}
+              >
+                Resend code
+              </Text>
+            </TouchableOpacity>
+          )}
+
+          <Button
+            title={step === 'phone' ? 'Continue' : 'Verify'}
+            onPress={step === 'phone' ? handleSendOtp : handleVerifyOtp}
+            loading={loading}
+            size="lg"
+            theme={theme}
+            style={{ marginTop: spacing.xxl }}
+          />
+
+          {step === 'otp' && (
+            <Button
+              title="Change number"
+              variant="ghost"
+              onPress={() => setStep('phone')}
+              theme={theme}
+              style={{ marginTop: spacing.md }}
+            />
+          )}
+        </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
@@ -166,94 +245,66 @@ export const PhoneAuthScreen = ({ navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.deepNavy,
+  },
+  keyboardView: {
+    flex: 1,
   },
   content: {
     flex: 1,
+    paddingHorizontal: spacing.xxxl,
     justifyContent: 'center',
-    paddingHorizontal: spacing.xl,
-  },
-  icon: {
-    fontSize: 60,
-    textAlign: 'center',
-    marginBottom: spacing.xl,
   },
   title: {
-    fontSize: 32,
-    fontWeight: '800',
-    color: colors.white,
-    textAlign: 'center',
+    fontSize: typography.sizes.h1,
     marginBottom: spacing.sm,
-  },
-  description: {
-    fontSize: 16,
-    color: colors.muted,
     textAlign: 'center',
-    marginBottom: spacing.xl,
-    lineHeight: 24,
   },
-  inputContainer: {
+  subtitle: {
+    fontSize: typography.sizes.body,
+    textAlign: 'center',
+    marginBottom: spacing.xxl,
+  },
+  phoneContainer: {
+    marginTop: spacing.lg,
+  },
+  phoneInput: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.twilight,
-    borderRadius: 16,
-    paddingHorizontal: spacing.md,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
+    borderRadius: borderRadius.lg,
+    paddingHorizontal: spacing.lg,
+    height: 56,
   },
   countryCode: {
-    color: colors.white,
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: typography.sizes.h3,
+    fontFamily: typography.fontFamily.medium,
     marginRight: spacing.sm,
-    paddingRight: spacing.sm,
-    borderRightWidth: 1,
-    borderRightColor: colors.muted,
   },
-  input: {
+  phoneTextInput: {
     flex: 1,
-    color: colors.white,
-    fontSize: 18,
-    paddingVertical: 18,
+    height: '100%',
   },
   otpContainer: {
-    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: spacing.lg,
   },
   otpInput: {
-    backgroundColor: colors.twilight,
-    borderRadius: 16,
-    paddingHorizontal: spacing.xl,
-    paddingVertical: 18,
-    color: colors.white,
-    fontSize: 32,
-    fontWeight: '700',
-    letterSpacing: 8,
+    width: 48,
+    height: 56,
+    borderRadius: borderRadius.md,
     textAlign: 'center',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
-    minWidth: 200,
   },
-  resendButton: {
-    alignSelf: 'center',
+  error: {
+    fontSize: typography.sizes.caption,
+    fontFamily: typography.fontFamily.medium,
+    textAlign: 'center',
     marginTop: spacing.md,
   },
+  resendContainer: {
+    alignSelf: 'center',
+    marginTop: spacing.lg,
+  },
   resendText: {
-    color: colors.diamondCyan,
-    fontSize: 14,
-  },
-  button: {
-    backgroundColor: colors.diamondCyan,
-    paddingVertical: 18,
-    borderRadius: 16,
-    alignItems: 'center',
-    marginTop: spacing.xl,
-  },
-  buttonDisabled: {
-    opacity: 0.6,
-  },
-  buttonText: {
-    color: colors.deepNavy,
-    fontSize: 18,
-    fontWeight: '800',
+    fontSize: typography.sizes.body,
   },
 });

@@ -1,60 +1,49 @@
+// src/components/DailyTreasureWidget.tsx
 import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Animated,
-  Dimensions,
-} from 'react-native';
-import { colors, spacing, borderRadius, shadows } from '../theme/stitch';
+import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { Theme, typography, spacing, borderRadius } from '../theme';
+import { Timer } from './Timer';
 
-const { width } = Dimensions.get('window');
-
-interface DailyTreasure {
-  id: string;
-  title: string;
-  subtitle: string;
-  treasurePrice: number;
-  originalPrice: number;
-  discount: number;
-  quantity: number;
-  claimedCount: number;
-  image: string;
+interface DailyTreasureWidgetProps {
+  theme: Theme;
+  onPress?: () => void;
 }
 
-const MOCK_TREASURE: DailyTreasure = {
-  id: 'treasure-1',
-  title: 'Vintage Rolex Submariner',
-  subtitle: '1967, Original Box & Papers',
-  treasurePrice: 8500,
-  originalPrice: 12000,
-  discount: 29,
-  quantity: 1,
-  claimedCount: 0,
-  image: 'https://images.unsplash.com/photo-1587836374828-4dbafa94cf0e?w=600',
-};
+interface TreasureDeal {
+  id: string;
+  title: string;
+  originalPrice: number;
+  dealPrice: number;
+  discount: number;
+  image: string;
+  endsAt: Date;
+  claimed: boolean;
+}
 
-export const DailyTreasureWidget: React.FC = () => {
-  const [timeLeft, setTimeLeft] = useState({ hours: 23, minutes: 45, seconds: 12 });
-  const pulseAnim = useState(new Animated.Value(1))[0];
+export const DailyTreasureWidget: React.FC<DailyTreasureWidgetProps> = ({
+  theme,
+  onPress,
+}) => {
+  const { colors } = theme;
+  const [pulseAnim] = useState(new Animated.Value(1));
+  const [treasure, setTreasure] = useState<TreasureDeal>({
+    id: 'treasure-1',
+    title: 'Nike Air Jordan 1 Retro',
+    originalPrice: 450,
+    dealPrice: 299,
+    discount: 34,
+    image: 'https://images.unsplash.com/photo-1556906781-9a412961c28c?w=400',
+    endsAt: new Date(Date.now() + 4 * 60 * 60 * 1000), // 4 hours from now
+    claimed: false,
+  });
 
   useEffect(() => {
-    // Countdown timer
-    const timer = setInterval(() => {
-      setTimeLeft(prev => {
-        if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
-        if (prev.minutes > 0) return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
-        if (prev.hours > 0) return { ...prev, hours: prev.hours - 1, minutes: 59, seconds: 59 };
-        return prev;
-      });
-    }, 1000);
-
-    // Pulse animation
+    // Pulse animation for the treasure chest
     Animated.loop(
       Animated.sequence([
         Animated.timing(pulseAnim, {
-          toValue: 1.05,
+          toValue: 1.1,
           duration: 1000,
           useNativeDriver: true,
         }),
@@ -65,56 +54,91 @@ export const DailyTreasureWidget: React.FC = () => {
         }),
       ])
     ).start();
-
-    return () => clearInterval(timer);
   }, []);
 
-  const formatTime = (num: number) => num.toString().padStart(2, '0');
+  const handleClaim = () => {
+    setTreasure({ ...treasure, claimed: true });
+    onPress?.();
+  };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.surface }]}>
+      {/* Header */}
       <View style={styles.header}>
-        <View style={styles.treasureBadge}>
-          <Text style={styles.treasureBadgeText}>💎 Today's Treasure</Text>
-        </View>
-        <View style={styles.timerBadge}>
-          <Text style={styles.timerText}>
-            ⏱ {formatTime(timeLeft.hours)}:{formatTime(timeLeft.minutes)}:{formatTime(timeLeft.seconds)}
+        <View style={styles.titleRow}>
+          <Animated.View style={{ transform: [{ scale: pulseAnim }] }}>
+            <Ionicons name="gift" size={28} color={colors.primary} />
+          </Animated.View>
+          <Text style={[styles.title, { color: colors.textPrimary }]}>
+            Daily Treasure
           </Text>
-        </View>
-      </View>
-
-      <View style={styles.imageContainer}>
-        <Animated.View style={[styles.treasureGlow, { transform: [{ scale: pulseAnim }] }]}>
-          <View style={styles.glowInner} />
-        </Animated.View>
-        <View style={styles.treasureImage}>
-          <Text style={styles.treasureEmoji}>⌚</Text>
-        </View>
-      </View>
-
-      <View style={styles.infoContainer}>
-        <Text style={styles.title}>{MOCK_TREASURE.title}</Text>
-        <Text style={styles.subtitle}>{MOCK_TREASURE.subtitle}</Text>
-
-        <View style={styles.priceRow}>
-          <View>
-            <Text style={styles.treasurePrice}>${MOCK_TREASURE.treasurePrice.toLocaleString()}</Text>
-            <Text style={styles.originalPrice}>${MOCK_TREASURE.originalPrice.toLocaleString()}</Text>
+          <View style={[styles.badge, { backgroundColor: colors.live }]}>
+            <Text style={styles.badgeText}>LIVE</Text>
           </View>
+        </View>
+        <Text style={[styles.subtitle, { color: colors.textMuted }]}>
+          Exclusive deal expires soon!
+        </Text>
+      </View>
+
+      {/* Deal Card */}
+      <View style={[styles.dealCard, { backgroundColor: colors.background }]}>
+        <View style={styles.dealInfo}>
+          <Text style={[styles.dealTitle, { color: colors.textPrimary }]} numberOfLines={2}>
+            {treasure.title}
+          </Text>
           
-          <View style={styles.discountBadge}>
-            <Text style={styles.discountText}>-{MOCK_TREASURE.discount}%</Text>
+          <View style={styles.priceRow}>
+            <Text style={[styles.dealPrice, { color: colors.success }]}>
+              ${treasure.dealPrice}
+            </Text>
+            <Text style={[styles.originalPrice, { color: colors.textMuted }]}>
+              ${treasure.originalPrice}
+            </Text>
+            <View style={[styles.discountBadge, { backgroundColor: colors.primary }]}>
+              <Text style={[styles.discountText, { color: colors.textPrimary }]}>
+                -{treasure.discount}%
+              </Text>
+            </View>
+          </View>
+
+          {/* Countdown */}
+          <View style={styles.countdownContainer}>
+            <Ionicons name="time-outline" size={16} color={colors.warning} />
+            <Text style={[styles.countdownLabel, { color: colors.warning }]}>
+              Ends in:
+            </Text>            <Timer endTime={treasure.endsAt} theme={theme} size="sm" showLabels={false} />
           </View>
         </View>
 
-        <View style={styles.quantityRow}>
-          <Text style={styles.quantityText}>🔥 Only {MOCK_TREASURE.quantity} available!</Text>
-        </View>
-
-        <TouchableOpacity style={styles.claimButton}>
-          <Text style={styles.claimButtonText}>Claim Treasure</Text>
+        {/* Claim Button */}
+        <TouchableOpacity
+          style={[
+            styles.claimButton,
+            {
+              backgroundColor: treasure.claimed ? colors.success : colors.primary,
+            },
+          ]}
+          onPress={handleClaim}
+          disabled={treasure.claimed}
+        >
+          <Ionicons
+            name={treasure.claimed ? 'checkmark-circle' : 'gift'}
+            size={20}
+            color={colors.textPrimary}
+          />
+          <Text style={[styles.claimText, { color: colors.textPrimary }]}>
+            {treasure.claimed ? 'Claimed!' : 'Claim Deal'}
+          </Text>
         </TouchableOpacity>
+      </View>
+
+      {/* Streak Info */}
+      <View style={[styles.streakContainer, { borderTopColor: colors.border }]}>
+        <Ionicons name="flame" size={16} color={colors.warning} />
+        <Text style={[styles.streakText, { color: colors.textSecondary }]}>
+          5-day streak! Come back tomorrow for more treasures.
+        </Text>
       </View>
     </View>
   );
@@ -122,133 +146,110 @@ export const DailyTreasureWidget: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.surface,
-    borderRadius: borderRadius.xxl,
-    marginHorizontal: spacing.lg,
-    marginBottom: spacing.xl,
+    borderRadius: borderRadius.xl,
+    marginHorizontal: spacing.xxxl,
+    marginBottom: spacing.lg,
     overflow: 'hidden',
-    ...shadows.lg,
   },
   header: {
+    padding: spacing.lg,
+  },
+  titleRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    padding: spacing.lg,
-  },
-  treasureBadge: {
-    backgroundColor: colors.primary,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.xs,
-    borderRadius: borderRadius.full,
-  },
-  treasureBadgeText: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: colors.textPrimary,
-  },
-  timerBadge: {
-    backgroundColor: 'rgba(255, 23, 68, 0.1)',
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.xs,
-    borderRadius: borderRadius.md,
-  },
-  timerText: {
-    fontSize: 12,
-    fontWeight: '700',
-    color: '#ff1744',
-  },
-  imageContainer: {
-    height: 200,
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
-  },
-  treasureGlow: {
-    position: 'absolute',
-    width: 180,
-    height: 180,
-    borderRadius: 90,
-    backgroundColor: 'rgba(255, 217, 0, 0.2)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  glowInner: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    backgroundColor: 'rgba(255, 217, 0, 0.3)',
-  },
-  treasureImage: {
-    width: 140,
-    height: 140,
-    borderRadius: 70,
-    backgroundColor: colors.surface,
-    justifyContent: 'center',
-    alignItems: 'center',
-    ...shadows.md,
-  },
-  treasureEmoji: {
-    fontSize: 60,
-  },
-  infoContainer: {
-    padding: spacing.lg,
+    marginBottom: spacing.xs,
   },
   title: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: colors.textPrimary,
-    marginBottom: 4,
+    fontSize: typography.sizes.h3,
+    fontFamily: typography.fontFamily.bold,
+    marginLeft: spacing.sm,
+    marginRight: spacing.sm,
+  },
+  badge: {
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 2,
+    borderRadius: borderRadius.sm,
+  },
+  badgeText: {
+    color: '#fff',
+    fontSize: typography.sizes.overline,
+    fontFamily: typography.fontFamily.bold,
   },
   subtitle: {
-    fontSize: 14,
-    color: colors.textMuted,
+    fontSize: typography.sizes.caption,
+    fontFamily: typography.fontFamily.regular,
+  },
+  dealCard: {
+    margin: spacing.lg,
+    marginTop: 0,
+    borderRadius: borderRadius.lg,
+    padding: spacing.md,
+  },
+  dealInfo: {
     marginBottom: spacing.md,
+  },
+  dealTitle: {
+    fontSize: typography.sizes.body,
+    fontFamily: typography.fontFamily.semibold,
+    marginBottom: spacing.sm,
   },
   priceRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: spacing.md,
+    marginBottom: spacing.sm,
   },
-  treasurePrice: {
-    fontSize: 28,
-    fontWeight: '800',
-    color: colors.primary,
+  dealPrice: {
+    fontSize: typography.sizes.h2,
+    fontFamily: typography.fontFamily.bold,
+    marginRight: spacing.sm,
   },
   originalPrice: {
-    fontSize: 16,
-    color: colors.textMuted,
+    fontSize: typography.sizes.body,
+    fontFamily: typography.fontFamily.regular,
     textDecorationLine: 'line-through',
+    marginRight: spacing.sm,
   },
   discountBadge: {
-    backgroundColor: '#00c853',
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.xs,
-    borderRadius: borderRadius.md,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 2,
+    borderRadius: borderRadius.sm,
   },
   discountText: {
-    fontSize: 14,
-    fontWeight: '700',
-    color: '#fff',
+    fontSize: typography.sizes.caption,
+    fontFamily: typography.fontFamily.bold,
   },
-  quantityRow: {
-    marginBottom: spacing.lg,
+  countdownContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  quantityText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#ff1744',
+  countdownLabel: {
+    fontSize: typography.sizes.caption,
+    fontFamily: typography.fontFamily.medium,
+    marginLeft: spacing.xs,
+    marginRight: spacing.sm,
   },
   claimButton: {
-    backgroundColor: colors.primary,
-    paddingVertical: spacing.lg,
-    borderRadius: borderRadius.xl,
+    flexDirection: 'row',
     alignItems: 'center',
-    ...shadows.glow,
+    justifyContent: 'center',
+    paddingVertical: spacing.md,
+    borderRadius: borderRadius.md,
+    gap: spacing.xs,
   },
-  claimButtonText: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: colors.textPrimary,
+  claimText: {
+    fontSize: typography.sizes.body,
+    fontFamily: typography.fontFamily.semibold,
+  },
+  streakContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: spacing.md,
+    borderTopWidth: 1,
+    gap: spacing.xs,
+  },
+  streakText: {
+    fontSize: typography.sizes.caption,
+    fontFamily: typography.fontFamily.medium,
   },
 });

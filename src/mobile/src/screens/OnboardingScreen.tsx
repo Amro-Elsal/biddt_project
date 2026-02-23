@@ -1,133 +1,107 @@
-import React, { useState, useEffect, useRef } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  SafeAreaView,
-  Animated,
-  Easing,
+// src/screens/OnboardingScreen.tsx
+import React from 'react';
+import { 
+  View, 
+  Text, 
+  StyleSheet, 
+  Image, 
+  Dimensions,
+  ScrollView
 } from 'react-native';
-import { colors, spacing } from '../theme';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button } from '../components/Button';
+import { Theme, typography, spacing } from '../theme';
 
-const slides = [
-  {
-    icon: '💎',
-    title: 'Discover Hidden Gems',
-    description: 'Find unique items from local sellers. Every listing is a potential treasure waiting to be discovered.',
-    color: colors.diamondCyan,
-  },
-  {
-    icon: '⚡',
-    title: 'Bid \u0026 Win',
-    description: 'Experience the thrill of real-time bidding. Win auctions and claim your treasure at the best price.',
-    color: colors.sparkOrange,
-  },
-  {
-    icon: '🔒',
-    title: 'Exchange Safely',
-    description: 'Meet at verified safe zones with QR code protection. Your safety is our top priority.',
-    color: colors.sparkGold,
-  },
-];
+const { width, height } = Dimensions.get('window');
 
-export const OnboardingScreen = ({ navigation }: any) => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  const slideAnim = useRef(new Animated.Value(50)).current;
+interface OnboardingScreenProps {
+  navigation: any;
+  theme: Theme;
+}
 
-  useEffect(() => {
-    animateIn();
-  }, [currentSlide]);
+export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ 
+  navigation, 
+  theme 
+}) => {
+  const { colors } = theme;
 
-  const animateIn = () => {
-    fadeAnim.setValue(0);
-    slideAnim.setValue(50);
-    
-    Animated.parallel([
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 600,
-        useNativeDriver: true,
-      }),
-      Animated.timing(slideAnim, {
-        toValue: 0,
-        duration: 600,
-        easing: Easing.out(Easing.back(1.5)),
-        useNativeDriver: true,
-      }),
-    ]).start();
-  };
-
-  const handleNext = () => {
-    if (currentSlide < slides.length - 1) {
-      setCurrentSlide(currentSlide + 1);
-    } else {
-      navigation.replace('PhoneAuth');
-    }
-  };
-
-  const handleSkip = () => {
-    navigation.replace('PhoneAuth');
-  };
-
-  const slide = slides[currentSlide];
+  const slides = [
+    {
+      image: 'https://images.unsplash.com/photo-1556906781-9a412961c28c?w=800',
+      title: 'Bid on Exclusive Items',
+      description: 'Discover rare sneakers, vintage collectibles, and unique tech from verified sellers worldwide.',
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=800',
+      title: 'Sell with Confidence',
+      description: 'List your items in minutes. Our verified badge system builds trust with buyers.',
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800',
+      title: 'Safe Exchange',
+      description: 'Complete transactions securely with QR code verification and in-app payments.',
+    },
+  ];
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.skipContainer}>
-        <TouchableOpacity onPress={handleSkip}>
-          <Text style={styles.skipText}>Skip</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.content}>
-        <Animated.View
-          style={[
-            styles.iconContainer,
-            {
-              opacity: fadeAnim,
-              transform: [{ translateY: slideAnim }],
-            },
-          ]}
-        >
-          <View style={[styles.iconCircle, { backgroundColor: slide.color + '20' }]} >
-            <Text style={styles.icon}>{slide.icon}</Text>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+      <ScrollView
+        horizontal
+        pagingEnabled
+        showsHorizontalScrollIndicator={false}
+        style={styles.scrollView}
+      >
+        {slides.map((slide, index) => (
+          <View key={index} style={[styles.slide, { width }]}>
+            <View style={styles.imageContainer}>
+              <Image source={{ uri: slide.image }} style={styles.image} />
+              <View style={[styles.overlay, { backgroundColor: colors.background }]} />
+            </View>
+            
+            <View style={styles.content}>
+              <Text
+                style={[
+                  styles.title,
+                  {
+                    color: colors.textPrimary,
+                    fontFamily: typography.fontFamily.extrabold,
+                  },
+                ]}
+              >
+                {slide.title}
+              </Text>
+              
+              <Text
+                style={[
+                  styles.description,
+                  {
+                    color: colors.textSecondary,
+                    fontFamily: typography.fontFamily.regular,
+                  },
+                ]}
+              >
+                {slide.description}
+              </Text>
+            </View>
           </View>
-        </Animated.View>
-
-        <Animated.View
-          style={{
-            opacity: fadeAnim,
-            transform: [{ translateY: slideAnim }],
-          }}
-        >
-          <Text style={styles.title}>{slide.title}</Text>
-          <Text style={styles.description}>{slide.description}</Text>
-        </Animated.View>
-      </View>
+        ))}
+      </ScrollView>
 
       <View style={styles.footer}>
-        <View style={styles.dots}>
-          {slides.map((_, index) => (
-            <View
-              key={index}
-              style={[
-                styles.dot,
-                index === currentSlide && styles.dotActive,
-              ]}
-            />
-          ))}
-        </View>
-
-        <TouchableOpacity
-          style={[styles.button, { backgroundColor: slide.color }]}
-          onPress={handleNext}
-        >
-          <Text style={styles.buttonText}>
-            {currentSlide === slides.length - 1 ? 'Get Started' : 'Next'}
-          </Text>
-        </TouchableOpacity>
+        <Button
+          title="Get Started"
+          onPress={() => navigation.navigate('PhoneAuth')}
+          size="lg"
+          theme={theme}
+          style={{ marginBottom: spacing.md }}
+        />
+        
+        <Button
+          title="I already have an account"
+          variant="ghost"
+          onPress={() => navigation.navigate('PhoneAuth')}
+          theme={theme}
+        />
       </View>
     </SafeAreaView>
   );
@@ -136,75 +110,46 @@ export const OnboardingScreen = ({ navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.deepNavy,
   },
-  skipContainer: {
-    alignItems: 'flex-end',
-    padding: spacing.lg,
+  scrollView: {
+    flex: 1,
   },
-  skipText: {
-    color: colors.muted,
-    fontSize: 16,
+  slide: {
+    flex: 1,
+  },
+  imageContainer: {
+    height: height * 0.55,
+    position: 'relative',
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+  },
+  overlay: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 100,
+    opacity: 0.9,
   },
   content: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: spacing.xl,
-  },
-  iconContainer: {
-    marginBottom: spacing.xl,
-  },
-  iconCircle: {
-    width: 140,
-    height: 140,
-    borderRadius: 70,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  icon: {
-    fontSize: 60,
+    paddingHorizontal: spacing.xxxl,
+    paddingTop: spacing.xxl,
   },
   title: {
-    fontSize: 32,
-    fontWeight: '800',
-    color: colors.white,
-    textAlign: 'center',
+    fontSize: typography.sizes.h1,
     marginBottom: spacing.md,
+    textAlign: 'center',
   },
   description: {
-    fontSize: 16,
-    color: colors.muted,
+    fontSize: typography.sizes.bodyLarge,
     textAlign: 'center',
     lineHeight: 24,
   },
   footer: {
-    padding: spacing.lg,
-  },
-  dots: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: spacing.lg,
-  },
-  dot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: colors.twilight,
-    marginHorizontal: 4,
-  },
-  dotActive: {
-    backgroundColor: colors.diamondCyan,
-    width: 24,
-  },
-  button: {
-    paddingVertical: 18,
-    borderRadius: 16,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: colors.deepNavy,
-    fontSize: 18,
-    fontWeight: '800',
+    paddingHorizontal: spacing.xxxl,
+    paddingBottom: spacing.xxl,
   },
 });

@@ -1,107 +1,192 @@
+// src/screens/ProfileSetupScreen.tsx
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
+import { 
+  View, 
+  Text, 
+  StyleSheet, 
   TouchableOpacity,
-  SafeAreaView,
   Image,
-  Alert,
+  ScrollView
 } from 'react-native';
-import { colors, spacing } from '../theme';
-import { db, User } from '../data/database';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import * as ImagePicker from 'expo-image-picker';
+import { Button } from '../components/Button';
+import { Input } from '../components/Input';
+import { Avatar } from '../components/Avatar';
+import { Theme, typography, spacing } from '../theme';
 
-export const ProfileSetupScreen = ({ navigation }: any) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+interface ProfileSetupScreenProps {
+  navigation: any;
+  theme: Theme;
+}
+
+export const ProfileSetupScreen: React.FC<ProfileSetupScreenProps> = ({ 
+  navigation, 
+  theme 
+}) => {
+  const { colors } = theme;
+  const [displayName, setDisplayName] = useState('');
+  const [avatar, setAvatar] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleComplete = async () => {
-    if (name.length < 2) {
-      Alert.alert('Invalid Name', 'Please enter your full name');
+  const pickImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      setError('Permission to access gallery is required');
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.8,
+    });
+
+    if (!result.canceled) {
+      setAvatar(result.assets[0].uri);
+    }
+  };
+
+  const handleContinue = async () => {
+    if (!displayName.trim()) {
+      setError('Please enter your display name');
       return;
     }
 
     setLoading(true);
-
-    const currentUser = await db.getCurrentUser();
-    if (currentUser) {
-      const updatedUser: User = {
-        ...currentUser,
-        name,
-        email: email || undefined,
-      };
-      
-      await db.setCurrentUser(updatedUser);
-      
-      // Initialize wallet with fake balance
-      await db.updateWalletBalance(50000); // $500 starting balance
-      
-      setTimeout(() => {
-        setLoading(false);
-        navigation.replace('Main');
-      }, 500);
-    }
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    setLoading(false);
+    
+    // Navigate to main app
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Main' }],
+    });
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <Text style={styles.icon}>👤</Text>
-        
-        <Text style={styles.title}>Complete Your Profile</Text>
-        
-        <Text style={styles.description}>
-          Tell us a bit about yourself to get started
-        </Text>
-
-        <View style={styles.avatarContainer}>
-          <View style={styles.avatar}>
-            <Text style={styles.avatarText}>{name ? name[0].toUpperCase() : '?'}</Text>
-          </View>
-          <TouchableOpacity style={styles.changeAvatar}>
-            <Text style={styles.changeAvatarText}>Add Photo</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.form}>
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Full Name *</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="John Doe"
-              placeholderTextColor={colors.muted}
-              value={name}
-              onChangeText={setName}
-              autoFocus
-            />
-          </View>
-
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Email (Optional)</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="john@example.com"
-              placeholderTextColor={colors.muted}
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
-          </View>
-        </View>
-
-        <TouchableOpacity
-          style={[styles.button, loading && styles.buttonDisabled]}
-          onPress={handleComplete}
-          disabled={loading}
-        >
-          <Text style={styles.buttonText}>
-            {loading ? 'Setting up...' : 'Complete Setup'}
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <View style={styles.content}>
+          <Text
+            style={[
+              styles.title,
+              {
+                color: colors.textPrimary,
+                fontFamily: typography.fontFamily.extrabold,
+              },
+            ]}
+          >
+            Create your profile
           </Text>
-        </TouchableOpacity>
-      </View>
+          
+          <Text
+            style={[
+              styles.subtitle,
+              {
+                color: colors.textSecondary,
+                fontFamily: typography.fontFamily.regular,
+              },
+            ]}
+          >
+            This is how other users will see you on Biddt.
+          </Text>
+
+          {/* Avatar Upload */}
+          <View style={styles.avatarContainer}>
+            <TouchableOpacity onPress={pickImage} style={styles.avatarWrapper}>
+              <Avatar
+                uri={avatar}
+                name={displayName || 'User'}
+                size="xl"
+                theme={theme}
+              />
+              
+              <View
+                style={[
+                  styles.cameraBadge,
+                  { backgroundColor: colors.primary },
+                ]}
+              >
+                <Text style={styles.cameraIcon}>📷</Text>
+              </View>
+            </TouchableOpacity>
+            
+            <Text
+              style={[
+                styles.changePhotoText,
+                {
+                  color: colors.primary,
+                  fontFamily: typography.fontFamily.medium,
+                },
+              ]}
+            >
+              {avatar ? 'Change photo' : 'Add photo'}
+            </Text>
+          </View>
+
+          {/* Display Name Input */}
+          <Input
+            label="Display Name"
+            placeholder="Enter your display name"
+            value={displayName}
+            onChangeText={(text) => {
+              setDisplayName(text);
+              setError('');
+            }}
+            error={error}
+            theme={theme}
+          />
+
+          {/* Tips */}
+          <View style={styles.tipsContainer}>
+            <Text
+              style={[
+                styles.tipsTitle,
+                {
+                  color: colors.textSecondary,
+                  fontFamily: typography.fontFamily.semibold,
+                },
+              ]}
+            >
+              Tips for a great profile:
+            </Text>
+            
+            {[
+              'Use a clear photo of yourself',
+              'Choose a name that represents you',
+              'You can always update this later',
+            ].map((tip, index) => (
+              <View key={index} style={styles.tipRow}>
+                <Text style={[styles.tipBullet, { color: colors.primary }]} >•</Text>
+                <Text
+                  style={[
+                    styles.tipText,
+                    {
+                      color: colors.textMuted,
+                      fontFamily: typography.fontFamily.regular,
+                    },
+                  ]}
+                >
+                  {tip}
+                </Text>
+              </View>
+            ))}
+          </View>
+
+          <Button
+            title="Complete Setup"
+            onPress={handleContinue}
+            loading={loading}
+            size="lg"
+            theme={theme}
+            style={{ marginTop: spacing.xxl }}
+          />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -109,92 +194,71 @@ export const ProfileSetupScreen = ({ navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.deepNavy,
+  },
+  scrollContent: {
+    flexGrow: 1,
   },
   content: {
     flex: 1,
-    paddingHorizontal: spacing.xl,
+    paddingHorizontal: spacing.xxxl,
     paddingTop: spacing.xxl,
   },
-  icon: {
-    fontSize: 50,
-    textAlign: 'center',
-    marginBottom: spacing.lg,
-  },
   title: {
-    fontSize: 28,
-    fontWeight: '800',
-    color: colors.white,
-    textAlign: 'center',
+    fontSize: typography.sizes.h1,
     marginBottom: spacing.sm,
-  },
-  description: {
-    fontSize: 16,
-    color: colors.muted,
     textAlign: 'center',
-    marginBottom: spacing.xl,
+  },
+  subtitle: {
+    fontSize: typography.sizes.body,
+    textAlign: 'center',
+    marginBottom: spacing.xxl,
   },
   avatarContainer: {
     alignItems: 'center',
-    marginBottom: spacing.xl,
+    marginBottom: spacing.xxl,
   },
-  avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: colors.diamondPurple,
-    alignItems: 'center',
+  avatarWrapper: {
+    position: 'relative',
+  },
+  cameraBadge: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     justifyContent: 'center',
-    marginBottom: spacing.sm,
-  },
-  avatarText: {
-    fontSize: 40,
-    fontWeight: '700',
-    color: colors.white,
-  },
-  changeAvatar: {
-    padding: spacing.sm,
-  },
-  changeAvatarText: {
-    color: colors.diamondCyan,
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  form: {
-    gap: spacing.lg,
-  },
-  inputGroup: {
-    gap: spacing.xs,
-  },
-  label: {
-    color: colors.softWhite,
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  input: {
-    backgroundColor: colors.twilight,
-    borderRadius: 12,
-    paddingHorizontal: spacing.md,
-    paddingVertical: 16,
-    color: colors.white,
-    fontSize: 16,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.1)',
-  },
-  button: {
-    backgroundColor: colors.diamondCyan,
-    paddingVertical: 18,
-    borderRadius: 16,
     alignItems: 'center',
-    marginTop: 'auto',
-    marginBottom: spacing.lg,
+    borderWidth: 3,
+    borderColor: '#fff',
   },
-  buttonDisabled: {
-    opacity: 0.6,
+  cameraIcon: {
+    fontSize: 16,
   },
-  buttonText: {
-    color: colors.deepNavy,
-    fontSize: 18,
-    fontWeight: '800',
+  changePhotoText: {
+    fontSize: typography.sizes.body,
+    marginTop: spacing.md,
+  },
+  tipsContainer: {
+    marginTop: spacing.lg,
+  },
+  tipsTitle: {
+    fontSize: typography.sizes.caption,
+    marginBottom: spacing.sm,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  tipRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: spacing.xs,
+  },
+  tipBullet: {
+    fontSize: typography.sizes.body,
+    marginRight: spacing.sm,
+  },
+  tipText: {
+    fontSize: typography.sizes.caption,
+    flex: 1,
   },
 });

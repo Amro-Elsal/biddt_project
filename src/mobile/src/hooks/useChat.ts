@@ -1,72 +1,70 @@
-// src/hooks/useChat.ts
-import { useState, useEffect, useCallback } from 'react';
-import { 
-  getUserChats, 
-  createChat, 
-  sendMessage, 
-  subscribeToMessages 
-} from '../services/firebase';
-import { Chat, ChatMessage } from '../types';
+import { useState, useEffect } from 'react';
+import {
+  getUserChats,
+  getMessages,
+  sendMessage as sendMessageService,
+  subscribeToMessages,
+} from '../services/localStorage';
 
-export const useChats = (userId: string) => {
-  const [chats, setChats] = useState<Chat[]>([]);
+export const useChat = (userId: string) => {
+  const [chats, setChats] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!userId) return;
-
-    const loadChats = async () => {
-      try {
-        const data = await getUserChats(userId);
-        setChats(data as Chat[]);
-      } catch (error) {
-        console.error('Error loading chats:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadChats();
+    if (userId) {
+      loadChats();
+    }
   }, [userId]);
 
-  const startChat = useCallback(async (participants: string[], listingId?: string) => {
+  const loadChats = async () => {
     try {
-      const chatId = await createChat(participants, listingId);
-      return { success: true, chatId };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+      setLoading(true);
+      const data = await getUserChats(userId);
+      setChats(data);
+    } catch (error) {
+      console.error('Error loading chats:', error);
+    } finally {
+      setLoading(false);
     }
-  }, []);
+  };
 
-  return { chats, loading, startChat };
+  return { chats, loading, refresh: loadChats };
 };
 
-export const useChat = (chatId: string) => {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+export const useMessages = (chatId: string, userId: string) => {
+  const [messages, setMessages] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!chatId) return;
-
-    const unsubscribe = subscribeToMessages(chatId, (data) => {
-      setMessages(data as ChatMessage[]);
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, [chatId]);
-
-  const send = useCallback(async (text: string, senderId: string) => {
-    try {
-      await sendMessage(chatId, {
-        text,
-        senderId,
+    if (chatId) {
+      loadMessages();
+      const unsubscribe = subscribeToMessages(chatId, (updatedMessages) => {
+        setMessages(updatedMessages);
+        setLoading(false);
       });
-      return { success: true };
-    } catch (error: any) {
-      return { success: false, error: error.message };
+      return () => unsubscribe();
     }
   }, [chatId]);
 
-  return { messages, loading, send };
+  const loadMessages = async () => {
+    try {
+      setLoading(true);
+      const data = await getMessages(chatId);
+      setMessages(data);
+    } catch (error) {
+      console.error('Error loading messages:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const sendMessage = async (text: string) => {
+    await sendMessageService(chatId, {
+      text,
+      senderId: userId,
+    });
+    await loadMessages();
+  };
+
+  return { messages, loading, sendMessage, refresh: loadMessages };
 };
