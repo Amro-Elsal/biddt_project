@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safe Exchange</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&;display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #f8f8f5;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            background: #fff;
+            border-bottom: 1px solid #e5e5e0;
+        }
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: transparent;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .header-title {
+            flex: 1;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-right: 40px;
+        }
+        .content {
+            height: calc(100vh - 80px);
+            overflow-y: auto;
+            padding: 24px;
+        }
+        .success-banner {
+            background: rgba(0, 200, 83, 0.1);
+            border: 1px solid rgba(0, 200, 83, 0.2);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .success-icon {
+            width: 48px;
+            height: 48px;
+            background: #00c853;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #fff;
+        }
+        .success-text {
+            flex: 1;
+        }
+        .success-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #00c853;
+            margin-bottom: 4px;
+        }
+        .success-subtitle {
+            font-size: 12px;
+            color: #525252;
+        }
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 32px;
+            position: relative;
+        }
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50px;
+            right: 50px;
+            height: 2px;
+            background: #e5e5e0;
+            z-index: 0;
+        }
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            z-index: 1;
+        }
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #fff;
+            border: 2px solid #e5e5e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 700;
+            color: #737373;
+        }
+        .step.active .step-circle {
+            background: #ffd900;
+            border-color: #ffd900;
+            color: #1a1a1a;
+        }
+        .step.completed .step-circle {
+            background: #00c853;
+            border-color: #00c853;
+            color: #fff;
+        }
+        .step-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #737373;
+        }
+        .step.active .step-label {
+            color: #1a1a1a;
+        }
+        .qr-section {
+            background: #fff;
+            border-radius: 24px;
+            padding: 32px;
+            text-align: center;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        .qr-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+        .qr-sublabel {
+            font-size: 12px;
+            color: #737373;
+            margin-bottom: 24px;
+        }
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            background: #fff;
+            margin: 0 auto 24px;
+            padding: 16px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .qr-pattern {
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(90deg, #000 0%, #000 20%, transparent 20%),
+                linear-gradient(180deg, #000 0%, #000 20%, transparent 20%);
+            background-size: 20% 20%;
+        }
+        .qr-code-id {
+            font-size: 12px;
+            font-weight: 700;
+            color: #1a1a1a;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+        .timer {
+            font-size: 32px;
+            font-weight: 800;
+            color: #ffd900;
+        }
+        .timer-label {
+            font-size: 12px;
+            color: #737373;
+            margin-top: 4px;
+        }
+        .location-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        .location-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 217, 0, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        .location-info {
+            flex: 1;
+        }
+        .location-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #737373;
+            margin-bottom: 4px;
+        }
+        .location-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+        }
+        .location-address {
+            font-size: 12px;
+            color: #525252;
+        }
+        .safety-tips {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 100px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        .safety-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .safety-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .safety-check {
+            width: 20px;
+            height: 20px;
+            background: rgba(0, 200, 83, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #00c853;
+            flex-shrink: 0;
+        }
+        .safety-text {
+            font-size: 14px;
+            color: #525252;
+            line-height: 1.4;
+        }
+        .action-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            padding: 16px 24px 24px;
+            border-top: 1px solid #e5e5e0;
+            display: flex;
+            gap: 12px;
+        }
+        .btn-secondary {
+            flex: 1;
+            padding: 16px;
+            background: #f1f1ef;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            cursor: pointer;
+        }
+        .btn-primary {
+            flex: 2;
+            padding: 16px;
+            background: #ffd900;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a1a;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 217, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <button class="back-btn">←</button>
+        <div class="header-title">Safe Exchange</div>
+    </div>
+    
+    <div class="content">
+        <div class="success-banner">
+            <div class="success-icon">🔒</div>
+            <div class="success-text">
+                <div class="success-title">Payment Secured</div>
+                <div class="success-subtitle">Funds held safely until exchange complete</div>
+            </div>
+        </div>
+        
+        <div class="progress-steps">
+            <div class="step completed">
+                <div class="step-circle">✓</div>
+                <div class="step-label">Meet</div>
+            </div>
+            <div class="step active">
+                <div class="step-circle">2</div>
+                <div class="step-label">Scan</div>
+            </div>
+            <div class="step">
+                <div class="step-circle">3</div>
+                <div class="step-label">Confirm</div>
+            </div>
+        </div>
+        
+        <div class="qr-section">
+            <div class="qr-label">Show this QR to the seller</div>
+            <div class="qr-sublabel">They will scan to verify the exchange</div>
+            
+            <div class="qr-code">
+                <div class="qr-pattern"></div>
+            </div>
+            
+            <div class="qr-code-id">BIDDT-7X9K2M5P8Q1</div>
+            
+            <div class="timer">14:59</div>
+            <div class="timer-label">Valid for 15 minutes</div>
+        </div>
+        
+        <div class="location-card">
+            <div class="location-icon">📍</div>
+            <div class="location-info">
+                <div class="location-label">Meetup Location</div>
+                <div class="location-name">Halifax Police Station</div>
+                <div class="location-address">1975 Gottingen Street, Halifax</div>
+            </div>
+        </div>
+        
+        <div class="safety-tips">
+            <div class="safety-title">
+                <span>🛡️</span>
+                <span>Safety Tips</span>
+            </div>
+            
+            <div class="safety-item">
+                <div class="safety-check">✓</div>
+                <div class="safety-text">Meet in a public, well-lit location</div>
+            </div>
+            
+            <div class="safety-item">
+                <div class="safety-check">✓</div>
+                <div class="safety-text">Verify the item before completing exchange</div>
+            </div>
+            
+            <div class="safety-item">
+                <div class="safety-check">✓</div>
+                <div class="safety-text">Use Biddt QR verification for security</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="action-bar">
+        <button class="btn-secondary">Report Issue</button>
+        <button class="btn-primary">I've Arrived</button>
+    </div>
+</body>
+</html>

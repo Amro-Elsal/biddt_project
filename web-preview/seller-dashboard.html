@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&;display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #f8f8f5;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .header {
+            padding: 16px;
+            background: #fff;
+            border-bottom: 1px solid #e5e5e0;
+        }
+        .header-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+        .content {
+            height: calc(100vh - 80px);
+            overflow-y: auto;
+            padding: 16px;
+        }
+        .earnings-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .earnings-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        .earnings-card.primary {
+            grid-column: span 2;
+            background: linear-gradient(135deg, #ffd900, #ffed4a);
+        }
+        .earnings-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #737373;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        .earnings-card.primary .earnings-label {
+            color: rgba(0,0,0,0.6);
+        }
+        .earnings-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1a1a1a;
+        }
+        .earnings-card.primary .earnings-value {
+            font-size: 36px;
+        }
+        .chart-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .chart-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+        .chart-tabs {
+            display: flex;
+            gap: 8px;
+        }
+        .chart-tab {
+            padding: 6px 12px;
+            background: #f1f1ef;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #737373;
+            cursor: pointer;
+        }
+        .chart-tab.active {
+            background: #1a1a1a;
+            color: #fff;
+        }
+        .chart-bars {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            height: 120px;
+            padding: 0 8px;
+        }
+        .chart-bar {
+            width: 32px;
+            background: #f1f1ef;
+            border-radius: 8px 8px 0 0;
+            position: relative;
+        }
+        .chart-bar.active {
+            background: #ffd900;
+        }
+        .chart-bar-label {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            color: #737373;
+        }
+        .seller-level {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        .level-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .level-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+        .level-badge {
+            padding: 6px 12px;
+            background: linear-gradient(135deg, #ffd900, #ffed4a);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+        .level-progress {
+            height: 8px;
+            background: #f1f1ef;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            overflow: hidden;
+        }
+        .level-progress-fill {
+            height: 100%;
+            width: 75%;
+            background: linear-gradient(90deg, #ffd900, #ffed4a);
+            border-radius: 4px;
+        }
+        .level-text {
+            font-size: 12px;
+            color: #737373;
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+        .see-all {
+            font-size: 14px;
+            font-weight: 600;
+            color: #737373;
+        }
+        .listing-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            gap: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        .listing-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            background: #e5e5e0;
+            object-fit: cover;
+        }
+        .listing-info {
+            flex: 1;
+        }
+        .listing-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+        .listing-price {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffd900;
+            margin-bottom: 8px;
+        }
+        .listing-stats {
+            display: flex;
+            gap: 16px;
+        }
+        .listing-stat {
+            font-size: 12px;
+            color: #737373;
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 24px 24px;
+            border-top: 1px solid #e5e5e0;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        .nav-item span:first-child {
+            font-size: 24px;
+        }
+        .nav-label {
+            font-size: 10px;
+            font-weight: 500;
+            color: #737373;
+        }
+        .nav-item.active .nav-label {
+            color: #ffd900;
+            font-weight: 700;
+        }
+        .sell-btn {
+            width: 56px;
+            height: 56px;
+            background: #ffd900;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            transform: rotate(45deg);
+            margin-top: -20px;
+            box-shadow: 0 4px 15px rgba(255, 217, 0, 0.4);
+        }
+        .sell-btn span {
+            transform: rotate(-45deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-title">Seller Dashboard</div>
+    </div>
+    
+    <div class="content">
+        <div class="earnings-cards">
+            <div class="earnings-card primary">
+                <div class="earnings-label">Total Earnings</div>
+                <div class="earnings-value">$12,450</div>
+            </div>
+            
+            <div class="earnings-card">
+                <div class="earnings-label">This Month</div>
+                <div class="earnings-value">$2,180</div>
+            </div>
+            
+            <div class="earnings-card">
+                <div class="earnings-label">Pending</div>
+                <div class="earnings-value">$850</div>
+            </div>
+        </div>
+        
+        <div class="chart-card">
+            <div class="chart-header">
+                <div class="chart-title">Sales Overview</div>
+                <div class="chart-tabs">
+                    <button class="chart-tab">Week</button>
+                    <button class="chart-tab active">Month</button>
+                    <button class="chart-tab">Year</button>
+                </div>
+            </div>
+            
+            <div class="chart-bars">
+                <div class="chart-bar" style="height: 40%;"><div class="chart-bar-label">M</div></div>
+                <div class="chart-bar" style="height: 60%;"><div class="chart-bar-label">T</div></div>
+                <div class="chart-bar" style="height: 45%;"><div class="chart-bar-label">W</div></div>
+                <div class="chart-bar" style="height: 80%;"><div class="chart-bar-label">T</div></div>
+                <div class="chart-bar active" style="height: 100%;"><div class="chart-bar-label">F</div></div>
+                <div class="chart-bar" style="height: 70%;"><div class="chart-bar-label">S</div></div>
+                <div class="chart-bar" style="height: 55%;"><div class="chart-bar-label">S</div></div>
+            </div>
+        </div>
+        
+        <div class="seller-level">
+            <div class="level-header">
+                <div class="level-title">Seller Level</div>
+                <div class="level-badge">Gold Seller</div>
+            </div>
+            
+            <div class="level-progress">
+                <div class="level-progress-fill"></div>
+            </div>
+            
+            <div class="level-text">750 / 1000 XP to Platinum</div>
+        </div>
+        
+        <div class="section-header">
+            <div class="section-title">Active Listings</div>
+            <div class="see-all">See All</div>
+        </div>
+        
+        <div class="listing-card">
+            <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=200" class="listing-image" alt="Watch">
+            <div class="listing-info">
+                <div class="listing-title">Vintage Chronograph 1970</div>
+                <div class="listing-price">$1,250</div>
+                <div class="listing-stats">
+                    <div class="listing-stat">👁 234 views</div>
+                    <div class="listing-stat">🔥 12 bids</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="listing-card">
+            <img src="https://images.unsplash.com/photo-1552346154-21d32810aba3?w=200" class="listing-image" alt="Sneakers">
+            <div class="listing-info">
+                <div class="listing-title">Air Jordan 1 Retro</div>
+                <div class="listing-price">$210</div>
+                <div class="listing-stats">
+                    <div class="listing-stat">👁 156 views</div>
+                    <div class="listing-stat">🔥 8 bids</div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="height: 100px;"></div>
+    </div>
+    
+    <div class="bottom-nav">
+        <div class="nav-item">
+            <span>🏠</span>
+            <div class="nav-label">Home</div>
+        </div>
+        <div class="nav-item">
+            <span>🔍</span>
+            <div class="nav-label">Search</div>
+        </div>
+        <div class="sell-btn">
+            <span>＋</span>
+        </div>
+        <div class="nav-item">
+            <span>💬</span>
+            <div class="nav-label">Chat</div>
+        </div>
+        <div class="nav-item">
+            <span>👤</span>
+            <div class="nav-label">Profile</div>
+        </div>
+    </div>
+</body>
+</html>

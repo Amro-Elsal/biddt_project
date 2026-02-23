@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&;display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #f8f8f5;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            background: #fff;
+            border-bottom: 1px solid #e5e5e0;
+        }
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: transparent;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .chat-info {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-left: 8px;
+        }
+        .chat-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .chat-details {
+            flex: 1;
+        }
+        .chat-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+        .chat-status {
+            font-size: 12px;
+            color: #00c853;
+        }
+        .more-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: transparent;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .item-context {
+            background: #fff;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e5e5e0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .item-image {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            background: #e5e5e0;
+            object-fit: cover;
+        }
+        .item-details {
+            flex: 1;
+        }
+        .item-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 2px;
+        }
+        .item-price {
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffd900;
+        }
+        .view-item-btn {
+            padding: 8px 16px;
+            background: #f1f1ef;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #1a1a1a;
+            cursor: pointer;
+        }
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            height: calc(100vh - 220px);
+        }
+        .message {
+            margin-bottom: 16px;
+            max-width: 75%;
+        }
+        .message.received {
+            align-self: flex-start;
+        }
+        .message.sent {
+            margin-left: auto;
+        }
+        .message-bubble {
+            padding: 12px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .message.received .message-bubble {
+            background: #fff;
+            color: #1a1a1a;
+            border-bottom-left-radius: 4px;
+        }
+        .message.sent .message-bubble {
+            background: #ffd900;
+            color: #1a1a1a;
+            border-bottom-right-radius: 4px;
+        }
+        .message-time {
+            font-size: 11px;
+            color: #737373;
+            margin-top: 4px;
+        }
+        .message.sent .message-time {
+            text-align: right;
+        }
+        .quick-actions {
+            display: flex;
+            gap: 8px;
+            padding: 8px 16px;
+            background: #fff;
+            border-top: 1px solid #e5e5e0;
+        }
+        .quick-action {
+            padding: 8px 16px;
+            background: #f1f1ef;
+            border: none;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #1a1a1a;
+            cursor: pointer;
+        }
+        .input-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px 24px;
+            background: #fff;
+            border-top: 1px solid #e5e5e0;
+        }
+        .attach-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: transparent;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .message-input {
+            flex: 1;
+            padding: 12px 16px;
+            background: #f1f1ef;
+            border: none;
+            border-radius: 24px;
+            font-size: 14px;
+            color: #1a1a1a;
+            outline: none;
+        }
+        .message-input::placeholder {
+            color: #737373;
+        }
+        .send-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #ffd900;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 24px 24px;
+            border-top: 1px solid #e5e5e0;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        .nav-item span:first-child {
+            font-size: 24px;
+        }
+        .nav-label {
+            font-size: 10px;
+            font-weight: 500;
+            color: #737373;
+        }
+        .nav-item.active .nav-label {
+            color: #ffd900;
+            font-weight: 700;
+        }
+        .sell-btn {
+            width: 56px;
+            height: 56px;
+            background: #ffd900;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            transform: rotate(45deg);
+            margin-top: -20px;
+            box-shadow: 0 4px 15px rgba(255, 217, 0, 0.4);
+        }
+        .sell-btn span {
+            transform: rotate(-45deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <button class="back-btn">←</button>
+        <div class="chat-info">
+            <div class="chat-avatar">J</div>
+            <div class="chat-details">
+                <div class="chat-name">John Doe</div>
+                <div class="chat-status">● Online</div>
+            </div>
+        </div>
+        <button class="more-btn">⋮</button>
+    </div>
+    
+    <div class="item-context">
+        <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=100" class="item-image" alt="Watch">
+        <div class="item-details">
+            <div class="item-name">Vintage Chronograph 1970</div>
+            <div class="item-price">$1,250</div>
+        </div>
+        <button class="view-item-btn">View Item</button>
+    </div>
+    
+    <div class="messages">
+        <div class="message received">
+            <div class="message-bubble">Hi! Thanks for bidding on my watch. When would you like to meet?</div>
+            <div class="message-time">2:30 PM</div>
+        </div>
+        
+        <div class="message sent">
+            <div class="message-bubble">Hey! I'm excited about it. Would tomorrow afternoon work for you?</div>
+            <div class="message-time">2:32 PM ✓</div>
+        </div>
+        
+        <div class="message received">
+            <div class="message-bubble">Tomorrow works great! How about 3pm at the police station on Gottingen?</div>
+            <div class="message-time">2:35 PM</div>
+        </div>
+        
+        <div class="message sent">
+            <div class="message-bubble">Perfect! See you then 👍</div>
+            <div class="message-time">2:36 PM ✓</div>
+        </div>
+    </div>
+    
+    <div class="quick-actions">
+        <button class="quick-action">📍 Share Location</button>
+        <button class="quick-action">📅 Schedule</button>
+        <button class="quick-action">💰 Make Offer</button>
+    </div>
+    
+    <div class="input-bar">
+        <button class="attach-btn">📎</button>
+        <input type="text" class="message-input" placeholder="Type a message...">
+        <button class="send-btn">➤</button>
+    </div>
+</body>
+</html>

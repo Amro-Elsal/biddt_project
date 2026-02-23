@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biddt - Stitch Design Preview</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&;display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #0a0e27;
+            color: #fff;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 48px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #ffd900, #ff6b35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #8b92b4;
+            margin-bottom: 50px;
+            font-size: 18px;
+        }
+        
+        .screens-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+        }
+        
+        .screen-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .screen-label {
+            margin-bottom: 15px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #ffd900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            background: #000;
+            border-radius: 40px;
+            padding: 12px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+        
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: #f8f8f5;
+            border-radius: 32px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 32px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid #1a1f45;
+            color: #8b92b4;
+        }
+        
+        @media (max-width: 768px) {
+            .screens-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .phone-frame {
+                width: 320px;
+                height: 694px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 Biddt Stitch Design Preview</h1>
+        <p class="subtitle">All screens from Stitch MCP - Light Mode Design System</p>
+        
+        <div class="screens-grid">
+            
+            <!-- Screen 1: Onboarding -->
+            <div class="screen-wrapper">
+                <div class="screen-label">1. Onboarding</div>
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <iframe src="onboarding.html"></iframe>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Screen 2: Home Discovery -->
+            <div class="screen-wrapper">
+                <div class="screen-label">2. Home Discovery</div>
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <iframe src="home.html"></iframe>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Screen 3: Product Detail -->
+            <div class="screen-wrapper">
+                <div class="screen-label">3. Product Detail</div>
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <iframe src="product.html"></iframe>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Screen 4: Profile -->
+            <div class="screen-wrapper">
+                <div class="screen-label">4. Profile</div>
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <iframe src="profile.html"></iframe>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Screen 5: Create Listing -->
+            <div class="screen-wrapper">
+                <div class="screen-label">5. Create Listing</div>
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <iframe src="create-listing.html"></iframe>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Screen 6: Safe Exchange -->
+            <div class="screen-wrapper">
+                <div class="screen-label">6. Safe Exchange</div>
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <iframe src="safe-exchange.html"></iframe>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Screen 7: Chat -->
+            <div class="screen-wrapper">
+                <div class="screen-label">7. Chat</div>
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <iframe src="chat.html"></iframe>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Screen 8: Seller Dashboard -->
+            <div class="screen-wrapper">
+                <div class="screen-label">8. Seller Dashboard</div>
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <iframe src="seller-dashboard.html"></iframe>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="footer">
+            <p>🎨 Biddt Mobile App - Stitch Design System</p>
+            <p>Light Mode • Plus Jakarta Sans • Gold Primary (#ffd900)</p>
+        </div>
+    </div>
+</body>
+</html>

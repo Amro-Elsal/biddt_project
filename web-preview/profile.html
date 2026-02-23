@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&;display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #f8f8f5;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .header {
+            position: sticky;
+            top: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+        .header-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+        .settings-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f1f1ef;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .content {
+            height: calc(100vh - 72px);
+            overflow-y: auto;
+            padding: 0 16px 100px;
+        }
+        .profile-hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+        }
+        .avatar-container {
+            position: relative;
+            margin-bottom: 16px;
+        }
+        .avatar {
+            width: 112px;
+            height: 112px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: 700;
+            color: #fff;
+            border: 4px solid #fff;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .verified-badge {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            width: 32px;
+            height: 32px;
+            background: #ffd900;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            border: 4px solid #fff;
+        }
+        .profile-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+        .profile-location {
+            font-size: 14px;
+            color: #737373;
+        }
+        .trust-score-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        .trust-circle {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            margin-bottom: 16px;
+        }
+        .trust-circle svg {
+            transform: rotate(-90deg);
+        }
+        .trust-bg {
+            fill: none;
+            stroke: #f1f1ef;
+            stroke-width: 8;
+        }
+        .trust-progress {
+            fill: none;
+            stroke: #ffd900;
+            stroke-width: 8;
+            stroke-linecap: round;
+            stroke-dasharray: 440;
+            stroke-dashoffset: 8.8;
+        }
+        .trust-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        .trust-number {
+            font-size: 48px;
+            font-weight: 800;
+            color: #1a1a1a;
+            line-height: 1;
+        }
+        .trust-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #737373;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .trust-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 200, 83, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #00c853;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .stat-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+        .stat-label {
+            font-size: 10px;
+            font-weight: 600;
+            color: #737373;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .menu-list {
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        .menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            border-bottom: 1px solid #f1f1ef;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        .menu-item:hover {
+            background: #f8f8f5;
+        }
+        .menu-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .menu-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: #f1f1ef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .menu-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+        .menu-arrow {
+            font-size: 20px;
+            color: #737373;
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 24px 24px;
+            border-top: 1px solid #e5e5e0;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        .nav-item span:first-child {
+            font-size: 24px;
+        }
+        .nav-label {
+            font-size: 10px;
+            font-weight: 500;
+            color: #737373;
+        }
+        .nav-item.active .nav-label {
+            color: #ffd900;
+            font-weight: 700;
+        }
+        .sell-btn {
+            width: 56px;
+            height: 56px;
+            background: #ffd900;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            transform: rotate(45deg);
+            margin-top: -20px;
+            box-shadow: 0 4px 15px rgba(255, 217, 0, 0.4);
+        }
+        .sell-btn span {
+            transform: rotate(-45deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-title">My Profile</div>
+        <button class="settings-btn">⚙️</button>
+    </div>
+    
+    <div class="content">
+        <div class="profile-hero">
+            <div class="avatar-container">
+                <div class="avatar">A</div>
+                <div class="verified-badge">✓</div>
+            </div>
+            <div class="profile-name">Alex Mitchell</div>
+            <div class="profile-location">San Francisco, CA • Joined 2021</div>
+        </div>
+        
+        <div class="trust-score-card">
+            <div class="trust-circle">
+                <svg width="160" height="160" viewBox="0 0 160 160">
+                    <circle class="trust-bg" cx="80" cy="80" r="70"/>
+                    <circle class="trust-progress" cx="80" cy="80" r="70"/>
+                </svg>
+                <div class="trust-value">
+                    <div class="trust-number">98</div>
+                    <div class="trust-label">Trust Score</div>
+                </div>
+            </div>
+            
+            <div class="trust-status">
+                <span>🛡️</span>
+                <span>Excellent Standing</span>
+            </div>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">42</div>
+                <div class="stat-label">Sold</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">5</div>
+                <div class="stat-label">Active Bids</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value"><1hr</div>
+                <div class="stat-label">Reply Time</div>
+            </div>
+        </div>
+        
+        <div class="menu-list">
+            <div class="menu-item">
+                <div class="menu-left">
+                    <div class="menu-icon">📦</div>
+                    <div class="menu-text">My Listings</div>
+                </div>
+                <div class="menu-arrow">›</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-left">
+                    <div class="menu-icon">❤️</div>
+                    <div class="menu-text">Saved Items</div>
+                </div>
+                <div class="menu-arrow">›</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-left">
+                    <div class="menu-icon">💰</div>
+                    <div class="menu-text">Wallet & Payments</div>
+                </div>
+                <div class="menu-arrow">›</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-left">
+                    <div class="menu-icon">🏷️</div>
+                    <div class="menu-text">Promotions</div>
+                </div>
+                <div class="menu-arrow">›</div>
+            </div>
+            
+            <div class="menu-item">
+                <div class="menu-left">
+                    <div class="menu-icon">❓</div>
+                    <div class="menu-text">Help Center</div>
+                </div>
+                <div class="menu-arrow">›</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="bottom-nav">
+        <div class="nav-item">
+            <span>🏠</span>
+            <div class="nav-label">Home</div>
+        </div>
+        <div class="nav-item">
+            <span>🔍</span>
+            <div class="nav-label">Search</div>
+        </div>
+        <div class="sell-btn">
+            <span>＋</span>
+        </div>
+        <div class="nav-item">
+            <span>💬</span>
+            <div class="nav-label">Chat</div>
+        </div>
+        <div class="nav-item active">
+            <span>👤</span>
+            <div class="nav-label">Profile</div>
+        </div>
+    </div>
+</body>
+</html>

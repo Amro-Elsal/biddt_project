@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&;display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #f8f8f5;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .skip-btn {
+            align-self: flex-end;
+            margin: 20px;
+            padding: 8px 16px;
+            background: transparent;
+            border: none;
+            color: #525252;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .illustration {
+            width: 280px;
+            height: 280px;
+            background: linear-gradient(135deg, #ffd90020, #ffd90040);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 120px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        .illustration::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #ffd90030 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1a1a1a;
+            text-align: center;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+        .highlight {
+            background: linear-gradient(135deg, #b8860b, #ffd900);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        p {
+            font-size: 16px;
+            color: #525252;
+            text-align: center;
+            line-height: 1.6;
+            max-width: 300px;
+        }
+        .footer {
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+        }
+        .dots {
+            display: flex;
+            gap: 8px;
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 4px;
+            background: #d4d4cf;
+            transition: all 0.3s;
+        }
+        .dot.active {
+            width: 32px;
+            background: #ffd900;
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 18px;
+            background: #ffd900;
+            border: none;
+            border-radius: 12px;
+            color: #1a1a1a;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 217, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <button class="skip-btn">Skip →</button>
+    
+    <div class="content">
+        <div class="illustration">💎</div>
+        <h1>Discover Local <span class="highlight">Treasures</span></h1>
+        <p>Bid safely on premium items in your neighborhood. Verified sellers, secure payments, and hidden gems just around the corner.</p>
+    </div>
+    
+    <div class="footer">
+        <div class="dots">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+        <button class="btn-primary">Next</button>
+    </div>
+</body>
+</html>
