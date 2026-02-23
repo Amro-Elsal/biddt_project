@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Biddt - Safe Local Bidding Marketplace</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        body {
+            background: #0A0E27;
+            color: #fff;
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+        
+        .header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #00D9FF, #7B61FF);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .logo-text {
+            font-size: 24px;
+            font-weight: 800;
+            color: #00D9FF;
+        }
+        
+        .search-bar {
+            margin: 0 20px 20px;
+            background: #1A1F45;
+            border-radius: 25px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .search-bar input {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            width: 100%;
+            outline: none;
+        }
+        
+        .search-bar input::placeholder {
+            color: #8B92B4;
+        }
+        
+        .categories {
+            display: flex;
+            gap: 10px;
+            padding: 0 20px 20px;
+            overflow-x: auto;
+        }
+        
+        .category {
+            background: #1A1F45;
+            padding: 10px 20px;
+            border-radius: 20px;
+            white-space: nowrap;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .category.active {
+            background: #00D9FF;
+            color: #0A0E27;
+            font-weight: 600;
+        }
+        
+        .section-title {
+            padding: 0 20px 15px;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .listings {
+            padding: 0 20px;
+        }
+        
+        .listing-card {
+            background: #121636;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .listing-card:hover {
+            transform: scale(0.98);
+        }
+        
+        .listing-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            position: relative;
+        }
+        
+        .live-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #00D9FF;
+            color: #0A0E27;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .listing-content {
+            padding: 15px;
+        }
+        
+        .listing-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .listing-price {
+            font-size: 24px;
+            font-weight: 800;
+            color: #fff;
+        }
+        
+        .listing-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            color: #8B92B4;
+            font-size: 14px;
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #121636;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            border-top: 1px solid #1A1F45;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            color: #8B92B4;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        
+        .nav-item.active {
+            color: #00D9FF;
+        }
+        
+        .nav-icon {
+            font-size: 24px;
+        }
+        
+        .sell-button {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            width: 60px;
+            height: 60px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-top: -30px;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon">💎</div>
+            <div class="logo-text">Biddt</div>
+        </div>
+        <div>👤</div>
+    </div>
+    
+    <div class="search-bar">
+        <span>🔍</span>
+        <input type="text" placeholder="Search for treasure...">
+    </div>
+    
+    <div class="categories">
+        <div class="category active">All</div>
+        <div class="category">👟 Sneakers</div>
+        <div class="category">💻 Tech</div>
+        <div class="category">👕 Fashion</div>
+        <div class="category">🎯 Collectibles</div>
+    </div>
+    
+    <div class="section-title">🔥 Live Auctions</div>
+    
+    <div class="listings">
+        <div class="listing-card" onclick="alert('Bidding feature coming soon!')">
+            <div style="position: relative;">
+                <img src="https://images.unsplash.com/photo-1552346154-21d32810aba3?w=400" class="listing-image" alt="Sneakers">
+                <div class="live-badge">
+                    <div class="live-dot"></div>
+                    LIVE
+                </div>
+            </div>
+            <div class="listing-content">
+                <div class="listing-title">Vintage Nike Air Jordan 1 Chicago</div>
+                <div class="listing-price">$450</div>
+                <div class="listing-meta">
+                    <span>12 bids</span>
+                    <span style="color: #FA5400;">2h 15m left</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="listing-card" onclick="alert('Bidding feature coming soon!')">
+            <div style="position: relative;">
+                <img src="https://images.unsplash.com/photo-1696446701796-da61225697cc?w=400" class="listing-image" alt="iPhone">
+                <div class="live-badge">
+                    <div class="live-dot"></div>
+                    LIVE
+                </div>
+            </div>
+            <div class="listing-content">
+                <div class="listing-title">iPhone 15 Pro Max 256GB</div>
+                <div class="listing-price">$1,200</div>
+                <div class="listing-meta">
+                    <span>8 bids</span>
+                    <span style="color: #FA5400;">5h 30m left</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="listing-card" onclick="alert('Bidding feature coming soon!')">
+            <div style="position: relative;">
+                <img src="https://images.unsplash.com/photo-1551028919-ac76c9028d1e?w=400" class="listing-image" alt="Jacket">
+                <div class="live-badge">
+                    <div class="live-dot"></div>
+                    LIVE
+                </div>
+            </div>
+            <div class="listing-content">
+                <div class="listing-title">Vintage Leather Jacket - 90s Style</div>
+                <div class="listing-price">$150</div>
+                <div class="listing-meta">
+                    <span>5 bids</span>
+                    <span style="color: #FA5400;">1d 3h left</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="bottom-nav">
+        <div class="nav-item active">
+            <div class="nav-icon">🏠</div>
+            <div>Home</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">🔍</div>
+            <div>Search</div>
+        </div>
+        <div class="sell-button">📷</div>
+        <div class="nav-item">
+            <div class="nav-icon">💬</div>
+            <div>Messages</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">👤</div>
+            <div>Profile</div>
+        </div>
+    </div>
+    
+    <script>
+        // Simple interactivity
+        document.querySelectorAll('.category').forEach(cat => {
+            cat.addEventListener('click', function() {
+                document.querySelectorAll('.category').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
