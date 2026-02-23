@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biddt App - Screenshot Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #0A0E27;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 48px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #00D9FF, #FFD700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #8B92B4;
+            margin-bottom: 50px;
+            font-size: 18px;
+        }
+        
+        .workflow {
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+        }
+        
+        .screen-section {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+        
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            background: #000;
+            border-radius: 40px;
+            padding: 15px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            flex-shrink: 0;
+        }
+        
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: #0A0E27;
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .screen-content {
+            padding: 20px;
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .screen-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #00D9FF, #7B61FF);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: 800;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .screen-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .screen-description {
+            color: #8B92B4;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .features {
+            list-style: none;
+        }
+        
+        .features li {
+            padding: 8px 0;
+            color: #E8E8E8;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .features li::before {
+            content: "✓";
+            color: #00C853;
+            font-weight: bold;
+        }
+        
+        /* Screen Styles */
+        .splash-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+        
+        .splash-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        
+        .splash-title {
+            font-size: 36px;
+            font-weight: 800;
+            color: #00D9FF;
+        }
+        
+        .splash-tagline {
+            color: #8B92B4;
+            margin-top: 10px;
+        }
+        
+        .onboarding-slide {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .onboarding-icon {
+            font-size: 60px;
+            margin-bottom: 30px;
+        }
+        
+        .onboarding-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .onboarding-desc {
+            color: #8B92B4;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .dots {
+            display: flex;
+            gap: 8px;
+            margin-top: 40px;
+        }
+        
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: #1A1F45;
+            border-radius: 4px;
+        }
+        
+        .dot.active {
+            background: #00D9FF;
+            width: 24px;
+        }
+        
+        .auth-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+            padding: 40px 20px;
+        }
+        
+        .auth-icon {
+            font-size: 50px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .auth-title {
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .auth-desc {
+            color: #8B92B4;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .input-field {
+            background: #1A1F45;
+            border-radius: 12px;
+            padding: 16px 20px;
+            color: #fff;
+            font-size: 16px;
+            border: none;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        .btn-primary {
+            background: #00D9FF;
+            color: #0A0E27;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        
+        .home-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0 20px;
+        }
+        
+        .logo-small {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .logo-icon-small {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #00D9FF, #7B61FF);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        
+        .logo-text-small {
+            font-size: 20px;
+            font-weight: 800;
+            color: #00D9FF;
+        }
+        
+        .search-box {
+            background: #1A1F45;
+            border-radius: 25px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            color: #8B92B4;
+        }
+        
+        .categories-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            overflow-x: auto;
+        }
+        
+        .category-pill {
+            background: #1A1F45;
+            padding: 10px 18px;
+            border-radius: 20px;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+        
+        .category-pill.active {
+            background: #00D9FF;
+            color: #0A0E27;
+            font-weight: 600;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .section-title-small {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .see-all {
+            color: #00D9FF;
+            font-size: 14px;
+        }
+        
+        .listing-card-demo {
+            background: #121636;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .listing-image-demo {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #1A1F45, #0A0E27);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+        }
+        
+        .live-badge-demo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #00D9FF;
+            color: #0A0E27;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .live-dot-demo {
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+        }
+        
+        .listing-content-demo {
+            padding: 15px;
+        }
+        
+        .listing-title-demo {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .listing-price-demo {
+            font-size: 24px;
+            font-weight: 800;
+            color: #fff;
+        }
+        
+        .listing-meta-demo {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            color: #8B92B4;
+            font-size: 13px;
+        }
+        
+        .bottom-nav-demo {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #121636;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            border-top: 1px solid #1A1F45;
+        }
+        
+        .nav-item-demo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            color: #8B92B4;
+            font-size: 11px;
+        }
+        
+        .nav-item-demo.active {
+            color: #00D9FF;
+        }
+        
+        .nav-icon-demo {
+            font-size: 22px;
+        }
+        
+        .sell-btn-demo {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            width: 50px;
+            height: 50px;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-top: -25px;
+        }
+        
+        .product-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 50px 20px 20px;
+            display: flex;
+            justify-content: space-between;
+            z-index: 10;
+        }
+        
+        .back-btn {
+            background: rgba(0,0,0,0.5);
+            padding: 10px 15px;
+            border-radius: 20px;
+            color: #fff;
+        }
+        
+        .product-image-large {
+            width: 100%;
+            height: 350px;
+            background: linear-gradient(135deg, #1A1F45, #0A0E27);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px;
+        }
+        
+        .live-badge-large {
+            background: #00D9FF;
+            color: #0A0E27;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: -20px 20px 20px;
+            width: fit-content;
+        }
+        
+        .product-info {
+            padding: 0 20px 100px;
+        }
+        
+        .product-title-large {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .seller-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .seller-avatar {
+            width: 40px;
+            height: 40px;
+            background: #7B61FF;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        
+        .price-box {
+            background: #121636;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .current-price-label {
+            color: #8B92B4;
+            font-size: 14px;
+        }
+        
+        .current-price-value {
+            font-size: 32px;
+            font-weight: 800;
+        }
+        
+        .time-box {
+            text-align: right;
+        }
+        
+        .time-label {
+            color: #8B92B4;
+            font-size: 14px;
+        }
+        
+        .time-value {
+            color: #FA5400;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .bid-history {
+            background: #121636;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .bid-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #1A1F45;
+        }
+        
+        .bid-row:last-child {
+            border-bottom: none;
+        }
+        
+        .action-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #121636;
+            padding: 20px;
+            display: flex;
+            gap: 15px;
+            border-top: 1px solid #1A1F45;
+        }
+        
+        .watch-btn {
+            flex: 1;
+            background: #1A1F45;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .bid-btn {
+            flex: 2;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #0A0E27;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 800;
+        }
+        
+        .payment-screen {
+            padding: 20px;
+        }
+        
+        .payment-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .back-arrow {
+            font-size: 24px;
+            margin-right: 20px;
+        }
+        
+        .payment-title {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        
+        .summary-card {
+            background: #121636;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            color: #8B92B4;
+        }
+        
+        .summary-row.total {
+            border-top: 1px solid #1A1F45;
+            padding-top: 12px;
+            margin-top: 12px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .payment-method {
+            background: #121636;
+            border-radius: 12px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 12px;
+            border: 2px solid transparent;
+        }
+        
+        .payment-method.selected {
+            border-color: #00D9FF;
+        }
+        
+        .payment-icon {
+            font-size: 28px;
+        }
+        
+        .payment-info {
+            flex: 1;
+        }
+        
+        .payment-name {
+            font-weight: 600;
+        }
+        
+        .payment-balance {
+            color: #8B92B4;
+            font-size: 14px;
+        }
+        
+        .radio-circle {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #8B92B4;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .radio-circle.selected::after {
+            content: '';
+            width: 12px;
+            height: 12px;
+            background: #00D9FF;
+            border-radius: 50%;
+        }
+        
+        .pay-button {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #0A0E27;
+            padding: 18px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 800;
+            font-size: 18px;
+            margin-top: 30px;
+        }
+        
+        .qr-screen {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .qr-header {
+            margin-bottom: 30px;
+        }
+        
+        .qr-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .qr-subtitle {
+            color: #8B92B4;
+        }
+        
+        .qr-container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 0 auto 30px;
+            width: fit-content;
+        }
+        
+        .qr-code-placeholder {
+            width: 200px;
+            height: 200px;
+            background: repeating-linear-gradient(
+                0deg,
+                #000,
+                #000 10px,
+                #fff 10px,
+                #fff 20px
+            );
+            position: relative;
+        }
+        
+        .qr-code-placeholder::after {
+            content: 'QR CODE';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 10px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #000;
+        }
+        
+        .timer {
+            font-size: 32px;
+            font-weight: 800;
+            color: #00D9FF;
+            margin-bottom: 30px;
+        }
+        
+        .location-card {
+            background: #121636;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-align: left;
+        }
+        
+        .location-icon {
+            font-size: 28px;
+        }
+        
+        .rating-screen {
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        .success-icon-large {
+            width: 100px;
+            height: 100px;
+            background: #00C853;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            margin: 0 auto 30px;
+        }
+        
+        .rating-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .rating-subtitle {
+            color: #8B92B4;
+            margin-bottom: 40px;
+        }
+        
+        .stars-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .star-large {
+            font-size: 40px;
+            color: #1A1F45;
+        }
+        
+        .star-large.filled {
+            color: #FFD700;
+        }
+        
+        .complete-btn {
+            background: #00D9FF;
+            color: #0A0E27;
+            padding: 18px 40px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        
+        .footer-note {
+            margin-top: 60px;
+            text-align: center;
+            color: #8B92B4;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .screen-section {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .phone-frame {
+                width: 320px;
+                height: 694px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📱 Biddt App Demo</h1>
+        <p class="subtitle">Complete workflow screenshots - Safe Local Bidding Marketplace</p>
+        
+        <div class="workflow">
+            
+            <!-- Screen 1: Splash -->
+            <div class="screen-section">
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <div class="screen-content">
+                            <div class="splash-screen">
+                                <div class="splash-icon">💎</div>
+                                <div class="splash-title">Biddt</div>
+                                <div class="splash-tagline">Win Your Treasure</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-info">
+                    <div class="step-number">1</div>
+                    <div class="screen-title">Splash Screen</div>
+                    <div class="screen-description">
+                        App launch screen with animated diamond logo and brand tagline. 
+                        Sets the premium tone for the treasure hunting experience.
+                    </div>
+                    <ul class="features">
+                        <li>Animated logo</li>
+                        <li>Brand identity</li>
+                        <li>Premium feel</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Screen 2: Onboarding -->
+            <div class="screen-section">
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <div class="screen-content">
+                            <div class="onboarding-slide">
+                                <div class="onboarding-icon">💎</div>
+                                <div class="onboarding-title">Discover Hidden Gems</div>
+                                <div class="onboarding-desc">Find unique items from local sellers. Every listing is a potential treasure.</div>
+                                
+                                <div class="dots">
+                                    <div class="dot active"></div>
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-info">
+                    <div class="step-number">2</div>
+                    <div class="screen-title">Onboarding</div>
+                    <div class="screen-description">
+                        Three-slide onboarding explaining the app value proposition:
+                        Discover, Bid & Win, and Safe Exchange.
+                    </div>
+                    <ul class="features">
+                        <li>3 animated slides</li>
+                        <li>Value proposition</li>
+                        <li>Skip option</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Screen 3: Phone Auth -->
+            <div class="screen-section">
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <div class="screen-content">
+                            <div class="auth-screen">
+                                <div class="auth-icon">📱</div>
+                                <div class="auth-title">Enter Your Phone</div>
+                                <div class="auth-desc">We'll send you a verification code</div>
+                                
+                                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                                    <div style="background: #1A1F45; padding: 16px 20px; border-radius: 12px; color: #8B92B4;">+1</div>
+                                    <input type="text" class="input-field" placeholder="Phone number" style="flex: 1; margin-bottom: 0;">
+                                </div>
+                                
+                                <div class="btn-primary">Send OTP</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-info">
+                    <div class="step-number">3</div>
+                    <div class="screen-title">Phone Authentication</div>
+                    <div class="screen-description">
+                        Secure phone-based authentication with OTP verification.
+                        Users enter their phone number and receive a 6-digit code.
+                    </div>
+                    <ul class="features">
+                        <li>Phone number validation</li>
+                        <li>OTP verification</li>
+                        <li>Shake animation on error</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Screen 4: Profile Setup -->
+            <div class="screen-section">
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <div class="screen-content">
+                            <div class="auth-screen">
+                                <div style="text-align: center; margin-bottom: 30px;">
+                                    <div style="width: 100px; height: 100px; background: linear-gradient(135deg, #00D9FF, #7B61FF); border-radius: 50%; margin: 0 auto 15px; display: flex; align-items: center; justify-content: center; font-size: 40px; font-weight: 700;">J</div>
+                                    <div style="color: #00D9FF;">Add Photo</div>
+                                </div>
+                                
+                                <div class="auth-title" style="margin-bottom: 30px;">Complete Your Profile</div>
+                                
+                                <div style="margin-bottom: 20px;">
+                                    <div style="color: #fff; margin-bottom: 8px; font-size: 14px;">Full Name *</div>
+                                    <input type="text" class="input-field" placeholder="John Doe">
+                                </div>
+                                
+                                <div style="margin-bottom: 30px;">
+                                    <div style="color: #fff; margin-bottom: 8px; font-size: 14px;">Email (Optional)</div>
+                                    <input type="text" class="input-field" placeholder="john@example.com">
+                                </div>
+                                
+                                <div class="btn-primary">Complete Setup</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-info">
+                    <div class="step-number">4</div>
+                    <div class="screen-title">Profile Setup</div>
+                    <div class="screen-description">
+                        Users complete their profile with name, email, and avatar.
+                        This creates their identity in the marketplace.
+                    </div>
+                    <ul class="features">
+                        <li>Avatar generation</li>
+                        <li>Name validation</li>
+                        <li>Optional email</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Screen 5: Home Feed -->
+            <div class="screen-section">
+                <div class="phone-frame">
+                    <div class="phone-screen" style="position: relative;">
+                        <div class="screen-content" style="padding-bottom: 100px;">
+                            <div class="home-header">
+                                <div class="logo-small">
+                                    <div class="logo-icon-small">💎</div>
+                                    <div class="logo-text-small">Biddt</div>
+                                </div>
+                                <div>👤</div>
+                            </div>
+                            
+                            <div class="search-box">
+                                <span>🔍</span>
+                                <span>Search for treasure...</span>
+                            </div>
+                            
+                            <div class="categories-row">
+                                <div class="category-pill active">All</div>
+                                <div class="category-pill">👟 Sneakers</div>
+                                <div class="category-pill">💻 Tech</div>
+                                <div class="category-pill">👕 Fashion</div>
+                            </div>
+                            
+                            <div class="section-header">
+                                <div class="section-title-small">🔥 Live Auctions</div>
+                                <div class="see-all">See All →</div>
+                            </div>
+                            
+                            <div class="listing-card-demo">
+                                <div class="listing-image-demo">
+                                    👟
+                                    <div class="live-badge-demo">
+                                        <div class="live-dot-demo"></div>
+                                        LIVE
+                                    </div>
+                                </div>
+                                <div class="listing-content-demo">
+                                    <div class="listing-title-demo">Vintage Nike Air Jordan 1</div>
+                                    <div class="listing-price-demo">$450</div>
+                                    <div class="listing-meta-demo">
+                                        <span>12 bids</span>
+                                        <span style="color: #FA5400;">2h 15m left</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="listing-card-demo">
+                                <div class="listing-image-demo">
+                                    📱
+                                    <div class="live-badge-demo">
+                                        <div class="live-dot-demo"></div>
+                                        LIVE
+                                    </div>
+                                </div>
+                                <div class="listing-content-demo">
+                                    <div class="listing-title-demo">iPhone 15 Pro Max 256GB</div>
+                                    <div class="listing-price-demo">$1,200</div>
+                                    <div class="listing-meta-demo">
+                                        <span>8 bids</span>
+                                        <span style="color: #FA5400;">5h 30m left</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bottom-nav-demo">
+                            <div class="nav-item-demo active">
+                                <div class="nav-icon-demo">🏠</div>
+                                <div>Home</div>
+                            </div>
+                            <div class="nav-item-demo">
+                                <div class="nav-icon-demo">🔍</div>
+                                <div>Search</div>
+                            </div>
+                            <div class="sell-btn-demo">📷</div>
+                            <div class="nav-item-demo">
+                                <div class="nav-icon-demo">💬</div>
+                                <div>Messages</div>
+                            </div>
+                            <div class="nav-item-demo">
+                                <div class="nav-icon-demo">👤</div>
+                                <div>Profile</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-info">
+                    <div class="step-number">5</div>
+                    <div class="screen-title">Home Feed</div>
+                    <div class="screen-description">
+                        Main browsing screen with live auctions, categories, and search.
+                        Features animated cards with live indicators and bidding info.
+                    </div>
+                    <ul class="features">
+                        <li>Live auction listings</li>
+                        <li>Category filters</li>
+                        <li>Search functionality</li>
+                        <li>Pull-to-refresh</li>
+                        <li>Animated card entrances</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Screen 6: Product Detail -->
+            <div class="screen-section">
+                <div class="phone-frame">
+                    <div class="phone-screen" style="position: relative;">
+                        <div class="product-header">
+                            <div class="back-btn">← Back</div>
+                            <div style="display: flex; gap: 10px;">
+                                <div class="back-btn">♡</div>
+                                <div class="back-btn">↗</div>
+                            </div>
+                        </div>
+                        
+                        <div class="product-image-large">👟</div>
+                        
+                        <div class="live-badge-large">
+                            <div class="live-dot-demo"></div>
+                            LIVE AUCTION
+                            <span style="margin-left: 10px; background: rgba(0,0,0,0.2); padding: 4px 8px; border-radius: 8px;">👥 12 watching</span>
+                        </div>
+                        
+                        <div class="product-info">
+                            <div class="product-title-large">Vintage Nike Air Jordan 1 Chicago</div>
+                            
+                            <div class="seller-row">
+                                <div class="seller-avatar">S</div>
+                                <div>
+                                    <div style="font-weight: 600;">SneakerKing</div>
+                                    <div style="color: #FFD700; font-size: 14px;">★ 4.9 • 156 sales</div>
+                                </div>
+                                <div style="margin-left: auto; background: #1A1F45; padding: 8px 16px; border-radius: 10px; color: #00D9FF;">Contact</div>
+                            </div>
+                            
+                            <div class="price-box">
+                                <div>
+                                    <div class="current-price-label">Current Bid</div>
+                                    <div class="current-price-value">$420</div>
+                                </div>
+                                <div class="time-box">
+                                    <div class="time-label">Ends in</div>
+                                    <div class="time-value">2h 15m</div>
+                                </div>
+                            </div>
+                            
+                            <div class="bid-history">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                                    <div style="font-weight: 700;">Bid History</div>
+                                    <div style="background: #1A1F45; padding: 4px 10px; border-radius: 10px; font-size: 12px; color: #8B92B4;">12 bids</div>
+                                </div>
+                                
+                                <div class="bid-row">
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <div style="width: 32px; height: 32px; background: #1A1F45; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px;">B</div>
+                                        <span>Bidder 12</span>
+                                    </div>
+                                    <span style="font-weight: 700;">$420</span>
+                                </div>
+                                
+                                <div class="bid-row">
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <div style="width: 32px; height: 32px; background: #1A1F45; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px;">B</div>
+                                        <span>Bidder 11</span>
+                                    </div>
+                                    <span style="font-weight: 700;">$415</span>
+                                </div>
+                                
+                                <div class="bid-row">
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <div style="width: 32px; height: 32px; background: #1A1F45; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px;">B</div>
+                                        <span>Bidder 10</span>
+                                    </div>
+                                    <span style="font-weight: 700;">$410</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-bar">
+                            <div class="watch-btn">♡ Watch</div>
+                            <div class="bid-btn">Place Bid</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-info">
+                    <div class="step-number">6</div>
+                    <div class="screen-title">Product Detail</div>
+                    <div class="screen-description">
+                        Detailed view with bidding interface, seller info, and bid history.
+                        Users can place bids or watch items.
+                    </div>
+                    <ul class="features">
+                        <li>Full product details</li>
+                        <li>Seller information</li>
+                        <li>Bid history</li>
+                        <li>Quick bid buttons</li>
+                        <li>Watch functionality</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Screen 7: Payment -->
+            <div class="screen-section">
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <div class="payment-screen">
+                            <div class="payment-header">
+                                <div class="back-arrow">←</div>
+                                <div class="payment-title">Payment</div>
+                            </div>
+                            
+                            <div class="summary-card">
+                                <div style="font-weight: 700; margin-bottom: 15px;">Order Summary</div>
+                                
+                                <div class="summary-row">
+                                    <span>Item</span>
+                                    <span>Nike Air Jordan 1</span>
+                                </div>
+                                
+                                <div class="summary-row">
+                                    <span>Your Bid</span>
+                                    <span>$450</span>
+                                </div>
+                                
+                                <div class="summary-row">
+                                    <span>Service Fee</span>
+                                    <span>$22.50</span>
+                                </div>
+                                
+                                <div class="summary-row total">
+                                    <span>Total</span>
+                                    <span>$472.50</span>
+                                </div>
+                            </div>
+                            
+                            <div style="font-weight: 700; margin-bottom: 15px;">Select Payment Method</div>
+                            
+                            <div class="payment-method selected">
+                                <div class="payment-icon">💰</div>
+                                <div class="payment-info">
+                                    <div class="payment-name">Biddt Wallet</div>
+                                    <div class="payment-balance">Balance: $500</div>
+                                </div>
+                                <div class="radio-circle selected"></div>
+                            </div>
+                            
+                            <div class="payment-method">
+                                <div class="payment-icon">💳</div>
+                                <div class="payment-info">
+                                    <div class="payment-name">Credit Card</div>
+                                </div>
+                                <div class="radio-circle"></div>
+                            </div>
+                            
+                            <div class="payment-method">
+                                <div class="payment-icon">🍎</div>
+                                <div class="payment-info">
+                                    <div class="payment-name">Apple Pay</div>
+                                </div>
+                                <div class="radio-circle"></div>
+                            </div>
+                            
+                            <div style="background: rgba(0, 200, 83, 0.1); border: 1px solid rgba(0, 200, 83, 0.3); border-radius: 12px; padding: 15px; display: flex; align-items: center; gap: 10px; margin-top: 20px;">
+                                <span>🔒</span>
+                                <div>
+                                    <div style="color: #00C853; font-weight: 700; font-size: 14px;">Safe Exchange Protected</div>
+                                    <div style="color: #8B92B4; font-size: 12px;">Payment held securely until verification</div>
+                                </div>
+                            </div>
+                            
+                            <div class="pay-button">Pay $472.50</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-info">
+                    <div class="step-number">7</div>
+                    <div class="screen-title">Payment</div>
+                    <div class="screen-description">
+                        Secure payment screen with wallet integration.
+                        Shows order summary and payment method selection.
+                    </div>
+                    <ul class="features">
+                        <li>Wallet payment</li>
+                        <li>Order summary</li>
+                        <li>Service fee breakdown</li>
+                        <li>Safe exchange badge</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Screen 8: QR Code -->
+            <div class="screen-section">
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <div class="qr-screen">
+                            <div class="qr-header">
+                                <div class="qr-title">Safe Exchange</div>
+                                <div class="qr-subtitle">Show this QR code to the seller</div>
+                            </div>
+                            
+                            <div style="background: #121636; border-radius: 20px; padding: 20px; margin-bottom: 20px;">
+                                <div style="text-align: center; margin-bottom: 15px;">
+                                    <span>🔒</span>
+                                    <span style="font-weight: 600; margin-left: 10px;">Meet at safe location and scan</span>
+                                </div>
+                            </div>
+                            
+                            <div class="qr-container">
+                                <div style="width: 200px; height: 200px; background: #000; display: grid; grid-template-columns: repeat(10, 1fr); gap: 2px; padding: 10px;">
+                                    <!-- QR pattern simulation -->
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <!-- More pattern rows -->
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <!-- Continue pattern -->
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <!-- Row 4 -->
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <!-- Row 5 -->
+                                    <div style="background: #fff;"></div>                                    
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <!-- Row 6 -->
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #000;"></div>
+                                    <!-- Row 7 -->
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <!-- Row 8 -->
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <!-- Row 9 -->
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <!-- Row 10 -->
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #000;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #fff;"></div>
+                                    <div style="background: #fff;"></div>
+                                </div>
+                                
+                                <div style="color: #000; font-weight: 700; margin-top: 15px; font-size: 12px; letter-spacing: 2px;">BIDDT-7X9K2M5P8Q1</div>
+                            </div>
+                            
+                            <div class="timer">14:59</div>
+                            
+                            <div class="location-card">
+                                <div class="location-icon">📍</div>
+                                <div>
+                                    <div style="font-weight: 600;">Meetup Location</div>
+                                    <div style="color: #8B92B4; font-size: 14px;">Halifax Police Station</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-info">
+                    <div class="step-number">8</div>
+                    <div class="screen-title">QR Code Exchange</div>
+                    <div class="screen-description">
+                        QR code for safe exchange verification. 
+                        Seller scans to confirm item handoff.
+                    </div>
+                    <ul class="features">
+                        <li>Generated QR code</li>
+                        <li>15-minute expiration</li>
+                        <li>Safe location info</li>
+                        <li>Countdown timer</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Screen 9: Rating -->
+            <div class="screen-section">
+                <div class="phone-frame">
+                    <div class="phone-screen">
+                        <div class="rating-screen">
+                            <div class="success-icon-large">✓</div>
+                            
+                            <div class="rating-title">Exchange Confirmed!</div>
+                            
+                            <div class="rating-subtitle">Rate your experience with SneakerKing</div>
+                            
+                            <div class="stars-row">
+                                <div class="star-large filled">★</div>
+                                <div class="star-large filled">★</div>
+                                <div class="star-large filled">★</div>
+                                <div class="star-large filled">★</div>
+                                <div class="star-large filled">★</div>
+                            </div>
+                            
+                            <div style="background: #1A1F45; border-radius: 12px; padding: 15px; margin-bottom: 30px;">
+                                <div style="color: #8B92B4; font-size: 14px; margin-bottom: 10px;">Write a review (optional)</div>
+                                <div style="color: #fff;">Great seller! Item exactly as described. Fast and friendly exchange. Would definitely buy from again! 👍</div>
+                            </div>
+                            
+                            <div class="complete-btn">Complete & Release Payment</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-info">
+                    <div class="step-number">9</div>
+                    <div class="screen-title">Rating & Review</div>
+                    <div class="screen-description">
+                        After successful exchange, both parties rate each other.
+                        This builds trust in the community.
+                    </div>
+                    <ul class="features">
+                        <li>5-star rating system</li>
+                        <li>Written reviews</li>
+                        <li>Payment release</li>
+                        <li>Trust building</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        
+        <div class="footer-note">
+            <p>📱 Biddt - Safe Local Bidding Marketplace</p>
+            <p>Complete workflow with 9 screens • Built with React Native & Expo</p>
+        </div>
+    </div>
+</body>
+</html>
