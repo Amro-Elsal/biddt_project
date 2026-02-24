@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/listing.dart';
-import '../../domain/repositories/listing_repository.dart';
+import '../../../domain/entities/listing.dart';
+import '../../../domain/repositories/listing_repository.dart';
 import 'repository_providers.dart';
 
 /// Active listings provider

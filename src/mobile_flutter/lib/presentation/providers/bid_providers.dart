@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/bid.dart';
-import '../../domain/repositories/bid_repository.dart';
+import '../../../domain/entities/bid.dart';
+import '../../../domain/repositories/bid_repository.dart';
 import 'repository_providers.dart';
 
 /// Bids for listing provider

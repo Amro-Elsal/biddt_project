@@ -1,4 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../core/errors/failures.dart';
@@ -47,7 +46,7 @@ class AuthService {
       );
 
       return const Success('OTP sent successfully');
-    } catch (e, stackTrace) {
+    } on Exception catch (e, stackTrace) {
       return FailureResult(
         UnknownFailure(
           message: 'Failed to send OTP: $e',
@@ -73,7 +72,7 @@ class AuthService {
 
       if (user == null) {
         return FailureResult(
-          AuthFailure(message: 'Failed to sign in'),
+          const AuthFailure(message: 'Failed to sign in'),
         );
       }
 
@@ -85,7 +84,7 @@ class AuthService {
       return FailureResult(
         InvalidOtpFailure(message: e.message ?? 'Invalid code'),
       );
-    } catch (e, stackTrace) {
+    } on Exception catch (e, stackTrace) {
       return FailureResult(
         UnknownFailure(
           message: 'Failed to verify OTP: $e',
@@ -100,7 +99,7 @@ class AuthService {
     try {
       await _auth.signOut();
       return const Success(null);
-    } catch (e, stackTrace) {
+    } on Exception catch (e, stackTrace) {
       return FailureResult(
         UnknownFailure(
           message: 'Failed to sign out: $e',

@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/entities/chat_message.dart';
-import '../../domain/repositories/chat_repository.dart';
+import '../../../domain/entities/chat_message.dart';
+import '../../../domain/repositories/chat_repository.dart';
 import 'repository_providers.dart';
 
 /// Chat messages provider
