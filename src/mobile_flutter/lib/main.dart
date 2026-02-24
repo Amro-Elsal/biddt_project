@@ -6,6 +6,12 @@ import 'presentation/pages/onboarding/onboarding_screen.dart';
 import 'presentation/pages/auth/phone_auth_screen.dart';
 import 'presentation/pages/home/home_screen.dart';
 import 'presentation/pages/product/product_detail_screen.dart';
+import 'presentation/pages/profile/profile_screen.dart';
+import 'presentation/pages/listing/create_listing_screen.dart';
+import 'presentation/pages/chat/chat_screen.dart';
+import 'presentation/pages/wallet/wallet_screen.dart';
+import 'presentation/pages/bidding/winning_reveal_screen.dart';
+import 'presentation/pages/seller/seller_dashboard_screen.dart';
 
 // Theme mode provider
 final themeModeProvider = StateProvider<ThemeMode>((ref) => ThemeMode.system);
@@ -60,7 +66,7 @@ class BiddtApp extends ConsumerWidget {
   }
 }
 
-/// Temporary navigation screen to demo all screens
+/// Navigation screen to demo all screens
 class MainNavigationScreen extends ConsumerStatefulWidget {
   const MainNavigationScreen({super.key});
 
@@ -76,6 +82,12 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
     PhoneAuthScreen(),
     HomeScreen(),
     ProductDetailScreen(),
+    ProfileScreen(),
+    CreateListingScreen(),
+    ChatScreen(),
+    WalletScreen(),
+    WinningRevealScreen(),
+    SellerDashboardScreen(),
   ];
 
   final List<String> _titles = [
@@ -83,6 +95,12 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
     'Phone Auth',
     'Home',
     'Product Detail',
+    'Profile',
+    'Create Listing',
+    'Chat',
+    'Wallet',
+    'Winning Reveal',
+    'Seller Dashboard',
   ];
 
   void _toggleTheme() {
@@ -125,7 +143,6 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
         foregroundColor: isDark ? Colors.white : const Color(0xFF181710),
         elevation: 0,
         actions: [
-          // Theme toggle button
           TextButton.icon(
             onPressed: _toggleTheme,
             icon: Icon(
@@ -142,29 +159,50 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
         ],
       ),
       body: _screens[_currentIndex],
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _currentIndex,
-        onDestinationSelected: (index) => setState(() => _currentIndex = index),
-        backgroundColor: isDark ? const Color(0xFF1E293B) : Colors.white,
-        destinations: [
-          NavigationDestination(
-            icon: const Icon(Icons.waving_hand_outlined),
-            label: _titles[0],
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.phone_outlined),
-            label: _titles[1],
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.home_outlined),
-            label: _titles[2],
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.shopping_bag_outlined),
-            label: _titles[3],
-          ),
-        ],
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: isDark ? const Color(0xFF1E293B) : Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 10,
+              offset: const Offset(0, -5),
+            ),
+          ],
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              child: Row(
+                children: List.generate(
+                  _titles.length,
+                  (index) => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    child: ChoiceChip(
+                      label: Text(_titles[index]),
+                      selected: _currentIndex == index,
+                      onSelected: (_) => setState(() => _currentIndex = index),
+                      selectedColor: AppColors.gold,
+                      backgroundColor: isDark
+                          ? const Color(0xFF334155)
+                          : const Color(0xFFF8F8F5),
+                      labelStyle: TextStyle(
+                        color: _currentIndex == index
+                            ? const Color(0xFF181710)
+                            : isDark
+                                ? Colors.white
+                                : const Color(0xFF64748B),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+        ),
       ),
+    ),
     );
   }
 }
