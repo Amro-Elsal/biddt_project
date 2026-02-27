@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Biddt - Win Your Treasure</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        :root {
+            --gold: #FFD700;
+            --gold-dark: #D4AF37;
+            --navy: #1A1A2E;
+            --cyan: #00D4FF;
+            --green: #22C55E;
+            --red: #EF4444;
+            --orange: #F97316;
+            --bg-dark: #0A0A0F;
+            --bg-card: #14141F;
+            --bg-elevated: #1E1E2D;
+            --text-primary: #FFFFFF;
+            --text-secondary: #9CA3AF;
+            --text-tertiary: #6B7280;
+            --border: #2D2D3D;
+        }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-dark); color: var(--text-primary); min-height: 100vh; overflow-x: hidden; }
+        .screen { display: none; min-height: 100vh; animation: fadeIn 0.3s ease; }
+        .screen.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        
+        /* Splash */
+        .splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-dark); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; }
+        .splash-diamond { width: 100px; height: 100px; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); transform: rotate(45deg); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 40px rgba(255,215,0,0.4); animation: pulse 2s ease-in-out infinite; }
+        .splash-diamond-inner { width: 50px; height: 50px; background: var(--bg-dark); display: flex; align-items: center; justify-content: center; }
+        .splash-diamond-icon { font-size: 28px; transform: rotate(-45deg); }
+        .splash-title { margin-top: 50px; font-size: 36px; font-weight: 800; color: var(--gold); letter-spacing: 10px; }
+        .splash-tagline { margin-top: 12px; font-size: 12px; color: var(--text-secondary); letter-spacing: 4px; text-transform: uppercase; }
+        .splash-progress { width: 200px; height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; margin-top: 60px; overflow: hidden; }
+        .splash-progress-bar { height: 100%; background: var(--gold); border-radius: 2px; animation: loadProgress 2s ease-out forwards; }
+        @keyframes loadProgress { from { width: 0; } to { width: 100%; } }
+        
+        /* Onboarding */
+        .onboarding-screen { height: 100vh; display: flex; flex-direction: column; background: var(--bg-dark); }
+        .onboarding-skip { align-self: flex-end; padding: 20px; color: var(--text-secondary); font-size: 14px; background: none; border: none; cursor: pointer; }
+        .onboarding-slides { flex: 1; position: relative; overflow: hidden; }
+        .onboarding-slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; opacity: 0; transform: translateX(100%); transition: all 0.4s ease; }
+        .onboarding-slide.active { opacity: 1; transform: translateX(0); }
+        .onboarding-slide.prev { transform: translateX(-100%); }
+        .onboarding-icon-container { width: 140px; height: 140px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 48px; }
+        .onboarding-icon { font-size: 64px; }
+        .onboarding-title { font-size: 26px; font-weight: 700; text-align: center; margin-bottom: 16px; }
+        .onboarding-desc { font-size: 16px; color: var(--text-secondary); text-align: center; line-height: 1.6; padding: 0 20px; }
+        .onboarding-bottom { padding: 32px; }
+        .onboarding-dots { display: flex; justify-content: center; gap: 8px; margin-bottom: 32px; }
+        .onboarding-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: all 0.3s; }
+        .onboarding-dot.active { width: 24px; border-radius: 4px; background: var(--gold); }
+        .btn-primary { width: 100%; padding: 18px 24px; background: var(--gold); color: var(--navy); border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.3s; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,215,0,0.3); }
+        
+        /* Auth */
+        .auth-screen { padding: 60px 24px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .auth-logo { width: 80px; height: 80px; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); transform: rotate(45deg); display: flex; align-items: center; justify-content: center; margin-bottom: 48px; box-shadow: 0 0 30px rgba(255,215,0,0.3); }
+        .auth-logo-inner { font-size: 32px; transform: rotate(-45deg); }
+        .auth-title { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+        .auth-subtitle { color: var(--text-secondary); font-size: 15px; margin-bottom: 40px; }
+        .auth-btn { width: 100%; display: flex; align-items: center; justify-content: center; gap: 12px; padding: 16px 24px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; color: var(--text-primary); font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.3s; margin-bottom: 12px; }
+        .auth-btn:hover { border-color: var(--gold); background: var(--bg-elevated); }
+        .auth-divider { display: flex; align-items: center; gap: 16px; margin: 24px 0; color: var(--text-tertiary); font-size: 13px; width: 100%; }
+        .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+        .test-accounts { width: 100%; background: var(--bg-card); border-radius: 16px; padding: 20px; border: 1px solid var(--border); }
+        .test-accounts-title { font-size: 12px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
+        .test-account { display: flex; align-items: center; gap: 14px; padding: 14px; border-radius: 12px; cursor: pointer; transition: all 0.3s; margin-bottom: 8px; }
+        .test-account:hover { background: var(--bg-elevated); }
+        .test-account-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; color: var(--navy); }
+        .test-account-info { flex: 1; }
+        .test-account-name { font-weight: 600; font-size: 15px; }
+        .test-account-type { font-size: 13px; color: var(--text-secondary); }
+        
+        /* Phone/OTP */
+        .phone-screen, .otp-screen, .identity-screen { padding: 24px; min-height: 100vh; }
+        .phone-back { width: 44px; height: 44px; border-radius: 12px; background: var(--bg-card); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; margin-bottom: 32px; font-size: 20px; }
+        .phone-title, .otp-title, .identity-title { font-size: 26px; font-weight: 700; margin-bottom: 8px; }
+        .phone-subtitle, .otp-subtitle, .identity-subtitle { color: var(--text-secondary); font-size: 15px; margin-bottom: 32px; }
+        .phone-input-container { display: flex; gap: 12px; margin-bottom: 24px; }
+        .phone-country { display: flex; align-items: center; gap: 8px; padding: 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; font-weight: 600; cursor: pointer; }
+        .phone-input, .form-input { flex: 1; padding: 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; color: var(--text-primary); font-size: 16px; outline: none; }
+        .phone-input:focus, .form-input:focus { border-color: var(--gold); }
+        .otp-container { display: flex; gap: 12px; justify-content: center; margin-bottom: 32px; }
+        .otp-input { width: 50px; height: 60px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; text-align: center; font-size: 24px; font-weight: 700; color: var(--text-primary); outline: none; }
+        .otp-input:focus { border-color: var(--gold); }
+        .otp-resend { text-align: center; color: var(--text-secondary); font-size: 14px; }
+        .otp-resend span { color: var(--gold); cursor: pointer; }
+        .id-upload { border: 2px dashed var(--border); border-radius: 16px; padding: 40px; text-align: center; cursor: pointer; transition: all 0.3s; margin-bottom: 16px; }
+        .id-upload:hover { border-color: var(--gold); background: rgba(255,215,0,0.05); }
+        .id-upload-icon { font-size: 48px; margin-bottom: 16px; }
+        .id-upload-title { font-weight: 600; margin-bottom: 8px; }
+        .id-upload-desc { font-size: 14px; color: var(--text-secondary); }
+        
+        /* Home */
+        .main-app { padding-bottom: 90px; }
+        .app-header { padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; background: linear-gradient(180deg, var(--bg-dark) 0%, transparent 100%); position: sticky; top: 0; z-index: 100; }
+        .header-logo { font-size: 22px; font-weight: 800; color: var(--gold); letter-spacing: 3px; }
+        .header-actions { display: flex; gap: 12px; }
+        .header-btn { width: 44px; height: 44px; border-radius: 12px; background: var(--bg-card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; position: relative; font-size: 20px; }
+        .header-btn:hover { border-color: var(--gold); }
+        .header-badge { position: absolute; top: -4px; right: -4px; width: 18px; height: 18px; background: var(--red); border-radius: 50%; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+        .search-container { padding: 0 20px 20px; }
+        .search-bar { display: flex; align-items: center; gap: 12px; padding: 14px 18px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; cursor: pointer; }
+        .search-bar:focus-within { border-color: var(--gold); }
+        .search-icon { font-size: 18px; color: var(--text-tertiary); }
+        .search-input { flex: 1; background: none; border: none; color: var(--text-primary); font-size: 15px; outline: none; }
+        .categories-container { padding: 0 20px 20px; }
+        .categories-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
+        .categories-scroll::-webkit-scrollbar { display: none; }
+        .category-chip { display: flex; align-items: center; gap: 8px; padding: 10px 18px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; white-space: nowrap; cursor: pointer; transition: all 0.3s; font-size: 14px; }
+        .category-chip:hover, .category-chip.active { background: var(--gold); color: var(--navy); border-color: var(--gold); font-weight: 600; }
+        .section-header { display: flex; align-items: center; justify-content: space-between; padding: 0 20px 16px; }
+        .section-title { font-size: 18px; font-weight: 700; }
+        .section-link { font-size: 13px; color: var(--gold); text-decoration: none; font-weight: 600; }
+        .auctions-container { padding: 0 20px 24px; }
+        .auctions-scroll { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
+        .auctions-scroll::-webkit-scrollbar { display: none; }
+        .auction-card { min-width: 260px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; cursor: pointer; transition: all 0.3s; }
+        .auction-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+        .auction-image { height: 160px; position: relative; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--bg-elevated) 0%, var(--bg-card) 100%); }
+        .auction-image-emoji { font-size: 64px; }
+        .auction-badge-live { position: absolute; top: 12px; left: 12px; padding: 6px 12px; background: var(--red); border-radius: 20px; font-size: 11px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+        .auction-badge-live::before { content: ''; width: 6px; height: 6px; background: white; border-radius: 50%; animation: blink 1s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .auction-timer { position: absolute; bottom: 12px; left: 12px; right: 12px; padding: 8px 14px; background: rgba(10,10,15,0.9); backdrop-filter: blur(10px); border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; border: 1px solid var(--border); }
+        .auction-timer.ending { background: rgba(239,68,68,0.9); border-color: var(--red); animation: timerPulse 1s infinite; }
+        @keyframes timerPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+        .auction-info { padding: 16px; }
+        .auction-title { font-size: 15px; font-weight: 600; margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .auction-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+        .auction-condition { padding: 4px 10px; background: rgba(34,197,94,0.15); color: var(--green); border-radius: 6px; font-size: 11px; font-weight: 600; }
+        .auction-shipping { font-size: 12px; color: var(--text-tertiary); }
+        .auction-price-row { display: flex; align-items: center; justify-content: space-between; }
+        .auction-price-label { font-size: 12px; color: var(--text-tertiary); }
+        .auction-price-value { font-size: 20px; font-weight: 700; color: var(--gold); }
+        .auction-bid-btn { padding: 10px 20px; background: var(--gold); color: var(--navy); border: none; border-radius: 10px; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.3s; }
+        .auction-bid-btn:hover { transform: scale(1.05); box-shadow: 0 4px 16px rgba(255,215,0,0.3); }
+        
+        /* Bottom Nav */
+        .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; padding: 12px 20px 24px; background: rgba(10,10,15,0.95); backdrop-filter: blur(20px); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid var(--border); z-index: 1000; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 16px; cursor: pointer; transition: all 0.3s; border-radius: 12px; }
+        .nav-item:hover { background: var(--bg-card); }
+        .nav-item.active .nav-icon { color: var(--gold); }
+        .nav-item.active .nav-label { color: var(--gold); }
+        .nav-icon { font-size: 22px; color: var(--text-tertiary); transition: all 0.3s; }
+        .nav-label { font-size: 11px; color: var(--text-tertiary); font-weight: 500; transition: all 0.3s; }
+        .nav-sell { width: 56px; height: 56px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-top: -20px; box-shadow: 0 4px 20px rgba(255,215,0,0.3); cursor: pointer; }
+        .nav-sell-icon { font-size: 28px; color: var(--navy); font-weight: 700; }
+        
+        /* Product */
+        .product-screen { min-height: 100vh; background: var(--bg-dark); }
+        .product-header { position: sticky; top: 0; z-index: 100; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; background: linear-gradient(180deg, var(--bg-dark) 0%, transparent 100%); }
+        .back-btn { width: 44px; height: 44px; border-radius: 12px; background: var(--bg-card); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 20px; }
+        .product-actions { display: flex; gap: 12px; }
+        .product-image-container { height: 320px; position: relative; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--bg-elevated) 0%, var(--bg-card) 100%); }
+        .product-image-emoji { font-size: 120px; }
+        .product-image-dots { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; }
+        .image-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.3); }
+        .image-dot.active { width: 24px; border-radius: 4px; background: var(--gold); }
+        .product-info { padding: 24px 20px; background: var(--bg-dark); border-radius: 24px 24px 0 0; margin-top: -20px; position: relative; }
+        .product-tags { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+        .product-tag { padding: 6px 14px; background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.3); border-radius: 20px; font-size: 12px; font-weight: 600; color: var(--cyan); }
+        .product-tag.gold { background: rgba(255,215,0,0.1); border-color: rgba(255,215,0,0.3); color: var(--gold); }
+        .product-name { font-size: 22px; font-weight: 700; margin-bottom: 16px; line-height: 1.3; }
+        .product-seller { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+        .seller-avatar { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; color: var(--navy); }
+        .seller-info { flex: 1; }
+        .seller-name { font-weight: 600; font-size: 15px; }
+        .seller-rating { display: flex; align-items: center; gap: 4px; font-size: 13px; color: var(--text-secondary); }
+        .seller-rating-star { color: var(--gold); }
+        .follow-btn { padding: 10px 20px; background: transparent; border: 1px solid var(--gold); border-radius: 10px; color: var(--gold); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+        .follow-btn:hover { background: var(--gold); color: var(--navy); }
+        .product-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 20px; background: var(--bg-card); border-radius: 16px; margin-bottom: 24px; border: 1px solid var(--border); }
+        .stat-item { text-align: center; }
+        .stat-value { font-size: 20px; font-weight: 700; color: var(--gold); margin-bottom: 4px; }
+        .stat-label { font-size: 12px; color: var(--text-tertiary); }
+        .bid-history { margin-bottom: 24px; }
+        .bid-history-title { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+        .bid-item { display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--bg-card); border-radius: 14px; margin-bottom: 10px; border: 1px solid var(--border); }
+        .bid-rank { width: 32px; height: 32px; border-radius: 50%; background: var(--bg-elevated); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+        .bid-rank.gold { background: linear-gradient(135deg, #FFD700, #FFA500); color: var(--navy); }
+        .bid-rank.silver { background: linear-gradient(135deg, #C0C0C0, #808080); color: var(--navy); }
+        .bid-rank.bronze { background: linear-gradient(135deg, #CD7F32, #8B4513); color: white; }
+        .bidder-info { flex: 1; }
+        .bidder-name { font-weight: 600; font-size: 14px; }
+        .bid-time { font-size: 12px; color: var(--text-tertiary); }
+        .bid-amount { font-size: 16px; font-weight: 700; color: var(--gold); }
+        .product-desc { margin-bottom: 100px; }
+        .product-desc-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+        .product-desc-text { font-size: 15px; color: var(--text-secondary); line-height: 1.7; }
+        .product-footer { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; padding: 16px 20px 24px; background: var(--bg-card); border-top: 1px solid var(--border); display: flex; gap: 16px; align-items: center; }
+        .footer-bid-info { flex: 1; }
+        .footer-bid-label { font-size: 12px; color: var(--text-tertiary); }
+        .footer-bid-value { font-size: 24px; font-weight: 700; color: var(--gold); }
+        .place-bid-btn { padding: 16px 32px; background: var(--gold); color: var(--navy); border: none; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.3s; }
+        .place-bid-btn:hover { transform: scale(1.02); box-shadow: 0 4px 20px rgba(255,215,0,0.3); }
+        
+        /* Place Bid */
+        .place-bid-screen { min-height: 100vh; background: var(--bg-dark); }
+        .place-bid-header { padding: 16px 20px; display: flex; align-items: center; gap: 16px; }
+        .place-bid-title { font-size: 18px; font-weight: 700; }
+        .bid-product-info { display: flex; align-items: center; gap: 16px; padding: 20px; background: var(--bg-card); border: 1px solid var(--border); margin: 0 20px 20px; border-radius: 16px; }
+        .bid-product-image { width: 80px; height: 80px; border-radius: 12px; background: var(--bg-elevated); display: flex; align-items: center; justify-content: center; font-size: 40px; }
+        .bid-product-details { flex: 1; }
+        .bid-product-name { font-weight: 600; font-size: 15px; margin-bottom: 6px; }
+        .bid-product-price { font-size: 13px; color: var(--text-secondary); }
+        .bid-input-section { padding: 0 20px; }
+        .bid-input-label { font-size: 14px; color: var(--text-secondary); margin-bottom: 12px; }
+        .bid-input-container { display: flex; align-items: center; gap: 8px; padding: 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 20px; }
+        .bid-input-container:focus-within { border-color: var(--gold); }
+        .bid-input-currency { font-size: 28px; font-weight: 700; color: var(--gold); }
+        .bid-input { flex: 1; background: none; border: none; color: var(--text-primary); font-size: 28px; font-weight: 700; outline: none; }
+        .bid-input::placeholder { color: var(--text-tertiary); }
+        .quick-bids { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
+        .quick-bid-btn { padding: 12px 18px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; color: var(--text-primary); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+        .quick-bid-btn:hover { border-color: var(--gold); color: var(--gold); }
+        .deposit-info { padding: 16px; background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); border-radius: 12px; margin-bottom: 24px; }
+        .deposit-info-title { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14px; color: var(--green); margin-bottom: 6px; }
+        .deposit-info-text { font-size: 13px; color: var(--text-secondary); }
+        .place-bid-footer { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; padding: 16px 20px 24px; background: var(--bg-card); border-top: 1px solid var(--border); }
+        
+        /* Wallet */
+        .wallet-screen { padding: 20px; min-height: 100vh; }
+        .wallet-header { text-align: center; padding: 40px 0; }
+        .wallet-label { font-size: 14px; color: var(--text-secondary); margin-bottom: 12px; }
+        .wallet-balance { font-size: 44px; font-weight: 800; color: var(--gold); }
+        .wallet-subtitle { font-size: 14px; color: var(--text-tertiary); margin-top: 8px; }
+        .wallet-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 28px; }
+        .wallet-action { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; cursor: pointer; transition: all 0.3s; }
+        .wallet-action:hover { border-color: var(--gold); }
+        .wallet-action-icon { font-size: 24px; }
+        .wallet-action-label { font-size: 13px; font-weight: 600; }
+        .buying-power-card { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); border-radius: 20px; padding: 24px; margin-bottom: 28px; color: var(--navy); }
+        .buying-power-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .buying-power-label { font-size: 14px; opacity: 0.8; }
+        .buying-power-info { width: 24px; height: 24px; border-radius: 50%; background: rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; }
+        .buying-power-value { font-size: 32px; font-weight: 800; margin-bottom: 6px; }
+        .buying-power-desc { font-size: 13px; opacity: 0.8; }
+        .transactions-title { font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+        .transaction-item { display: flex; align-items: center; gap: 16px; padding: 16px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 10px; }
+        .transaction-icon { width: 48px; height: 48px; border-radius: 12px; background: var(--bg-elevated); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .transaction-icon.deposit { background: rgba(34,197,94,0.15); }
+        .transaction-icon.withdrawal { background: rgba(239,68,68,0.15); }
+        .transaction-info { flex: 1; }
+        .transaction-title { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+        .transaction-date { font-size: 13px; color: var(--text-tertiary); }
+        .transaction-amount { font-size: 16px; font-weight: 700; }
+        .transaction-amount.positive { color: var(--green); }
+        .transaction-amount.negative { color: var(--red); }
+        
+        /* Profile */
+        .profile-screen { min-height: 100vh; }
+        .profile-header { padding: 40px 20px; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); text-align: center; color: var(--navy); }
+        .profile-avatar { width: 90px; height: 90px; border-radius: 50%; background: white; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 36px; font-weight: 800; }
+        .profile-name { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+        .profile-username { font-size: 14px; opacity: 0.8; }
+        .profile-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 24px 20px; background: var(--bg-card); margin: -20px 20px 20px; border-radius: 16px; border: 1px solid var(--border); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+        .profile-stat { text-align: center; }
+        .profile-stat-value { font-size: 22px; font-weight: 700; color: var(--gold); margin-bottom: 4px; }
+        .profile-stat-label { font-size: 12px; color: var(--text-tertiary); }
+        .profile-menu { padding: 0 20px; }
+        .menu-item { display: flex; align-items: center; gap: 16px; padding: 18px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 10px; cursor: pointer; transition: all 0.3s; }
+        .menu-item:hover { border-color: var(--gold); }
+        .menu-icon { width: 44px; height: 44px; border-radius: 12px; background: var(--bg-elevated); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .menu-text { flex: 1; }
+        .menu-title { font-weight: 600; font-size: 15px; margin-bottom: 2px; }
+        .menu-subtitle { font-size: 13px; color: var(--text-tertiary); }
+        .menu-arrow { font-size: 18px; color: var(--text-tertiary); }
+        
+        /* Search */
+        .search-screen { min-height: 100vh; background: var(--bg-dark); }
+        .search-header { padding: 16px 20px; display: flex; align-items: center; gap: 12px; }
+        .search-input-large { flex: 1; padding: 14px 18px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; color: var(--text-primary); font-size: 15px; outline: none; }
+        .search-input-large:focus { border-color: var(--gold); }
+        .recent-searches { padding: 20px; }
+        .recent-searches-title { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; }
+        .recent-search-item { display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; cursor: pointer; }
+        .recent-search-item:hover { border-color: var(--gold); }
+        .recent-search-icon { font-size: 18px; color: var(--text-tertiary); }
+        .recent-search-text { flex: 1; font-size: 15px; }
+        
+        /* Notifications */
+        .notifications-screen { min-height: 100vh; background: var(--bg-dark); }
+        .notifications-header { padding: 16px 20px; display: flex; align-items: center; gap: 16px; }
+        .notifications-title { font-size: 20px; font-weight: 700; }
+        .notification-item { display: flex; align-items: flex-start; gap: 14px; padding: 16px 20px; border-bottom: 1px solid var(--border); }
+        .notification-icon { width: 44px; height: 44px; border-radius: 12px; background: var(--bg-card); display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .notification-content { flex: 1; }
+        .notification-text { font-size: 14px; line-height: 1.5; margin-bottom: 6px; }
+        .notification-text strong { color: var(--gold); }
+        .notification-time { font-size: 12px; color: var(--text-tertiary); }
+        .notification-unread { width: 8px; height: 8px; background: var(--gold); border-radius: 50%; margin-top: 8px; }
+        
+        /* Chat */
+        .chat-list-screen { min-height: 100vh; background: var(--bg-dark); padding-bottom: 90px; }
+        .chat-list-header { padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; }
+        .chat-list-title { font-size: 22px; font-weight: 700; }
+        .chat-item { display: flex; align-items: center; gap: 14px; padding: 16px 20px; border-bottom: 1px solid var(--border); cursor: pointer; }
+        .chat-item:hover { background: var(--bg-card); }
+        .chat-avatar { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; color: var(--navy); }
+        .chat-info { flex: 1; }
+        .chat-name { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+        .chat-preview { font-size: 13px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .chat-meta { text-align: right; }
+        .chat-time { font-size: 12px; color: var(--text-tertiary); margin-bottom: 6px; }
+        .chat-badge { display: inline-block; padding: 4px 10px; background: var(--gold); color: var(--navy); border-radius: 12px; font-size: 11px; font-weight: 700; }
+        
+        .chat-screen { min-height: 100vh; background: var(--bg-dark); display: flex; flex-direction: column; }
+        .chat-header { padding: 16px 20px; display: flex; align-items: center; gap: 14px; background: var(--bg-card); border-bottom: 1px solid var(--border); }
+        .chat-header-avatar { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; color: var(--navy); }
+        .chat-header-info { flex: 1; }
+        .chat-header-name { font-weight: 600; font-size: 16px; }
+        .chat-header-status { font-size: 13px; color: var(--green); }
+        .chat-messages { flex: 1; padding: 20px; overflow-y: auto; }
+        .message { max-width: 75%; padding: 14px 18px; border-radius: 18px; margin-bottom: 16px; font-size: 14px; line-height: 1.5; }
+        .message-received { background: var(--bg-card); border-bottom-left-radius: 4px; }
+        .message-sent { background: var(--gold); color: var(--navy); border-bottom-right-radius: 4px; margin-left: auto; }
+        .message-time { font-size: 11px; opacity: 0.7; margin-top: 6px; }
+        .chat-input-container { padding: 16px 20px 24px; background: var(--bg-card); border-top: 1px solid var(--border); display: flex; gap: 12px; }
+        .chat-input { flex: 1; padding: 14px 18px; background: var(--bg-dark); border: 1px solid var(--border); border-radius: 24px; color: var(--text-primary); font-size: 15px; outline: none; }
+        .chat-input:focus { border-color: var(--gold); }
+        .chat-send-btn { width: 48px; height: 48px; background: var(--gold); border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 20px; color: var(--navy); }
+        
+        /* Seller */
+        .seller-screen { min-height: 100vh; background: var(--bg-dark); padding-bottom: 90px; }
+        .seller-header { padding: 20px; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); color: var(--navy); }
+        .seller-header-title { font-size: 14px; opacity: 0.8; margin-bottom: 8px; }
+        .seller-header-value { font-size: 36px; font-weight: 800; }
+        .seller-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 20px; }
+        .seller-stat { padding: 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; }
+        .seller-stat-value { font-size: 24px; font-weight: 700; color: var(--gold); margin-bottom: 6px; }
+        .seller-stat-label { font-size: 13px; color: var(--text-secondary); }
+        
+        /* Create Listing */
+        .create-listing-screen { min-height: 100vh; background: var(--bg-dark); }
+        .create-listing-header { padding: 16px 20px; display: flex; align-items: center; gap: 16px; }
+        .create-listing-title { font-size: 18px; font-weight: 700; }
+        .photo-upload { border: 2px dashed var(--border); border-radius: 16px; padding: 40px; text-align: center; margin: 0 20px 20px; cursor: pointer; transition: all 0.3s; }
+        .photo-upload:hover { border-color: var(--gold); background: rgba(255,215,0,0.05); }
+        .photo-upload-icon { font-size: 48px; margin-bottom: 16px; }
+        .photo-upload-title { font-weight: 600; margin-bottom: 8px; }
+        .photo-upload-desc { font-size: 14px; color: var(--text-secondary); }
+        .form-group { padding: 0 20px; margin-bottom: 20px; }
+        .form-label { font-size: 14px; color: var(--text-secondary); margin-bottom: 10px; display: block; }
+        .form-textarea { min-height: 120px; resize: vertical; }
+        
+        /* Listings */
+        .my-listings-screen { min-height: 100vh; background: var(--bg-dark); padding-bottom: 90px; }
+        .my-listings-header { padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; }
+        .my-listings-title { font-size: 22px; font-weight: 700; }
+        .listing-tabs { display: flex; gap: 8px; padding: 0 20px 20px; overflow-x: auto; }
+        .listing-tab { padding: 10px 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; font-size: 14px; white-space: nowrap; cursor: pointer; }
+        .listing-tab.active { background: var(--gold); color: var(--navy); font-weight: 600; border-color: var(--gold); }
+        
+        /* Exchange */
+        .exchange-screen { min-height: 100vh; background: var(--bg-dark); }
+        .exchange-header { padding: 16px 20px; display: flex; align-items: center; gap: 16px; }
+        .exchange-title { font-size: 18px; font-weight: 700; }
+        .exchange-card { margin: 0 20px 20px; padding: 24px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; text-align: center; }
+        .exchange-status { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: rgba(34,197,94,0.15); color: var(--green); border-radius: 24px; font-size: 14px; font-weight: 600; margin-bottom: 24px; }
+        .exchange-status::before { content: ''; width: 8px; height: 8px; background: var(--green); border-radius: 50%; }
+        .qr-code { width: 200px; height: 200px; background: white; border-radius: 16px; margin: 0 auto 24px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--navy); }
+        .exchange-info { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+        .exchange-location { padding: 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; margin: 0 20px; }
+        .exchange-location-title { font-weight: 600; margin-bottom: 8px; }
+        .exchange-location-address { font-size: 14px; color: var(--text-secondary); }
+        
+        /* Edit Profile */
+        .edit-profile-screen { min-height: 100vh; background: var(--bg-dark); }
+        .edit-profile-header { padding: 16px 20px; display: flex; align-items: center; gap: 16px; }
+        .edit-profile-title { font-size: 18px; font-weight: 700; }
+        .edit-avatar-section { text-align: center; padding: 32px 20px; }
+        .edit-avatar { width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%); margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 40px; font-weight: 700; color: var(--navy); }
+        .edit-avatar-btn { padding: 10px 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; font-size: 14px; color: var(--text-primary); cursor: pointer; }
+        
+        /* Add Funds */
+        .add-funds-screen { min-height: 100vh; background: var(--bg-dark); }
+        .add-funds-header { padding: 16px 20px; display: flex; align-items: center; gap: 16px; }
+        .add-funds-title { font-size: 18px; font-weight: 700; }
+        .amount-presets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 20px; }
+        .amount-preset { padding: 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; text-align: center; font-size: 18px; font-weight: 700; cursor: pointer; transition: all 0.3s; }
+        .amount-preset:hover, .amount-preset.active { border-color: var(--gold); color: var(--gold); }
+        .payment-methods { padding: 0 20px; }
+        .payment-method { display: flex; align-items: center; gap: 14px; padding: 18px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; margin-bottom: 12px; cursor: pointer; }
+        .payment-method:hover { border-color: var(--gold); }
+        .payment-method-icon { font-size: 24px; }
+        .payment-method-info { flex: 1; }
+        .payment-method-name { font-weight: 600; font-size: 15px; }
+        .payment-method-desc { font-size: 13px; color: var(--text-secondary); }
+        
+        /* Transaction History */
+        .tx-history-screen { min-height: 100vh; background: var(--bg-dark); padding-bottom: 20px; }
+        .tx-history-header { padding: 16px 20px; display: flex; align-items: center; gap: 16px; }
+        .tx-history-title { font-size: 20px; font-weight: 700; }
+        .tx-filter-tabs { display: flex; gap: 8px; padding: 0 20px 20px; overflow-x: auto; }
+        .tx-filter-tab { padding: 10px 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; font-size: 14px; white-space: nowrap; cursor: pointer; }
+        .tx-filter-tab.active { background: var(--gold); color: var(--navy); font-weight: 600; border-color: var(--gold); }
+        
+        /* Toast & Loading */
+        .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(100px); padding: 16px 24px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; display: flex; align-items: center; gap: 12px; z-index: 10001; opacity: 0; transition: all 0.3s; }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .toast.success { border-color: var(--green); }
+        .toast.error { border-color: var(--red); }
+        .toast-icon { font-size: 20px; }
+        .toast-message { font-weight: 600; font-size: 14px; }
+        .loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10,10,15,0.9); display: flex; align-items: center; justify-content: center; z-index: 10000; opacity: 0; visibility: hidden; transition: all 0.3s; }
+        .loading-overlay.active { opacity: 1; visibility: visible; }
+        .loading-spinner { width: 50px; height: 50px; border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: rotate 1s linear infinite; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay"><div class="loading-spinner"></div></div>
+    
+    <!-- Toast -->
+    <div class="toast" id="toast"><span class="toast-icon" id="toastIcon">✓</span><span class="toast-message" id="toastMsg">Success!</span></div>
+
+    <!-- Splash Screen -->
+    <div class="screen active" id="splashScreen">
+        <div class="splash-diamond"><div class="splash-diamond-inner"><span class="splash-diamond-icon">💎</span></div></div>
+        <h1 class="splash-title">BIDDT</h1>
+        <p class="splash-tagline">WIN YOUR TREASURE</p>
+        <div class="splash-progress"><div class="splash-progress-bar"></div></div>
+    </div>
+
+    <!-- Onboarding -->
+    <div class="screen" id="onboardingScreen">
+        <button class="onboarding-skip" onclick="navigate('auth')">Skip</button>
+        <div class="onboarding-slides">
+            <div class="onboarding-slide active">
+                <div class="onboarding-icon-container" style="background: rgba(255,215,0,0.1);"><span class="onboarding-icon">💎</span></div>
+                <h2 class="onboarding-title">Discover Hidden Gems</h2>
+                <p class="onboarding-desc">Find unique items from local sellers. From vintage watches to rare collectibles, your next treasure awaits.</p>
+            </div>
+            <div class="onboarding-slide">
+                <div class="onboarding-icon-container" style="background: rgba(34,197,94,0.1);"><span class="onboarding-icon">🛡️</span></div>
+                <h2 class="onboarding-title">Bid with Confidence</h2>
+                <p class="onboarding-desc">Our 10% deposit system ensures serious buyers only. Your money is held safely in escrow until you win.</p>
+            </div>
+            <div class="onboarding-slide">
+                <div class="onboarding-icon-container" style="background: rgba(0,212,255,0.1);"><span class="onboarding-icon">📍</span></div>
+                <h2 class="onboarding-title">Safe Exchange</h2>
+                <p class="onboarding-desc">Meet at verified safe zones with QR code verification. Your safety is our priority.</p>
+            </div>
+        </div>
+        <div class="onboarding-bottom">
+            <div class="onboarding-dots"><div class="onboarding-dot active"></div><div class="onboarding-dot"></div><div class="onboarding-dot"></div></div>
+            <button class="btn-primary" onclick="nextOnboarding()">Next</button>
+        </div>
+    </div>
+
+    <!-- Auth -->
+    <div class="screen" id="authScreen">
+        <div class="auth-screen">
+            <div class="auth-logo"><span class="auth-logo-inner">💎</span></div>
+            <h1 class="auth-title">Welcome to Biddt</h1>
+            <p class="auth-subtitle">Sign in to start bidding on premium items</p>
+            <button class="auth-btn" onclick="navigate('phone')"><span>📱</span> Continue with Phone</button>
+            <button class="auth-btn" onclick="loginWithGoogle()"><span style="color: #4285F4;">G</span> Continue with Google</button>
+            <button class="auth-btn" onclick="loginWithApple()"><span>🍎</span> Continue with Apple</button>
+            <div class="auth-divider">Or test with demo accounts</div>
+            <div class="test-accounts">
+                <div class="test-accounts-title">Test Accounts</div>
+                <div class="test-account" onclick="login('buyer')"><div class="test-account-avatar">JD</div><div class="test-account-info"><div class="test-account-name">John Doe</div><div class="test-account-type">Premium Buyer • $12,450</div></div></div>
+                <div class="test-account" onclick="login('seller')"><div class="test-account-avatar">SM</div><div class="test-account-info"><div class="test-account-name">Sarah Miller</div><div class="test-account-type">Top Seller • $28,500</div></div></div>
+                <div class="test-account" onclick="login('power')"><div class="test-account-avatar">MJ</div><div class="test-account-info"><div class="test-account-name">Mike Johnson</div><div class="test-account-type">Power User • $50,000</div></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Phone Input -->
+    <div class="screen" id="phoneScreen">
+        <div class="phone-screen">
+            <button class="phone-back" onclick="navigate('auth')">←</button>
+            <h1 class="phone-title">Enter your phone</h1>
+            <p class="phone-subtitle">We'll send you a verification code</p>
+            <div class="phone-input-container">
+                <div class="phone-country"><span>🇺🇸</span><span>+1</span></div>
+                <input type="tel" class="phone-input" placeholder="(555) 000-0000" id="phoneInput">
+            </div>
+            <button class="btn-primary" onclick="sendOTP()">Continue</button>
+        </div>
+    </div>
+
+    <!-- OTP -->
+    <div class="screen" id="otpScreen">
+        <div class="otp-screen">
+            <button class="phone-back" onclick="navigate('phone')">←</button>
+            <h1 class="otp-title">Enter verification code</h1>
+            <p class="otp-subtitle">We sent a code to <span id="otpPhone">+1 (555) 000-0000</span></p>
+            <div class="otp-container">
+                <input type="text" class="otp-input" maxlength="1" onkeyup="moveOTP(this, 0)">
+                <input type="text" class="otp-input" maxlength="1" onkeyup="moveOTP(this, 1)">
+                <input type="text" class="otp-input" maxlength="1" onkeyup="moveOTP(this, 2)">
+                <input type="text" class="otp-input" maxlength="1" onkeyup="moveOTP(this, 3)">
+                <input type="text" class="otp-input" maxlength="1" onkeyup="moveOTP(this, 4)">
+                <input type="text" class="otp-input" maxlength="1" onkeyup="verifyOTP()">
+            </div>
+            <p class="otp-resend">Didn't receive it? <span onclick="resendOTP()">Resend</span></p>
+        </div>
+    </div>
+
+    <!-- Identity -->
+    <div class="screen" id="identityScreen">
+        <div class="identity-screen">
+            <button class="phone-back" onclick="navigate('otp')">←</button>
+            <h1 class="identity-title">Verify your identity</h1>
+            <p class="identity-subtitle">Upload a government-issued ID to continue</p>
+            <div class="id-upload" onclick="uploadID()">
+                <div class="id-upload-icon">📄</div>
+                <div class="id-upload-title">Upload ID Document</div>
+                <div class="id-upload-desc">Driver's license, passport, or national ID</div>
+            </div>
+            <div class="id-upload" onclick="uploadSelfie()">
+                <div class="id-upload-icon">📸</div>
+                <div class="id-upload-title">Take a Selfie</div>
+                <div class="id-upload-desc">Verify your identity with a live photo</div>
+            </div>
+            <button class="btn-primary" onclick="completeVerification()" style="margin-top: 20px;">Continue</button>
+        </div>
+    </div>
+
+    <!-- Home -->
+    <div class="screen" id="homeScreen">
+        <div class="main-app">
+            <header class="app-header">
+                <div class="header-logo">BIDDT</div>
+                <div class="header-actions">
+                    <button class="header-btn" onclick="navigate('notifications')">🔔<span class="header-badge">3</span></button>
+                    <button class="header-btn" onclick="navigate('profile')">👤</button>
+                </div>
+            </header>
+            <div class="search-container">
+                <div class="search-bar" onclick="navigate('search')"><span class="search-icon">🔍</span><input type="text" class="search-input" placeholder="Search auctions, brands, items..." readonly></div>
+            </div>
+            <div class="categories-container">
+                <div class="categories-scroll">
+                    <div class="category-chip active" onclick="filterCategory('all', this)">⊞ All</div>
+                    <div class="category-chip" onclick="filterCategory('watches', this)">⌚ Watches</div>
+                    <div class="category-chip" onclick="filterCategory('electronics', this)">💻 Electronics</div>
+                    <div class="category-chip" onclick="filterCategory('fashion', this)">👜 Fashion</div>
+                    <div class="category-chip" onclick="filterCategory('collectibles', this)">🃏 Collectibles</div>
+                    <div class="category-chip" onclick="filterCategory('sneakers', this)">👟 Sneakers</div>
+                </div>
+            </div>
+            <div class="section-header"><h2 class="section-title">Live Auctions</h2><a href="#" class="section-link" onclick="showAllAuctions()">View All</a></div>
+            <div class="auctions-container"><div class="auctions-scroll" id="liveAuctions"></div></div>
+            <div class="section-header"><h2 class="section-title">Ending Soon</h2><a href="#" class="section-link">View All</a></div>
+            <div class="auctions-container"><div class="auctions-scroll" id="endingSoonAuctions"></div></div>
+            <div class="section-header"><h2 class="section-title">Trending Now</h2><a href="#" class="section-link">View All</a></div>
+            <div class="auctions-container"><div class="auctions-scroll" id="trendingAuctions"></div></div>
+        </div>
+        <nav class="bottom-nav">
+            <div class="nav-item active" onclick="navigate('home')">🏠<span class="nav-label">Home</span></div>
+            <div class="nav-item" onclick="navigate('wallet')">💰<span class="nav-label">Wallet</span></div>
+            <div class="nav-sell" onclick="navigate('createListing')">+</div>
+            <div class="nav-item" onclick="navigate('chatList')">💬<span class="nav-label">Chat</span></div>
+            <div class="nav-item" onclick="navigate('profile')">👤<span class="nav-label">Profile</span></div>
+        </nav>
+    </div>
+
+    <!-- Search -->
+    <div class="screen" id="searchScreen">
+        <div class="search-screen">
+            <div class="search-header"><button class="phone-back" onclick="navigate('home')">←</button><input type="text" class="search-input-large" placeholder="Search auctions, brands..." id="searchInput" onkeyup="performSearch(this.value)"></div>
+            <div class="recent-searches">
+                <div class="recent-searches-title">Recent Searches</div>
+                <div class="recent-search-item" onclick="searchFor('Rolex watches')"><span class="recent-search-icon">🔍</span><span class="recent-search-text">Rolex watches</span><span>→</span></div>
+                <div class="recent-search-item" onclick="searchFor('iPhone 15')"><span class="recent-search-icon">🔍</span><span class="recent-search-text">iPhone 15</span><span>→</span></div>
+                <div class="recent-search-item" onclick="searchFor('Air Jordan')"><span class="recent-search-icon">🔍</span><span class="recent-search-text">Air Jordan</span><span>→</span></div>
+            </div>
+            <div class="recent-searches" id="searchResults" style="display: none;">
+                <div class="recent-searches-title">Search Results</div>
+                <div id="searchResultsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications -->
+    <div class="screen" id="notificationsScreen">
+        <div class="notifications-screen">
+            <div class="notifications-header"><button class="phone-back" onclick="navigate('home')">←</button><h1 class="notifications-title">Notifications</h1></div>
+            <div class="notification-item"><div class="notification-icon" style="background: rgba(255,215,0,0.15);">🏆</div><div class="notification-content"><div class="notification-text">Congratulations! You won the <strong>Rolex Submariner</strong> auction!</div><div class="notification-time">2 minutes ago</div></div><div class="notification-unread"></div></div>
+            <div class="notification-item"><div class="notification-icon" style="background: rgba(0,212,255,0.15);">💰</div><div class="notification-content"><div class="notification-text">Your bid of <strong>$8,700</strong> has been placed successfully</div><div class="notification-time">15 minutes ago</div></div><div class="notification-unread"></div></div>
+            <div class="notification-item"><div class="notification-icon" style="background: rgba(34,197,94,0.15);">✓</div><div class="notification-content"><div class="notification-text">Your identity has been <strong>verified</strong></div><div class="notification-time">1 hour ago</div></div></div>
+            <div class="notification-item"><div class="notification-icon" style="background: rgba(249,115,22,0.15);">⚠️</div><div class="notification-content"><div class="notification-text"><strong>Air Jordan 1</strong> auction ending in 10 minutes!</div><div class="notification-time">2 hours ago</div></div></div>
+        </div>
+    </div>
+
+    <!-- Product -->
+    <div class="screen" id="productScreen">
+        <div class="product-screen">
+            <div class="product-header"><button class="back-btn" onclick="navigate('home')">←</button><div class="product-actions"><button class="header-btn" onclick="toggleWatchlist()" id="watchlistBtn">♡</button><button class="header-btn" onclick="shareProduct()">↗</button></div></div>
+            <div class="product-image-container"><span class="product-image-emoji" id="productEmoji">⌚</span><div class="product-image-dots"><div class="image-dot active"></div><div class="image-dot"></div><div class="image-dot"></div></div></div>
+            <div class="product-info">
+                <div class="product-tags"><span class="product-tag gold" id="productVerified">✓ Verified Authentic</span><span class="product-tag" id="productCondition">Like New</span></div>
+                <h1 class="product-name" id="productName">Rolex Submariner 2023</h1>
+                <div class="product-seller"><div class="seller-avatar" id="sellerAvatar">LW</div><div class="seller-info"><div class="seller-name" id="sellerName">Luxury Watches Co.</div><div class="seller-rating"><span class="seller-rating-star">★</span><span id="sellerRating">4.9 (234 sales)</span></div></div><button class="follow-btn" onclick="toggleFollow(this)">Follow</button></div>
+                <div class="product-stats"><div class="stat-item"><div class="stat-value" id="currentBid">$8,500</div><div class="stat-label">Current Bid</div></div><div class="stat-item"><div class="stat-value" id="bidCount">23</div><div class="stat-label">Bids</div></div><div class="stat-item"><div class="stat-value" id="timeRemaining">02:45:12</div><div class="stat-label">Time Left</div></div></div>
+                <div class="bid-history"><h3 class="bid-history-title">Recent Bids</h3><div id="bidHistoryList"></div></div>
+                <div class="product-desc"><h3 class="product-desc-title">Description</h3><p class="product-desc-text" id="productDescription">Authentic Rolex Submariner Date 126610LN. Purchased in 2023 from authorized dealer.</p></div>
+            </div>
+            <div class="product-footer"><div class="footer-bid-info"><div class="footer-bid-label">Current Bid</div><div class="footer-bid-value" id="footerBid">$8,500</div></div><button class="place-bid-btn" onclick="openPlaceBid()">Place Bid</button></div>
+        </div>
+    </div>
+
+    <!-- Place Bid -->
+    <div class="screen" id="placeBidScreen">
+        <div class="place-bid-screen">
+            <div class="place-bid-header"><button class="phone-back" onclick="navigate('product')">←</button><h1 class="place-bid-title">Place Bid</h1></div>
+            <div class="bid-product-info"><div class="bid-product-image" id="placeBidEmoji">⌚</div><div class="bid-product-details"><div class="bid-product-name" id="placeBidName">Rolex Submariner 2023</div><div class="bid-product-price">Current bid: <span id="placeBidCurrent">$8,500</span></div></div></div>
+            <div class="bid-input-section">
+                <div class="bid-input-label">Your Bid Amount</div>
+                <div class="bid-input-container"><span class="bid-input-currency">$</span><input type="number" class="bid-input" placeholder="0.00" id="bidAmountInput" oninput="updateDeposit()"></div>
+                <div class="quick-bids"><button class="quick-bid-btn" onclick="setBidAmount(8600)">$8,600</button><button class="quick-bid-btn" onclick="setBidAmount(8700)">$8,700</button><button class="quick-bid-btn" onclick="setBidAmount(8800)">$8,800</button><button class="quick-bid-btn" onclick="setBidAmount(9000)">$9,000</button></div>
+                <div class="deposit-info"><div class="deposit-info-title">🛡️ 10% Deposit Required</div><div class="deposit-info-text">$<span id="depositAmount">0</span> will be held from your wallet as a deposit.</div></div>
+            </div>
+            <div class="place-bid-footer"><button class="btn-primary" onclick="submitBid()">Place Bid</button></div>
+        </div>
+    </div>
+
+    <!-- Wallet -->
+    <div class="screen" id="walletScreen">
+        <div class="wallet-screen">
+            <div class="wallet-header"><div class="wallet-label">Total Balance</div><div class="wallet-balance" id="walletBalance">$12,450.00</div><div class="wallet-subtitle">Available for bidding</div></div>
+            <div class="wallet-actions"><div class="wallet-action" onclick="navigate('addFunds')">➕<span class="wallet-action-label">Add</span></div><div class="wallet-action" onclick="withdrawFunds()">➖<span class="wallet-action-label">Withdraw</span></div><div class="wallet-action" onclick="transferFunds()">↔<span class="wallet-action-label">Transfer</span></div></div>
+            <div class="buying-power-card"><div class="buying-power-header"><span class="buying-power-label">Buying Power</span><div class="buying-power-info">ℹ</div></div><div class="buying-power-value" id="buyingPower">$124,500</div><div class="buying-power-desc">10x your deposit for bidding</div></div>
+            <div class="transactions-title">Recent Transactions</div>
+            <div id="transactionsList"></div>
+        </div>
+        <nav class="bottom-nav">
+            <div class="nav-item" onclick="navigate('home')">🏠<span class="nav-label">Home</span></div>
+            <div class="nav-item active" onclick="navigate('wallet')">💰<span class="nav-label">Wallet</span></div>
+            <div class="nav-sell" onclick="navigate('createListing')">+</div>
+            <div class="nav-item" onclick="navigate('chatList')">💬<span class="nav-label">Chat</span></div>
+            <div class="nav-item" onclick="navigate('profile')">👤<span class="nav-label">Profile</span></div>
+        </nav>
+    </div>
+
+    <!-- Add Funds -->
+    <div class="screen" id="addFundsScreen">
+        <div class="add-funds-screen">
+            <div class="add-funds-header"><button class="phone-back" onclick="navigate('wallet')">←</button><h1 class="add-funds-title">Add Funds</h1></div>
+            <div class="amount-presets"><div class="amount-preset" onclick="selectAmount(this, 100)">$100</div><div class="amount-preset" onclick="selectAmount(this, 500)">$500</div><div class="amount-preset active" onclick="selectAmount(this, 1000)">$1,000</div><div class="amount-preset" onclick="selectAmount(this, 2500)">$2,500</div><div class="amount-preset" onclick="selectAmount(this, 5000)">$5,000</div><div class="amount-preset" onclick="selectAmount(this, 10000)">$10,000</div></div>
+            <div class="payment-methods">
+                <div class="payment-method" onclick="selectPayment(this)"><span class="payment-method-icon">💳</span><div class="payment-method-info"><div class="payment-method-name">Credit/Debit Card</div><div class="payment-method-desc">Visa, Mastercard, Amex</div></div><span>→</span></div>
+                <div class="payment-method" onclick="selectPayment(this)"><span class="payment-method-icon">🏦</span><div class="payment-method-info"><div class="payment-method-name">Bank Transfer</div><div class="payment-method-desc">ACH, Wire transfer</div></div><span>→</span></div>
+                <div class="payment-method" onclick="selectPayment(this)"><span class="payment-method-icon">₿</span><div class="payment-method-info"><div class="payment-method-name">Cryptocurrency</div><div class="payment-method-desc">Bitcoin, Ethereum</div></div><span>→</span></div>
+            </div>
+            <div style="padding: 20px;"><button class="btn-primary" onclick="addFunds()">Add $1,000</button></div>
+        </div>
+    </div>
+
+    <!-- Transaction History -->
+    <div class="screen" id="txHistoryScreen">
+        <div class="tx-history-screen">
+            <div class="tx-history-header"><button class="phone-back" onclick="navigate('wallet')">←</button><h1 class="tx-history-title">Transaction History</h1></div>
+            <div class="tx-filter-tabs"><div class="tx-filter-tab active" onclick="filterTx('all', this)">All</div><div class="tx-filter-tab" onclick="filterTx('deposits', this)">Deposits</div><div class="tx-filter-tab" onclick="filterTx('bids', this)">Bids</div><div class="tx-filter-tab" onclick="filterTx('refunds', this)">Refunds</div></div>
+            <div id="txHistoryList"></div>
+        </div>
+    </div>
+
+
+    <!-- Profile -->
+    <div class="screen" id="profileScreen">
+        <div class="profile-screen">
+            <div class="profile-header"><div class="profile-avatar" id="profileAvatar">JD</div><div class="profile-name" id="profileName">John Doe</div><div class="profile-username" id="profileUsername">@johndoe</div></div>
+            <div class="profile-stats"><div class="profile-stat"><div class="profile-stat-value" id="profileWins">12</div><div class="profile-stat-label">Wins</div></div><div class="profile-stat"><div class="profile-stat-value" id="profileBids">48</div><div class="profile-stat-label">Active Bids</div></div><div class="profile-stat"><div class="profile-stat-value" id="profileRating">4.9</div><div class="profile-stat-label">Rating</div></div></div>
+            <div class="profile-menu">
+                <div class="menu-item" onclick="navigate('myAuctions')">🏆<div class="menu-text"><div class="menu-title">My Auctions</div><div class="menu-subtitle">Track your active bids</div></div><span class="menu-arrow">→</span></div>
+                <div class="menu-item" onclick="navigate('watchlist')">♡<div class="menu-text"><div class="menu-title">Watchlist</div><div class="menu-subtitle">Saved items</div></div><span class="menu-arrow">→</span></div>
+                <div class="menu-item" onclick="navigate('purchaseHistory')">🛍<div class="menu-text"><div class="menu-title">Purchase History</div><div class="menu-subtitle">View past wins</div></div><span class="menu-arrow">→</span></div>
+                <div class="menu-item" onclick="navigate('sellerDashboard')">📊<div class="menu-text"><div class="menu-title">Seller Dashboard</div><div class="menu-subtitle">Manage your listings</div></div><span class="menu-arrow">→</span></div>
+                <div class="menu-item" onclick="navigate('editProfile')">✏<div class="menu-text"><div class="menu-title">Edit Profile</div><div class="menu-subtitle">Update your information</div></div><span class="menu-arrow">→</span></div>
+                <div class="menu-item" onclick="navigate('safeExchange')">📍<div class="menu-text"><div class="menu-title">Safe Exchange</div><div class="menu-subtitle">QR code verification</div></div><span class="menu-arrow">→</span></div>
+                <div class="menu-item" onclick="logout()">🚪<div class="menu-text"><div class="menu-title" style="color: var(--red);">Logout</div><div class="menu-subtitle">Sign out of your account</div></div><span class="menu-arrow">→</span></div>
+            </div>
+        </div>
+        <nav class="bottom-nav">
+            <div class="nav-item" onclick="navigate('home')">🏠<span class="nav-label">Home</span></div>
+            <div class="nav-item" onclick="navigate('wallet')">💰<span class="nav-label">Wallet</span></div>
+            <div class="nav-sell" onclick="navigate('createListing')">+</div>
+            <div class="nav-item" onclick="navigate('chatList')">💬<span class="nav-label">Chat</span></div>
+            <div class="nav-item active" onclick="navigate('profile')">👤<span class="nav-label">Profile</span></div>
+        </nav>
+    </div>
+
+    <!-- Edit Profile -->
+    <div class="screen" id="editProfileScreen">
+        <div class="edit-profile-screen">
+            <div class="edit-profile-header"><button class="phone-back" onclick="navigate('profile')">←</button><h1 class="edit-profile-title">Edit Profile</h1></div>
+            <div class="edit-avatar-section"><div class="edit-avatar" id="editAvatar">JD</div><button class="edit-avatar-btn" onclick="changeAvatar()">Change Photo</button></div>
+            <div class="form-group"><label class="form-label">Full Name</label><input type="text" class="form-input" value="John Doe" id="editName"></div>
+            <div class="form-group"><label class="form-label">Username</label><input type="text" class="form-input" value="@johndoe" id="editUsername"></div>
+            <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" value="john@example.com" id="editEmail"></div>
+            <div class="form-group"><label class="form-label">Phone</label><input type="tel" class="form-input" value="+1 (555) 123-4567" id="editPhone"></div>
+            <div class="form-group"><label class="form-label">Bio</label><textarea class="form-input form-textarea" id="editBio">Passionate collector of vintage watches and rare items.</textarea></div>
+            <div style="padding: 0 20px 40px;"><button class="btn-primary" onclick="saveProfile()">Save Changes</button></div>
+        </div>
+    </div>
+
+    <!-- Chat List -->
+    <div class="screen" id="chatListScreen">
+        <div class="chat-list-screen">
+            <div class="chat-list-header"><h1 class="chat-list-title">Messages</h1><button class="header-btn" onclick="newChat()">✎</button></div>
+            <div class="chat-item" onclick="navigate('chatDetail')"><div class="chat-avatar">LW</div><div class="chat-info"><div class="chat-name">Luxury Watches Co.</div><div class="chat-preview">Is the watch still available?</div></div><div class="chat-meta"><div class="chat-time">2m</div><div class="chat-badge">2</div></div></div>
+            <div class="chat-item" onclick="navigate('chatDetail')"><div class="chat-avatar">TD</div><div class="chat-info"><div class="chat-name">Tech Deals</div><div class="chat-preview">Thanks for your bid!</div></div><div class="chat-meta"><div class="chat-time">1h</div></div></div>
+            <div class="chat-item" onclick="navigate('chatDetail')"><div class="chat-avatar">SH</div><div class="chat-info"><div class="chat-name">SneakerHeadz</div><div class="chat-preview">Can you do $350?</div></div><div class="chat-meta"><div class="chat-time">3h</div><div class="chat-badge">1</div></div></div>
+        </div>
+        <nav class="bottom-nav">
+            <div class="nav-item" onclick="navigate('home')">🏠<span class="nav-label">Home</span></div>
+            <div class="nav-item" onclick="navigate('wallet')">💰<span class="nav-label">Wallet</span></div>
+            <div class="nav-sell" onclick="navigate('createListing')">+</div>
+            <div class="nav-item active" onclick="navigate('chatList')">💬<span class="nav-label">Chat</span></div>
+            <div class="nav-item" onclick="navigate('profile')">👤<span class="nav-label">Profile</span></div>
+        </nav>
+    </div>
+
+    <!-- Chat Detail -->
+    <div class="screen" id="chatDetailScreen">
+        <div class="chat-screen">
+            <div class="chat-header"><button class="phone-back" onclick="navigate('chatList')">←</button><div class="chat-header-avatar">LW</div><div class="chat-header-info"><div class="chat-header-name">Luxury Watches Co.</div><div class="chat-header-status">Online</div></div><button class="header-btn" onclick="moreOptions()">⋮</button></div>
+            <div class="chat-messages">
+                <div class="message message-received">Hi! I'm interested in the Rolex Submariner. Is it still available?<div class="message-time">2:30 PM</div></div>
+                <div class="message message-sent">Yes, it's still available! The auction ends in 2 hours.<div class="message-time">2:32 PM</div></div>
+                <div class="message message-received">Great! Is the watch 100% authentic?<div class="message-time">2:33 PM</div></div>
+                <div class="message message-sent">Absolutely! It comes with the original box, papers, and warranty card.<div class="message-time">2:35 PM</div></div>
+            </div>
+            <div class="chat-input-container"><input type="text" class="chat-input" placeholder="Type a message..." id="chatInput"><button class="chat-send-btn" onclick="sendMessage()">➤</button></div>
+        </div>
+    </div>
+
+    <!-- Seller Dashboard -->
+    <div class="screen" id="sellerDashboardScreen">
+        <div class="seller-screen">
+            <div class="seller-header"><div class="seller-header-title">Total Earnings</div><div class="seller-header-value" id="sellerEarnings">$45,230</div></div>
+            <div class="seller-stats"><div class="seller-stat"><div class="seller-stat-value" id="activeListings">8</div><div class="seller-stat-label">Active Listings</div></div><div class="seller-stat"><div class="seller-stat-value" id="soldItems">24</div><div class="seller-stat-label">Items Sold</div></div><div class="seller-stat"><div class="seller-stat-value" id="totalBids">156</div><div class="seller-stat-label">Total Bids</div></div><div class="seller-stat"><div class="seller-stat-value" id="avgSale">$1,885</div><div class="seller-stat-label">Avg Sale Price</div></div></div>
+            <div class="section-header"><h2 class="section-title">Quick Actions</h2></div>
+            <div class="profile-menu" style="padding: 0 20px 20px;"><div class="menu-item" onclick="navigate('createListing')">➕<div class="menu-text"><div class="menu-title">Create New Listing</div><div class="menu-subtitle">Sell an item</div></div><span class="menu-arrow">→</span></div><div class="menu-item" onclick="navigate('myListings')">📋<div class="menu-text"><div class="menu-title">My Listings</div><div class="menu-subtitle">Manage your items</div></div><span class="menu-arrow">→</span></div></div>
+            <div class="section-header"><h2 class="section-title">Recent Sales</h2><a href="#" class="section-link">View All</a></div>
+            <div class="auctions-container" style="padding: 0 20px;"><div class="auctions-scroll" id="recentSales"></div></div>
+        </div>
+        <nav class="bottom-nav">
+            <div class="nav-item" onclick="navigate('home')">🏠<span class="nav-label">Home</span></div>
+            <div class="nav-item" onclick="navigate('wallet')">💰<span class="nav-label">Wallet</span></div>
+            <div class="nav-sell" onclick="navigate('createListing')">+</div>
+            <div class="nav-item" onclick="navigate('chatList')">💬<span class="nav-label">Chat</span></div>
+            <div class="nav-item" onclick="navigate('profile')">👤<span class="nav-label">Profile</span></div>
+        </nav>
+    </div>
+
+    <!-- Create Listing -->
+    <div class="screen" id="createListingScreen">
+        <div class="create-listing-screen">
+            <div class="create-listing-header"><button class="phone-back" onclick="goBack()">←</button><h1 class="create-listing-title">Create Listing</h1></div>
+            <div class="photo-upload" onclick="uploadPhotos()"><div class="photo-upload-icon">📷</div><div class="photo-upload-title">Add Photos</div><div class="photo-upload-desc">Tap to upload up to 10 photos</div></div>
+            <div class="form-group"><label class="form-label">Title</label><input type="text" class="form-input" placeholder="What are you selling?" id="listingTitle"></div>
+            <div class="form-group"><label class="form-label">Category</label><input type="text" class="form-input" placeholder="Select category" id="listingCategory" readonly onclick="selectCategory()"></div>
+            <div class="form-group"><label class="form-label">Condition</label><input type="text" class="form-input" placeholder="Select condition" id="listingCondition" readonly onclick="selectCondition()"></div>
+            <div class="form-group"><label class="form-label">Starting Bid</label><input type="number" class="form-input" placeholder="$0.00" id="listingPrice"></div>
+            <div class="form-group"><label class="form-label">Auction Duration</label><input type="text" class="form-input" placeholder="Select duration" id="listingDuration" readonly onclick="selectDuration()"></div>
+            <div class="form-group"><label class="form-label">Description</label><textarea class="form-input form-textarea" placeholder="Describe your item in detail..." id="listingDesc"></textarea></div>
+            <div style="padding: 0 20px 40px;"><button class="btn-primary" onclick="createListing()">Create Listing</button></div>
+        </div>
+    </div>
+
+    <!-- My Listings -->
+    <div class="screen" id="myListingsScreen">
+        <div class="my-listings-screen">
+            <div class="my-listings-header"><button class="phone-back" onclick="navigate('sellerDashboard')">←</button><h1 class="my-listings-title">My Listings</h1></div>
+            <div class="listing-tabs"><div class="listing-tab active" onclick="filterListings('active', this)">Active</div><div class="listing-tab" onclick="filterListings('sold', this)">Sold</div><div class="listing-tab" onclick="filterListings('drafts', this)">Drafts</div></div>
+            <div id="myListingsContainer"></div>
+        </div>
+        <nav class="bottom-nav">
+            <div class="nav-item" onclick="navigate('home')">🏠<span class="nav-label">Home</span></div>
+            <div class="nav-item" onclick="navigate('wallet')">💰<span class="nav-label">Wallet</span></div>
+            <div class="nav-sell" onclick="navigate('createListing')">+</div>
+            <div class="nav-item" onclick="navigate('chatList')">💬<span class="nav-label">Chat</span></div>
+            <div class="nav-item" onclick="navigate('profile')">👤<span class="nav-label">Profile</span></div>
+        </nav>
+    </div>
+
+    <!-- Safe Exchange -->
+    <div class="screen" id="safeExchangeScreen">
+        <div class="exchange-screen">
+            <div class="exchange-header"><button class="phone-back" onclick="navigate('profile')">←</button><h1 class="exchange-title">Safe Exchange</h1></div>
+            <div class="exchange-card"><div class="exchange-status">Exchange Scheduled</div><div class="qr-code" id="qrCode">QR CODE<br><br>BIDDT-EXCHANGE<br>ROLEX-12345</div><div class="exchange-info">Show this QR code to the seller at the exchange location.<br><br>Do not share this code with anyone else.</div></div>
+            <div class="exchange-location"><div class="exchange-location-title">📍 Exchange Location</div><div class="exchange-location-address">Starbucks - Downtown<br>123 Main Street, New York, NY 10001<br><br>Scheduled: Today at 3:00 PM</div></div>
+            <div style="padding: 20px;"><button class="btn-primary" onclick="confirmExchange()">Confirm Exchange</button></div>
+        </div>
+    </div>
+
+    <!-- My Auctions -->
+    <div class="screen" id="myAuctionsScreen">
+        <div class="my-listings-screen">
+            <div class="my-listings-header"><button class="phone-back" onclick="navigate('profile')">←</button><h1 class="my-listings-title">My Auctions</h1></div>
+            <div class="listing-tabs"><div class="listing-tab active" onclick="filterMyAuctions('bidding', this)">Bidding</div><div class="listing-tab" onclick="filterMyAuctions('won', this)">Won</div><div class="listing-tab" onclick="filterMyAuctions('lost', this)">Lost</div></div>
+            <div id="myAuctionsContainer"></div>
+        </div>
+    </div>
+
+    <!-- Watchlist -->
+    <div class="screen" id="watchlistScreen">
+        <div class="my-listings-screen">
+            <div class="my-listings-header"><button class="phone-back" onclick="navigate('profile')">←</button><h1 class="my-listings-title">Watchlist</h1></div>
+            <div id="watchlistContainer"></div>
+        </div>
+    </div>
+
+    <!-- Purchase History -->
+    <div class="screen" id="purchaseHistoryScreen">
+        <div class="my-listings-screen">
+            <div class="my-listings-header"><button class="phone-back" onclick="navigate('profile')">←</button><h1 class="my-listings-title">Purchase History</h1></div>
+            <div id="purchaseHistoryContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        // Supabase Config
+        const SUPABASE_URL = 'https://1TzABX7QBg5k968GdjzgLw_ZYTkgzEv.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_1TzABX7QBg5k968GdjzgLw_ZYTkgzEv';
+        let supabase = null;
+        try { supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); } catch(e) { console.log('Supabase init:', e); }
+
+        // State
+        const state = {
+            user: null, currentScreen: 'splash', onboardingSlide: 0, auctions: [], selectedProduct: null,
+            wallet: { balance: 12450.00, buyingPower: 124500 }, selectedAmount: 1000,
+            transactions: [
+                { type: 'deposit', title: 'Added Funds', date: 'Today, 10:23 AM', amount: 5000 },
+                { type: 'bid', title: 'Bid Placed - Rolex Submariner', date: 'Yesterday, 3:45 PM', amount: -850 },
+                { type: 'deposit', title: 'Added Funds', date: 'Feb 25, 2024', amount: 10000 },
+                { type: 'withdrawal', title: 'Withdrawal to Bank', date: 'Feb 20, 2024', amount: -2500 },
+                { type: 'refund', title: 'Bid Refund - iPhone 15', date: 'Feb 18, 2024', amount: 420 }
+            ]
+        };
+
+        const testAccounts = {
+            buyer: { name: 'John Doe', username: '@johndoe', initials: 'JD', balance: 12450, wins: 12, bids: 48, rating: 4.9 },
+            seller: { name: 'Sarah Miller', username: '@sarahm', initials: 'SM', balance: 28500, wins: 8, bids: 23, rating: 5.0 },
+            power: { name: 'Mike Johnson', username: '@mikej', initials: 'MJ', balance: 50000, wins: 45, bids: 120, rating: 4.8 }
+        };
+
+        const auctionData = [
+            { id: 1, name: 'Rolex Submariner 2023', category: 'watches', condition: 'Like New', currentBid: 8500, startingBid: 5000, bidCount: 23, endTime: Date.now() + 2 * 3600000 + 45 * 60000, seller: 'Luxury Watches Co.', sellerRating: 4.9, sellerSales: 234, description: 'Authentic Rolex Submariner Date 126610LN. Purchased in 2023 from authorized dealer. Complete with box, papers, and warranty card.', emoji: '⌚' },
+            { id: 2, name: 'iPhone 15 Pro Max 256GB', category: 'electronics', condition: 'New', currentBid: 1050, startingBid: 800, bidCount: 47, endTime: Date.now() + 45 * 60000, seller: 'Tech Deals', sellerRating: 4.7, sellerSales: 892, description: 'Brand new sealed iPhone 15 Pro Max in Natural Titanium. 256GB storage. Factory unlocked.', emoji: '📱' },
+            { id: 3, name: 'Air Jordan 1 Retro High', category: 'sneakers', condition: 'New', currentBid: 380, startingBid: 200, bidCount: 34, endTime: Date.now() + 3 * 3600000, seller: 'SneakerHeadz', sellerRating: 4.8, sellerSales: 567, description: 'Deadstock Air Jordan 1 Retro High OG "Chicago". Size 10.5. 100% authentic with receipt.', emoji: '👟' },
+            { id: 4, name: 'Louis Vuitton Neverfull MM', category: 'fashion', condition: 'Excellent', currentBid: 1200, startingBid: 800, bidCount: 18, endTime: Date.now() + 5 * 3600000, seller: 'Luxury Bags', sellerRating: 4.9, sellerSales: 345, description: 'Authentic LV Neverfull MM in Damier Ebene. Excellent condition with minimal wear. Includes dust bag.', emoji: '👜' },
+            { id: 5, name: 'Pokemon Charizard 1st Edition', category: 'collectibles', condition: 'PSA 9', currentBid: 15000, startingBid: 10000, bidCount: 12, endTime: Date.now() + 24 * 3600000, seller: 'Card Collector Pro', sellerRating: 5.0, sellerSales: 156, description: '1999 Pokemon Base Set 1st Edition Charizard PSA 9 Mint. The holy grail of Pokemon cards.', emoji: '🃏' },
+            { id: 6, name: 'MacBook Pro 16" M3 Max', category: 'electronics', condition: 'Open Box', currentBid: 3200, startingBid: 2500, bidCount: 28, endTime: Date.now() + 90 * 60000, seller: 'Apple Reseller', sellerRating: 4.8, sellerSales: 423, description: 'MacBook Pro 16" with M3 Max chip, 36GB RAM, 1TB SSD. Open box, never used. Full warranty.', emoji: '💻' }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            state.auctions = [...auctionData];
+            setTimeout(() => { document.getElementById('splashScreen').classList.remove('active'); navigate('onboarding'); }, 2500);
+            renderAuctions(); renderTransactions(); renderTxHistory(); renderMyListings(); renderMyAuctions(); renderWatchlist(); renderPurchaseHistory();
+            setInterval(updateTimers, 1000);
+        });
+
+        function navigate(screen) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            const target = document.getElementById(screen + 'Screen');
+            if (target) target.classList.add('active');
+            state.currentScreen = screen;
+            window.scrollTo(0, 0);
+        }
+
+        function goBack() { navigate(state.currentScreen === 'createListing' ? 'sellerDashboard' : 'home'); }
+
+        function nextOnboarding() {
+            const slides = document.querySelectorAll('.onboarding-slide');
+            const dots = document.querySelectorAll('.onboarding-dot');
+            const btn = document.querySelector('#onboardingScreen .btn-primary');
+            if (state.onboardingSlide < 2) {
+                slides[state.onboardingSlide].classList.remove('active'); slides[state.onboardingSlide].classList.add('prev');
+                dots[state.onboardingSlide].classList.remove('active'); state.onboardingSlide++;
+                slides[state.onboardingSlide].classList.add('active'); dots[state.onboardingSlide].classList.add('active');
+                btn.textContent = state.onboardingSlide === 2 ? 'Get Started' : 'Next';
+            } else { navigate('auth'); }
+        }
+
+        function login(type) {
+            state.user = { ...testAccounts[type], type };
+            state.wallet.balance = state.user.balance; state.wallet.buyingPower = state.user.balance * 10;
+            updateWalletDisplay(); updateProfileDisplay();
+            toast('Welcome, ' + state.user.name + '!'); navigate('home');
+        }
+
+        function loginWithGoogle() { showLoading(); setTimeout(() => { hideLoading(); login('buyer'); }, 1500); }
+        function loginWithApple() { showLoading(); setTimeout(() => { hideLoading(); login('buyer'); }, 1500); }
+        function logout() { state.user = null; toast('Logged out successfully'); navigate('auth'); }
+
+        function sendOTP() { const phone = document.getElementById('phoneInput').value; if (!phone) { toast('Please enter phone number', 'error'); return; } document.getElementById('otpPhone').textContent = '+1 ' + phone; navigate('otp'); }
+        function moveOTP(input, index) { if (input.value && index < 5) document.querySelectorAll('.otp-input')[index + 1].focus(); }
+        function verifyOTP() { showLoading(); setTimeout(() => { hideLoading(); navigate('identity'); }, 1000); }
+        function resendOTP() { toast('Code resent!'); }
+        function uploadID() { toast('ID upload simulated'); }
+        function uploadSelfie() { toast('Selfie capture simulated'); }
+        function completeVerification() { showLoading(); setTimeout(() => { hideLoading(); login('buyer'); }, 1500); }
+
+        function renderAuctions() {
+            const live = document.getElementById('liveAuctions'); const ending = document.getElementById('endingSoonAuctions'); const trending = document.getElementById('trendingAuctions');
+            if (live) live.innerHTML = state.auctions.map(a => createAuctionCard(a)).join('');
+            if (ending) ending.innerHTML = [...state.auctions].sort((a, b) => a.endTime - b.endTime).slice(0, 3).map(a => createAuctionCard(a)).join('');
+            if (trending) trending.innerHTML = state.auctions.slice(0, 3).map(a => createAuctionCard(a)).join('');
+        }
+
+        function createAuctionCard(auction) {
+            const timeLeft = auction.endTime - Date.now(); const endingSoon = timeLeft < 3600000;
+            return `<div class="auction-card" onclick="openProduct(${auction.id})"><div class="auction-image"><span class="auction-image-emoji">${auction.emoji}</span><span class="auction-badge-live">LIVE</span><div class="auction-timer ${endingSoon ? 'ending' : ''}" data-end="${auction.endTime}">⏱ ${formatTime(timeLeft)}</div></div><div class="auction-info"><h3 class="auction-title">${auction.name}</h3><div class="auction-meta"><span class="auction-condition">${auction.condition}</span><span class="auction-shipping">Free Shipping</span></div><div class="auction-price-row"><div class="auction-price"><span class="auction-price-label">Current Bid</span><span class="auction-price-value">$${auction.currentBid.toLocaleString()}</span></div><button class="auction-bid-btn">Bid</button></div></div></div>`;
+        }
+
+        function formatTime(ms) { if (ms <= 0) return 'Ended'; const h = Math.floor(ms / 3600000), m = Math.floor((ms % 3600000) / 60000), s = Math.floor((ms % 60000) / 1000); return h > 0 ? `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}` : `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`; }
+
+        function updateTimers() {
+            document.querySelectorAll('.auction-timer').forEach(t => {
+                const end = parseInt(t.dataset.end), left = end - Date.now();
+                if (left > 0) { t.textContent = '⏱ ' + formatTime(left); if (left < 3600000) t.classList.add('ending'); }
+                else { t.textContent = '⏱ Ended'; t.classList.remove('ending'); }
+            });
+        }
+
+        function openProduct(id) {
+            const p = state.auctions.find(a => a.id === id); if (!p) return; state.selectedProduct = p;
+            document.getElementById('productName').textContent = p.name; document.getElementById('productCondition').textContent = p.condition;
+            document.getElementById('productEmoji').textContent = p.emoji; document.getElementById('currentBid').textContent = '$' + p.currentBid.toLocaleString();
+            document.getElementById('footerBid').textContent = '$' + p.currentBid.toLocaleString(); document.getElementById('bidCount').textContent = p.bidCount;
+            document.getElementById('sellerName').textContent = p.seller; document.getElementById('sellerRating').textContent = p.sellerRating + ' (' + p.sellerSales + ' sales)';
+            document.getElementById('sellerAvatar').textContent = p.seller.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+            document.getElementById('productDescription').textContent = p.description; renderBidHistory(p); navigate('product');
+        }
+
+        function renderBidHistory(product) {
+            const names = ['Alex K.', 'Sam T.', 'Jordan M.', 'Chris P.', 'Taylor R.'], bids = []; let amt = product.startingBid;
+            for (let i = 0; i < Math.min(product.bidCount, 5); i++) { amt += Math.floor(Math.random() * 500) + 100; bids.push({ name: names[i % names.length], amount: amt, time: Math.floor(Math.random() * 59) + 1 + 'm ago' }); }
+            const container = document.getElementById('bidHistoryList'); if (container) container.innerHTML = bids.reverse().map((b, i) => `<div class="bid-item"><div class="bid-rank ${i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : ''}">${i + 1}</div><div class="bidder-info"><div class="bidder-name">${b.name}</div><div class="bid-time">${b.time}</div></div><div class="bid-amount">$${b.amount.toLocaleString()}</div></div>`).join('');
+        }
+
+        function toggleWatchlist() { const btn = document.getElementById('watchlistBtn'); const isLiked = btn.textContent === '♥'; btn.textContent = isLiked ? '♡' : '♥'; btn.style.color = isLiked ? '' : '#FF6584'; toast(isLiked ? 'Removed from watchlist' : 'Added to watchlist'); }
+        function shareProduct() { toast('Link copied to clipboard!'); }
+        function toggleFollow(btn) { const isFollowing = btn.textContent === 'Following'; btn.textContent = isFollowing ? 'Follow' : 'Following'; btn.style.background = isFollowing ? 'transparent' : 'var(--gold)'; btn.style.color = isFollowing ? 'var(--gold)' : 'var(--navy)'; }
+
+        function openPlaceBid() { if (!state.user) { toast('Please login first', 'error'); return; } const p = state.selectedProduct; document.getElementById('placeBidName').textContent = p.name; document.getElementById('placeBidEmoji').textContent = p.emoji; document.getElementById('placeBidCurrent').textContent = '$' + p.currentBid.toLocaleString(); navigate('placeBid'); }
+        function setBidAmount(amt) { document.getElementById('bidAmountInput').value = amt; updateDeposit(); }
+        function updateDeposit() { const amt = parseFloat(document.getElementById('bidAmountInput').value) || 0; document.getElementById('depositAmount').textContent = Math.floor(amt * 0.1).toLocaleString(); }
+        function submitBid() {
+            const amt = parseFloat(document.getElementById('bidAmountInput').value); const minBid = state.selectedProduct.currentBid + 100;
+            if (!amt || amt < minBid) { toast('Bid must be at least $' + minBid.toLocaleString(), 'error'); return; }
+            const deposit = amt * 0.1; if (deposit > state.wallet.balance) { toast('Insufficient balance for deposit', 'error'); return; }
+            state.selectedProduct.currentBid = amt; state.selectedProduct.bidCount++; state.wallet.balance -= deposit; state.wallet.buyingPower = state.wallet.balance * 10;
+            updateWalletDisplay(); renderAuctions(); toast('Bid placed successfully!'); navigate('product');
+        }
+
+        function updateWalletDisplay() { const bal = document.getElementById('walletBalance'), pow = document.getElementById('buyingPower'); if (bal) bal.textContent = '$' + state.wallet.balance.toLocaleString('en-US', { minimumFractionDigits: 2 }); if (pow) pow.textContent = '$' + state.wallet.buyingPower.toLocaleString(); }
+        function renderTransactions() { const container = document.getElementById('transactionsList'); if (!container) return; container.innerHTML = state.transactions.slice(0, 5).map(t => `<div class="transaction-item"><div class="transaction-icon ${t.type}">${t.type === 'deposit' ? '⬇' : t.type === 'withdrawal' ? '⬆' : '↻'}</div><div class="transaction-info"><div class="transaction-title">${t.title}</div><div class="transaction-date">${t.date}</div></div><div class="transaction-amount ${t.amount > 0 ? 'positive' : 'negative'}">${t.amount > 0 ? '+' : ''}$${Math.abs(t.amount).toLocaleString()}</div></div>`).join(''); }
+        function renderTxHistory() { const container = document.getElementById('txHistoryList'); if (!container) return; container.innerHTML = state.transactions.map(t => `<div class="transaction-item"><div class="transaction-icon ${t.type}">${t.type === 'deposit' ? '⬇' : t.type === 'withdrawal' ? '⬆' : '↻'}</div><div class="transaction-info"><div class="transaction-title">${t.title}</div><div class="transaction-date">${t.date}</div></div><div class="transaction-amount ${t.amount > 0 ? 'positive' : 'negative'}">${t.amount > 0 ? '+' : ''}$${Math.abs(t.amount).toLocaleString()}</div></div>`).join(''); }
+        function selectAmount(el, amt) { document.querySelectorAll('.amount-preset').forEach(p => p.classList.remove('active')); el.classList.add('active'); state.selectedAmount = amt; document.querySelector('.add-funds-screen .btn-primary').textContent = 'Add $' + amt.toLocaleString(); }
+        function selectPayment(el) { document.querySelectorAll('.payment-method').forEach(p => p.style.borderColor = ''); el.style.borderColor = 'var(--gold)'; }
+        function addFunds() { showLoading(); setTimeout(() => { hideLoading(); state.wallet.balance += state.selectedAmount; state.wallet.buyingPower = state.wallet.balance * 10; state.transactions.unshift({ type: 'deposit', title: 'Added Funds', date: 'Just now', amount: state.selectedAmount }); updateWalletDisplay(); renderTransactions(); renderTxHistory(); toast('$' + state.selectedAmount.toLocaleString() + ' added successfully!'); navigate('wallet'); }, 1500); }
+        function withdrawFunds() { toast('Withdrawal - Coming Soon'); }
+        function transferFunds() { toast('Transfer - Coming Soon'); }
+
+        function updateProfileDisplay() { if (!state.user) return; document.getElementById('profileAvatar').textContent = state.user.initials; document.getElementById('profileName').textContent = state.user.name; document.getElementById('profileUsername').textContent = state.user.username; document.getElementById('profileWins').textContent = state.user.wins; document.getElementById('profileBids').textContent = state.user.bids; document.getElementById('profileRating').textContent = state.user.rating; }
+        function saveProfile() { showLoading(); setTimeout(() => { hideLoading(); toast('Profile updated successfully!'); navigate('profile'); }, 1000); }
+        function changeAvatar() { toast('Photo upload simulated'); }
+
+        function filterCategory(cat, el) { document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active')); el.classList.add('active'); state.auctions = cat === 'all' ? [...auctionData] : auctionData.filter(a => a.category === cat); renderAuctions(); }
+        function searchFor(query) { document.getElementById('searchInput').value = query; performSearch(query); }
+        function performSearch(query) { const resultsDiv = document.getElementById('searchResults'), resultsList = document.getElementById('searchResultsList'); if (!query) { resultsDiv.style.display = 'none'; return; } const results = auctionData.filter(a => a.name.toLowerCase().includes(query.toLowerCase())); resultsDiv.style.display = 'block'; resultsList.innerHTML = results.map(r => `<div class="recent-search-item" onclick="openProduct(${r.id})"><span class="recent-search-icon">${r.emoji}</span><span class="recent-search-text">${r.name}</span><span>→</span></div>`).join(''); }
+        function filterTx(type, el) { document.querySelectorAll('.tx-filter-tab').forEach(t => t.classList.remove('active')); el.classList.add('active'); const filtered = type === 'all' ? state.transactions : state.transactions.filter(t => t.type === type || (type === 'bids' && t.type === 'bid') || (type === 'refunds' && t.type === 'refund')); document.getElementById('txHistoryList').innerHTML = filtered.map(t => `<div class="transaction-item"><div class="transaction-icon ${t.type}">${t.type === 'deposit' ? '⬇' : t.type === 'withdrawal' ? '⬆' : '↻'}</div><div class="transaction-info"><div class="transaction-title">${t.title}</div><div class="transaction-date">${t.date}</div></div><div class="transaction-amount ${t.amount > 0 ? 'positive' : 'negative'}">${t.amount > 0 ? '+' : ''}$${Math.abs(t.amount).toLocaleString()}</div></div>`).join(''); }
+
+        function uploadPhotos() { toast('Photo upload simulated'); }
+        function selectCategory() { toast('Category selector - Coming Soon'); }
+        function selectCondition() { toast('Condition selector - Coming Soon'); }
+        function selectDuration() { toast('Duration selector - Coming Soon'); }
+        function createListing() { showLoading(); setTimeout(() => { hideLoading(); toast('Listing created successfully!'); navigate('myListings'); }, 1500); }
+        function filterListings(type, el) { document.querySelectorAll('.listing-tab').forEach(t => t.classList.remove('active')); el.classList.add('active'); document.getElementById('myListingsContainer').innerHTML = '<div style="padding: 40px; text-align: center; color: var(--text-secondary);">No ' + type + ' listings</div>'; }
+        function filterMyAuctions(type, el) { document.querySelectorAll('.listing-tab').forEach(t => t.classList.remove('active')); el.classList.add('active'); const container = document.getElementById('myAuctionsContainer'); if (type === 'bidding') { container.innerHTML = state.auctions.slice(0, 3).map(a => createAuctionCard(a)).join(''); } else { container.innerHTML = '<div style="padding: 40px; text-align: center; color: var(--text-secondary);">No ' + type + ' auctions</div>'; } }
+
+        function renderMyListings() { const container = document.getElementById('myListingsContainer'); if (container) container.innerHTML = '<div style="padding: 40px; text-align: center; color: var(--text-secondary);">No active listings</div>'; }
+        function renderMyAuctions() { const container = document.getElementById('myAuctionsContainer'); if (container) container.innerHTML = state.auctions.slice(0, 3).map(a => createAuctionCard(a)).join(''); }
+        function renderWatchlist() { const container = document.getElementById('watchlistContainer'); if (container) container.innerHTML = '<div style="padding: 40px; text-align: center; color: var(--text-secondary);">No saved items</div>'; }
+        function renderPurchaseHistory() { const container = document.getElementById('purchaseHistoryContainer'); if (container) container.innerHTML = '<div style="padding: 40px; text-align: center; color: var(--text-secondary);">No purchases yet</div>'; }
+
+        function newChat() { toast('New chat - Coming Soon'); }
+        function moreOptions() { toast('More options - Coming Soon'); }
+        function sendMessage() { const input = document.getElementById('chatInput'); if (!input.value.trim()) return; const messages = document.querySelector('.chat-messages'); const msg = document.createElement('div'); msg.className = 'message message-sent'; msg.innerHTML = input.value + '<div class="message-time">Just now</div>'; messages.appendChild(msg); input.value = ''; messages.scrollTop = messages.scrollHeight; }
+        function confirmExchange() { toast('Exchange confirmed!'); }
+        function showAllAuctions() { toast('All auctions - Coming Soon'); }
+
+        function toast(message, type = 'success') { const t = document.getElementById('toast'), icon = document.getElementById('toastIcon'), msg = document.getElementById('toastMsg'); t.className = 'toast ' + type; icon.textContent = type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ'; msg.textContent = message; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
+        function showLoading() { document.getElementById('loadingOverlay').classList.add('active'); }
+        function hideLoading() { document.getElementById('loadingOverlay').classList.remove('active'); }
+    </script>
+</body>
+</html>
