@@ -1,0 +1,125 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+    
+    function isListingOwner(listingId) {
+      return get(/databases/$(database)/documents/listings/$(listingId)).data.sellerId == request.auth.uid;
+    }
+    
+    function isConversationParticipant(conversationId) {
+      return request.auth.uid in get(/databases/$(database)/documents/conversations/$(conversationId)).data.participants;
+    }
+
+    // Users collection
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if false;
+    }
+
+    // Listings collection
+    match /listings/{listingId} {
+      allow read: if true;
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && 
+        (resource.data.sellerId == request.auth.uid || 
+         (request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['currentBid', 'bidCount', 'watchers', 'watcherIds'])));
+      allow delete: if isAuthenticated() && resource.data.sellerId == request.auth.uid;
+    }
+
+    // Bids collection
+    match /bids/{bidId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    // Wallet transactions collection
+    match /walletTransactions/{transactionId} {
+      allow read: if isAuthenticated() && 
+        resource.data.userId == request.auth.uid;
+      allow create, update, delete: if false;
+    }
+
+    // Conversations collection
+    match /conversations/{conversationId} {
+      allow read: if isAuthenticated() && 
+        request.auth.uid in resource.data.participants;
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && 
+        request.auth.uid in resource.data.participants;
+      allow delete: if false;
+    }
+
+    // Messages collection
+    match /messages/{messageId} {
+      allow read: if isAuthenticated() && 
+        isConversationParticipant(resource.data.conversationId);
+      allow create: if isAuthenticated() && 
+        isConversationParticipant(request.resource.data.conversationId);
+      allow update, delete: if false;
+    }
+
+    // Notifications collection
+    match /notifications/{notificationId} {
+      allow read: if isAuthenticated() && 
+        resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && 
+        resource.data.userId == request.auth.uid;
+      allow delete: if isAuthenticated() && 
+        resource.data.userId == request.auth.uid;
+    }
+
+    // Watchlists collection
+    match /watchlists/{watchlistId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow delete: if isAuthenticated() && 
+        resource.data.userId == request.auth.uid;
+    }
+
+    // Exchanges collection
+    match /exchanges/{exchangeId} {
+      allow read: if isAuthenticated() && 
+        (resource.data.buyerId == request.auth.uid || 
+         resource.data.sellerId == request.auth.uid);
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && 
+        (resource.data.buyerId == request.auth.uid || 
+         resource.data.sellerId == request.auth.uid);
+      allow delete: if false;
+    }
+
+    // Reviews collection
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow create: if isAuthenticated();
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    // Categories collection (read-only)
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow create, update, delete: if false;
+    }
+
+    // Safe zones collection (read-only)
+    match /safeZones/{safeZoneId} {
+      allow read: if true;
+      allow create, update, delete: if false;
+    }
+  }
+}
